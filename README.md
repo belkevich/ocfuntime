@@ -40,3 +40,6 @@ OCFuntime *funtime = [[OCFuntime alloc] init];
 ```objective-c
 [funtime revertAll];
 ```
+
+# Spec
+[Specs here](https://github.com/belkevich/ocfuntimespec)
