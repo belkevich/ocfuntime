@@ -10,9 +10,14 @@
 #import <Foundation/Foundation.h>
 
 @interface OCFuntime : NSObject
+{
+@private
+    NSMutableDictionary *classes;
+}
 
 // actions
-- (void)changeClass:(Class)theClass method:(SEL)method implementation:(id)block;
+- (void)changeClass:(Class)theClass instanceMethod:(SEL)method implementation:(id)block;
+- (void)changeClass:(Class)theClass classMethod:(SEL)method implementation:(id)block;
 - (void)revertClass:(Class)theClass method:(SEL)method;
 - (void)revertClass:(Class)theClass;
 - (void)revertAll;

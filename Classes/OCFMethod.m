@@ -1,4 +1,7 @@
 //
+//  OCFMethod.m
+//  OCFuntime
+//
 //  Created by Alexey Belkevich on 4/22/13.
 //  Copyright (c) 2013 okolodev. All rights reserved.
 //
@@ -9,8 +12,7 @@
 
 @interface OCFMethod ()
 
-@property (nonatomic, assign, readwrite) Method method;
-@property (nonatomic, assign, readwrite) IMP implementation;
+- (id)initWithClass:(Class)theClass method:(SEL)selector instance:(BOOL)instance;
 
 @end
 
@@ -19,21 +21,35 @@
 #pragma mark -
 #pragma mark main routine
 
-@synthesize method, implementation;
+- (id)initWithClass:(Class)theClass instanceMethod:(SEL)selector
+{
+    return [self initWithClass:theClass method:selector instance:YES];
+}
 
-- (id)initWithClass:(Class)theClass selector:(SEL)selector
+- (id)initWithClass:(Class)theClass classMethod:(SEL)selector
+{
+    return [self initWithClass:theClass method:selector instance:NO];
+}
+
+- (id)initWithClass:(Class)theClass method:(SEL)selector instance:(BOOL)instance
 {
     self = [super init];
     if (self)
     {
-        self.method = class_getInstanceMethod(theClass, selector);
+        method = instance ? class_getInstanceMethod(theClass, selector) :
+                      class_getClassMethod(theClass, selector);
     }
     return self;
 }
 
-+ (id)methodWithClass:(Class)theClass selector:(SEL)selector
++ (id)methodWithClass:(Class)theClass instanceMethod:(SEL)selector
 {
-    return [[[self alloc] initWithClass:theClass selector:selector] autorelease];
+    return [[[self alloc] initWithClass:theClass instanceMethod:selector] autorelease];
+}
+
++ (id)methodWithClass:(Class)theClass classMethod:(SEL)selector
+{
+    return [[[self alloc] initWithClass:theClass classMethod:selector] autorelease];
 }
 
 #pragma mark -
@@ -41,14 +57,14 @@
 
 - (void)changeImplementationWithBlock:(id)block
 {
-    self.implementation = method_getImplementation(self.method);
+    implementation = method_getImplementation(method);
     IMP blockImplementation = imp_implementationWithBlock(block);
-    method_setImplementation(self.method, blockImplementation);
+    method_setImplementation(method, blockImplementation);
 }
 
 - (void)revertImplementation
 {
-    method_setImplementation(self.method, self.implementation);
+    method_setImplementation(method, implementation);
 }
 
 @end
