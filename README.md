@@ -1,10 +1,18 @@
 OCFuntime
 ============
----
-# About
+
+## About
 OCFuntime is a simple wrapper on [Objective-C runtime](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ObjCRuntimeRef/Reference/reference.html). So if you don't know the easiest way to shot your both legs then this solution for you! Time to have a fun! 
 
-# Using
+---
+
+## Installation
+**Install via [cocoapods](http://cocoapods.org/)**
+Include `ocfuntime` pod in you Podfile
+
+---
+
+## Using
 **Create funtime instance**
 ```objective-c
 OCFuntime *funtime = [[OCFuntime alloc] init];
@@ -40,6 +48,12 @@ OCFuntime *funtime = [[OCFuntime alloc] init];
 ```objective-c
 [funtime revertAll];
 ```
+---
 
-# Spec
-[Specs here](https://github.com/belkevich/ocfuntimespec)
+## Updates
+[@okolodev](https://twitter.com/okolodev)
+
+---
+
+## Spec status
+![Build status](https://api.travis-ci.org/belkevich/ocfuntime.png) 
