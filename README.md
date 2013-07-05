@@ -2,7 +2,7 @@ OCFuntime
 ============
 
 ## About
-OCFuntime is a simple wrapper on [Objective-C runtime](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ObjCRuntimeRef/Reference/reference.html). So if you don't know the easiest way to shot your both legs then this solution for you! Time to have a fun! 
+OCFuntime is a simple wrapper on [Objective-C runtime](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ObjCRuntimeRef/Reference/reference.html). So if you don't know the easiest way to shoot off your both legs then this solution for you! Time to have a fun! 
 
 ---
 
