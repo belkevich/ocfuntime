@@ -44,12 +44,12 @@
 
 + (id)methodWithClass:(Class)theClass instanceMethod:(SEL)selector
 {
-    return [[[self alloc] initWithClass:theClass instanceMethod:selector] autorelease];
+    return [[self alloc] initWithClass:theClass instanceMethod:selector];
 }
 
 + (id)methodWithClass:(Class)theClass classMethod:(SEL)selector
 {
-    return [[[self alloc] initWithClass:theClass classMethod:selector] autorelease];
+    return [[self alloc] initWithClass:theClass classMethod:selector];
 }
 
 #pragma mark -

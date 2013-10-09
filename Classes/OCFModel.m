@@ -34,14 +34,9 @@
 
 + (id)modelWithClass:(Class)aClass
 {
-    return [[[self alloc] initWithClass:aClass] autorelease];
+    return [[self alloc] initWithClass:aClass];
 }
 
-- (void)dealloc
-{
-    [methods release];
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark actions

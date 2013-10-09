@@ -31,11 +31,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [classes release];
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark action
