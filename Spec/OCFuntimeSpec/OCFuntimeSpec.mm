@@ -124,6 +124,30 @@ describe(@"OCFuntime", ^{
         [funtime revertClass:[OCFMock class]];
         [OCFMock funClassMethod] should equal(0);
     });
+
+    it(@"should throw exception if instance method doesn't exist", ^
+    {
+        ^
+        {
+            [funtime changeClass:[OCFMock class] instanceMethod:@selector(unexistedMethod)
+                  implementation:^
+                  {
+                      return 2;
+                  }];
+        } should raise_exception([NSException class]);
+    });
+
+    it(@"should throw exception if class method doesn't exist", ^
+    {
+        ^
+        {
+            [funtime changeClass:[OCFMock class] classMethod:@selector(unexistedMethod)
+                  implementation:^
+                  {
+                      return 2;
+                  }];
+        } should raise_exception([NSException class]);
+    });
 });
 
 SPEC_END

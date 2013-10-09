@@ -29,6 +29,14 @@
     {
         method = instance ? class_getInstanceMethod(theClass, selector) :
                       class_getClassMethod(theClass, selector);
+        if (!method)
+        {
+            NSString *reason = [NSString stringWithFormat:@"Method '%@' not found in class '%@'",
+                                NSStringFromSelector(selector), NSStringFromClass(theClass)];
+            NSLog(@"%@", reason);
+            @throw [NSException exceptionWithName:@"OCFuntime can't find method exception"
+                                           reason:reason userInfo:nil];
+        }
     }
     return self;
 }
