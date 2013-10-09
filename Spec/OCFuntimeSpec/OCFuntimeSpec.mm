@@ -148,6 +148,24 @@ describe(@"OCFuntime", ^{
                   }];
         } should raise_exception([NSException class]);
     });
+
+    it(@"should not throw exception if nil provided as instance method", ^
+    {
+        ^
+        {
+            [funtime changeClass:[OCFMock class] instanceMethod:@selector(funInstanceMethod)
+                  implementation:nil];
+        } should_not raise_exception;
+    });
+
+    it(@"should not throw exception if nil provided as class method", ^
+    {
+        ^
+        {
+            [funtime changeClass:[OCFMock class] classMethod:@selector(funClassMethod)
+                  implementation:nil];
+        } should_not raise_exception;
+    });
 });
 
 SPEC_END

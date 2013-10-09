@@ -59,6 +59,10 @@
     {
         defaultImplementation = method_getImplementation(method);
     }
+    if (!block)
+    {
+        block = ^{};
+    }
     IMP blockImplementation = imp_implementationWithBlock(block);
     method_setImplementation(method, blockImplementation);
 }
