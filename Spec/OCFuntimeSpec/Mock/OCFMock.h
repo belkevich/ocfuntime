@@ -8,7 +8,7 @@
 
 @interface OCFMock : NSObject
 
-- (BOOL)funInstanceMethod;
-+ (BOOL)funClassMethod;
+- (NSUInteger)funInstanceMethod;
++ (NSUInteger)funClassMethod;
 
 @end

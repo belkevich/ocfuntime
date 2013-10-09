@@ -6,20 +6,11 @@
 //  Copyright (c) 2013 okolodev. All rights reserved.
 //
 
-
-#import <objc/runtime.h>
 #import "OCFMethod.h"
-
-@interface OCFMethod ()
-
-- (id)initWithClass:(Class)theClass method:(SEL)selector instance:(BOOL)instance;
-
-@end
 
 @implementation OCFMethod
 
-#pragma mark -
-#pragma mark main routine
+#pragma mark - life cycle
 
 - (id)initWithClass:(Class)theClass instanceMethod:(SEL)selector
 {
@@ -42,29 +33,31 @@
     return self;
 }
 
-+ (id)methodWithClass:(Class)theClass instanceMethod:(SEL)selector
++ (instancetype)methodWithClass:(Class)theClass instanceMethod:(SEL)selector
 {
     return [[self alloc] initWithClass:theClass instanceMethod:selector];
 }
 
-+ (id)methodWithClass:(Class)theClass classMethod:(SEL)selector
++ (instancetype)methodWithClass:(Class)theClass classMethod:(SEL)selector
 {
     return [[self alloc] initWithClass:theClass classMethod:selector];
 }
 
-#pragma mark -
-#pragma mark actions
+#pragma mark - public
 
 - (void)changeImplementationWithBlock:(id)block
 {
-    implementation = method_getImplementation(method);
+    if (!defaultImplementation)
+    {
+        defaultImplementation = method_getImplementation(method);
+    }
     IMP blockImplementation = imp_implementationWithBlock(block);
     method_setImplementation(method, blockImplementation);
 }
 
 - (void)revertImplementation
 {
-    method_setImplementation(method, implementation);
+    method_setImplementation(method, defaultImplementation);
 }
 
 @end

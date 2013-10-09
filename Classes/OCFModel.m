@@ -10,16 +10,9 @@
 #import "OCFModel.h"
 #import "OCFMethod.h"
 
-@interface OCFModel ()
-
-- (void)changeMethod:(SEL)selector withBlock:(id)block instance:(BOOL)instance;
-
-@end
-
 @implementation OCFModel
 
-#pragma mark -
-#pragma mark main routine
+#pragma mark - life cycle
 
 - (id)initWithClass:(Class)aClass
 {
@@ -27,19 +20,18 @@
     if (self)
     {
         theClass = aClass;
-        methods = [[NSMutableDictionary alloc] init];
+        instanceMethods = [[NSMutableDictionary alloc] init];
+        classMethods = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
-+ (id)modelWithClass:(Class)aClass
++ (instancetype)modelWithClass:(Class)aClass
 {
     return [[self alloc] initWithClass:aClass];
 }
 
-
-#pragma mark -
-#pragma mark actions
+#pragma mark - actions
 
 - (void)changeInstanceMethod:(SEL)selector withBlock:(id)block
 {
@@ -51,33 +43,56 @@
     [self changeMethod:selector withBlock:block instance:NO];
 }
 
-- (void)revertMethodSelector:(SEL)selector
+- (void)revertInstanceMethod:(SEL)selector
 {
-    NSString *key = NSStringFromSelector(selector);
-    OCFMethod *method = [methods objectForKey:key];
-    if (method)
-    {
-        [method revertImplementation];
-        [methods removeObjectForKey:key];
-    }
+    [self revertMethod:selector instance:YES];
+}
+
+- (void)revertClassMethod:(SEL)selector
+{
+    [self revertMethod:selector instance:NO];
 }
 
 - (void)revertModel
 {
-    [[methods allValues] makeObjectsPerformSelector:@selector(revertImplementation)];
-    [methods removeAllObjects];
+    [[instanceMethods allValues] makeObjectsPerformSelector:@selector(revertImplementation)];
+    [[classMethods allValues] makeObjectsPerformSelector:@selector(revertImplementation)];
+    [instanceMethods removeAllObjects];
+    [classMethods removeAllObjects];
 }
 
-#pragma mark -
-#pragma mark private
+#pragma mark - private
 
 - (void)changeMethod:(SEL)selector withBlock:(id)block instance:(BOOL)instance
 {
-    OCFMethod *method = instance ? [OCFMethod methodWithClass:theClass instanceMethod:selector]:
-                        [OCFMethod methodWithClass:theClass classMethod:selector];
+    OCFMethod *method = [self methodForSelector:selector instance:instance];
     [method changeImplementationWithBlock:block];
+}
+
+- (OCFMethod *)methodForSelector:(SEL)selector instance:(BOOL)instance
+{
+    NSString *selectorName = NSStringFromSelector(selector);
+    NSMutableDictionary *methodsDictionary = instance ? instanceMethods : classMethods;
+    OCFMethod *method = [methodsDictionary objectForKey:selectorName];
+    if (!method)
+    {
+        method = instance ? [OCFMethod methodWithClass:theClass instanceMethod:selector] :
+                 [OCFMethod methodWithClass:theClass classMethod:selector];
+        [methodsDictionary setObject:method forKey:selectorName];
+    }
+    return method;
+}
+
+- (void)revertMethod:(SEL)selector instance:(BOOL)instance
+{
+    NSMutableDictionary *methodsDictionary = instance ? instanceMethods : classMethods;
     NSString *key = NSStringFromSelector(selector);
-    [methods setObject:method forKey:key];
+    OCFMethod *method = [methodsDictionary objectForKey:key];
+    if (method)
+    {
+        [method revertImplementation];
+        [methodsDictionary removeObjectForKey:key];
+    }
 }
 
 @end

@@ -8,16 +8,16 @@
 
 @implementation OCFMock
 
-- (BOOL)funInstanceMethod
+- (NSUInteger)funInstanceMethod
 {
     NSLog(@"This is FUN instance method!");
-    return YES;
+    return 0;
 }
 
-+ (BOOL)funClassMethod
++ (NSUInteger)funClassMethod
 {
     NSLog(@"This is FUN class method!");
-    return YES;
+    return 0;
 }
 
 

@@ -10,16 +10,9 @@
 #import "OCFuntime.h"
 #import "OCFModel.h"
 
-@interface OCFuntime ()
-
-- (OCFModel *)modelForClass:(Class)theClass create:(BOOL)create;
-
-@end
-
 @implementation OCFuntime
 
-#pragma mark -
-#pragma mark main routine
+#pragma mark - life cycle
 
 - (id)init
 {
@@ -31,9 +24,7 @@
     return self;
 }
 
-
-#pragma mark -
-#pragma mark action
+#pragma mark - public
 
 - (void)changeClass:(Class)theClass instanceMethod:(SEL)method implementation:(id)block
 {
@@ -47,10 +38,16 @@
     [model changeClassMethod:method withBlock:block];
 }
 
-- (void)revertClass:(Class)theClass method:(SEL)method
+- (void)revertClass:(Class)theClass instanceMethod:(SEL)method
 {
     OCFModel *model = [self modelForClass:theClass create:NO];
-    [model revertMethodSelector:method];
+    [model revertInstanceMethod:method];
+}
+
+- (void)revertClass:(Class)theClass classMethod:(SEL)method
+{
+    OCFModel *model = [self modelForClass:theClass create:NO];
+    [model revertClassMethod:method];
 }
 
 - (void)revertClass:(Class)theClass
@@ -64,8 +61,7 @@
     [[classes allValues] makeObjectsPerformSelector:@selector(revertModel)];
 }
 
-#pragma mark -
-#pragma mark private
+#pragma mark - private
 
 - (OCFModel *)modelForClass:(Class)theClass create:(BOOL)create
 {

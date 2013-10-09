@@ -13,16 +13,18 @@
 {
 @private
     Class theClass;
-    NSMutableDictionary *methods;
+    NSMutableDictionary *instanceMethods;
+    NSMutableDictionary *classMethods;
 }
 
 // initialization
 - (id)initWithClass:(Class)theClass;
-+ (id)modelWithClass:(Class)theClass;
-// action
++ (instancetype)modelWithClass:(Class)theClass;
+// actions
 - (void)changeInstanceMethod:(SEL)selector withBlock:(id)block;
 - (void)changeClassMethod:(SEL)selector withBlock:(id)block;
-- (void)revertMethodSelector:(SEL)selector;
+- (void)revertInstanceMethod:(SEL)selector;
+- (void)revertClassMethod:(SEL)selector;
 - (void)revertModel;
 
 @end

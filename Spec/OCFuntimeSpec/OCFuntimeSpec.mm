@@ -26,13 +26,13 @@ describe(@"OCFuntime", ^{
                          implementation:^
                          {
                              NSLog(@"Changed FUN instance method!");
-                             return NO;
+                             return 1;
                          }];
                    [funtime changeClass:[OCFMock class] classMethod:@selector(funClassMethod)
                          implementation:^
                          {
                              NSLog(@"Changed FUN class method!");
-                             return NO;
+                             return 1;
                          }];
                });
 
@@ -45,38 +45,84 @@ describe(@"OCFuntime", ^{
 
     it(@"should call changed instance method if it changed", ^
     {
-        [mock funInstanceMethod] should equal(NO);
+        [mock funInstanceMethod] should equal(1);
     });
 
     it(@"should call changed class method if it changed", ^
     {
-        [OCFMock funClassMethod] should equal(NO);
+        [OCFMock funClassMethod] should equal(1);
     });
 
     it(@"should call default instance method if method reverted", ^
     {
-        [funtime revertClass:[OCFMock class] method:@selector(funInstanceMethod)];
-        [mock funInstanceMethod] should equal(YES);
+        [funtime revertClass:[OCFMock class] instanceMethod:@selector(funInstanceMethod)];
+        [mock funInstanceMethod] should equal(0);
     });
 
     it(@"should call default class method if method reverted", ^
     {
-        [funtime revertClass:[OCFMock class] method:@selector(funClassMethod)];
-        [OCFMock funClassMethod] should equal(YES);
+        [funtime revertClass:[OCFMock class] classMethod:@selector(funClassMethod)];
+        [OCFMock funClassMethod] should equal(0);
     });
 
     it(@"should call default methods if class reverted", ^
     {
         [funtime revertClass:[OCFMock class]];
-        [mock funInstanceMethod] should equal(YES);
-        [OCFMock funClassMethod] should equal(YES);
+        [mock funInstanceMethod] should equal(0);
+        [OCFMock funClassMethod] should equal(0);
     });
 
     it(@"should call default methods if all reverted", ^
     {
         [funtime revertAll];
-        [mock funInstanceMethod] should equal(YES);
-        [OCFMock funClassMethod] should equal(YES);
+        [mock funInstanceMethod] should equal(0);
+        [OCFMock funClassMethod] should equal(0);
+    });
+
+    it(@"should call newly changed instance method if it was changed again", ^
+    {
+        [funtime changeClass:[OCFMock class] instanceMethod:@selector(funInstanceMethod)
+              implementation:^{
+                  // still returns NO
+                  NSLog(@"One more time changed FUN instance method");
+                  return 2;
+              }];
+        [mock funInstanceMethod] should equal(2);
+    });
+
+    it(@"should call newly changed class method if it was changed again", ^
+    {
+        [funtime changeClass:[OCFMock class] classMethod:@selector(funClassMethod)
+              implementation:^{
+                  // still returns NO
+                  NSLog(@"One more time changed FUN class method");
+                  return 2;
+              }];
+        [OCFMock funClassMethod] should equal(2);
+    });
+
+    it(@"should revert to default instance method, not previous setted method", ^
+    {
+        [funtime changeClass:[OCFMock class] instanceMethod:@selector(funInstanceMethod)
+              implementation:^{
+                  // still returns NO
+                  NSLog(@"One more time changed FUN instance method");
+                  return 2;
+              }];
+        [funtime revertClass:[OCFMock class]];
+        [mock funInstanceMethod] should equal(0);
+    });
+
+    it(@"should revert to default class method, not previous setted method", ^
+    {
+        [funtime changeClass:[OCFMock class] classMethod:@selector(funClassMethod)
+              implementation:^{
+                  // still returns NO
+                  NSLog(@"One more time changed FUN class method");
+                  return 2;
+              }];
+        [funtime revertClass:[OCFMock class]];
+        [OCFMock funClassMethod] should equal(0);
     });
 });
 

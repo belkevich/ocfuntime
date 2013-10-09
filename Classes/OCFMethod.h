@@ -14,14 +14,14 @@
 {
 @private
     Method method;
-    IMP implementation;
+    IMP defaultImplementation;
 }
 
 // initialization
 - (id)initWithClass:(Class)theClass instanceMethod:(SEL)selector;
 - (id)initWithClass:(Class)theClass classMethod:(SEL)selector;
-+ (id)methodWithClass:(Class)theClass instanceMethod:(SEL)selector;
-+ (id)methodWithClass:(Class)theClass classMethod:(SEL)selector;
++ (instancetype)methodWithClass:(Class)theClass instanceMethod:(SEL)selector;
++ (instancetype)methodWithClass:(Class)theClass classMethod:(SEL)selector;
 // actions
 - (void)changeImplementationWithBlock:(id)block;
 - (void)revertImplementation;

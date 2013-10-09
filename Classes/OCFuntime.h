@@ -18,7 +18,8 @@
 // actions
 - (void)changeClass:(Class)theClass instanceMethod:(SEL)method implementation:(id)block;
 - (void)changeClass:(Class)theClass classMethod:(SEL)method implementation:(id)block;
-- (void)revertClass:(Class)theClass method:(SEL)method;
+- (void)revertClass:(Class)theClass instanceMethod:(SEL)method;
+- (void)revertClass:(Class)theClass classMethod:(SEL)method;
 - (void)revertClass:(Class)theClass;
 - (void)revertAll;
 
