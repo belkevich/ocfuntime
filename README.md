@@ -52,6 +52,11 @@ OCFuntime *funtime = [[OCFuntime alloc] init];
 
 ---
 
+**Version 0.1.1**
+* Added reverting to default method implementations on OCFuntime instance deallocation
+
+---
+
 **Version 0.1.0**
 * Added exception if changed method doesn't exist in the class
 * Fixed reverting to default method implementation, not previous implementation
