@@ -69,7 +69,11 @@
 
 - (void)revertImplementation
 {
-    method_setImplementation(method, defaultImplementation);
+    if (defaultImplementation)
+    {
+        method_setImplementation(method, defaultImplementation);
+        defaultImplementation = NULL;
+    }
 }
 
 @end

@@ -24,6 +24,11 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [self revertAll];
+}
+
 #pragma mark - public
 
 - (void)changeClass:(Class)theClass instanceMethod:(SEL)method implementation:(id)block

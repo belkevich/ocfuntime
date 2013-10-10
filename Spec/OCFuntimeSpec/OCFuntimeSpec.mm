@@ -14,9 +14,10 @@ using namespace Cedar::Doubles;
 
 SPEC_BEGIN(OCFuntimeSpec)
 
-describe(@"OCFuntime", ^{
-    __block OCFuntime *funtime = nil;
-    __block OCFMock *mock = nil;
+__block OCFuntime *funtime;
+__block OCFMock *mock;
+
+describe(@"OCFuntime with changed method", ^{
 
     beforeEach(^
                {
@@ -82,8 +83,8 @@ describe(@"OCFuntime", ^{
     it(@"should call newly changed instance method if it was changed again", ^
     {
         [funtime changeClass:[OCFMock class] instanceMethod:@selector(funInstanceMethod)
-              implementation:^{
-                  // still returns NO
+              implementation:^
+              {
                   NSLog(@"One more time changed FUN instance method");
                   return 2;
               }];
@@ -94,7 +95,6 @@ describe(@"OCFuntime", ^{
     {
         [funtime changeClass:[OCFMock class] classMethod:@selector(funClassMethod)
               implementation:^{
-                  // still returns NO
                   NSLog(@"One more time changed FUN class method");
                   return 2;
               }];
@@ -104,7 +104,8 @@ describe(@"OCFuntime", ^{
     it(@"should revert to default instance method, not previous setted method", ^
     {
         [funtime changeClass:[OCFMock class] instanceMethod:@selector(funInstanceMethod)
-              implementation:^{
+              implementation:^
+              {
                   // still returns NO
                   NSLog(@"One more time changed FUN instance method");
                   return 2;
@@ -116,7 +117,8 @@ describe(@"OCFuntime", ^{
     it(@"should revert to default class method, not previous setted method", ^
     {
         [funtime changeClass:[OCFMock class] classMethod:@selector(funClassMethod)
-              implementation:^{
+              implementation:^
+              {
                   // still returns NO
                   NSLog(@"One more time changed FUN class method");
                   return 2;
@@ -124,6 +126,50 @@ describe(@"OCFuntime", ^{
         [funtime revertClass:[OCFMock class]];
         [OCFMock funClassMethod] should equal(0);
     });
+});
+
+describe(@"OCFuntime memory management", ^
+{
+    it(@"should call default instance method if 'funtime' instance deallocated", ^
+    {
+        funtime = [[OCFuntime alloc] init];
+        [funtime changeClass:[OCFMock class] instanceMethod:@selector(funInstanceMethod)
+              implementation:^
+              {
+                  return 1;
+              }];
+        mock = [[OCFMock alloc] init];
+        [mock funInstanceMethod] should equal(1);
+        [funtime release];
+        [mock funInstanceMethod] should equal(0);
+        [mock release];
+    });
+
+    it(@"should call default class method if 'funtime' instance deallocated", ^
+    {
+        funtime = [[OCFuntime alloc] init];
+        [funtime changeClass:[OCFMock class] classMethod:@selector(funClassMethod)
+              implementation:^
+              {
+                  return 1;
+              }];
+        [OCFMock funClassMethod] should equal(1);
+        [funtime release];
+        [OCFMock funClassMethod] should equal(0);
+    });
+});
+
+describe(@"OCFuntime protection", ^{
+
+    beforeEach(^
+               {
+                   funtime = [[OCFuntime alloc] init];
+               });
+
+    afterEach(^
+              {
+                  [funtime release];
+              });
 
     it(@"should throw exception if instance method doesn't exist", ^
     {
