@@ -71,6 +71,8 @@
 {
     if (defaultImplementation)
     {
+        IMP blockImplementation = method_getImplementation(method);
+        imp_removeBlock(blockImplementation);
         method_setImplementation(method, defaultImplementation);
         defaultImplementation = NULL;
     }
