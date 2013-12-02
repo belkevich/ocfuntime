@@ -43,7 +43,7 @@
     [self changeMethod:selector withBlock:block instance:NO];
 }
 
-- (void)revertInstanceMethod:(SEL)selector
+- (void)revertMethod:(SEL)selector
 {
     [self revertMethod:selector instance:YES];
 }

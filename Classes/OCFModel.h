@@ -23,7 +23,7 @@
 // actions
 - (void)changeInstanceMethod:(SEL)selector withBlock:(id)block;
 - (void)changeClassMethod:(SEL)selector withBlock:(id)block;
-- (void)revertInstanceMethod:(SEL)selector;
+- (void)revertMethod:(SEL)selector;
 - (void)revertClassMethod:(SEL)selector;
 - (void)revertModel;
 

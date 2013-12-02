@@ -46,7 +46,7 @@
 - (void)revertClass:(Class)theClass instanceMethod:(SEL)method
 {
     OCFModel *model = [self modelForClass:theClass create:NO];
-    [model revertInstanceMethod:method];
+    [model revertMethod:method];
 }
 
 - (void)revertClass:(Class)theClass classMethod:(SEL)method

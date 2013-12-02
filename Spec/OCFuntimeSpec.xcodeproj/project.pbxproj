@@ -21,6 +21,9 @@
 		FA392BE01785C7BC00FEDB79 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FA392BDF1785C7BC00FEDB79 /* Default.png */; };
 		FA392BE21785C7BC00FEDB79 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA392BE11785C7BC00FEDB79 /* Default@2x.png */; };
 		FA392BE41785C7BC00FEDB79 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA392BE31785C7BC00FEDB79 /* Default-568h@2x.png */; };
+		FA6EC180184CDF2E007DA37B /* OCFuntime+Multiton.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6EC17F184CDF2E007DA37B /* OCFuntime+Multiton.m */; };
+		FA6EC184184CDFFF007DA37B /* NSObject+OCFuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6EC183184CDFFF007DA37B /* NSObject+OCFuntime.m */; };
+		FA6EC186184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA6EC185184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,11 @@
 		FA392BDF1785C7BC00FEDB79 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		FA392BE11785C7BC00FEDB79 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		FA392BE31785C7BC00FEDB79 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		FA6EC17E184CDF2E007DA37B /* OCFuntime+Multiton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "OCFuntime+Multiton.h"; path = "Categories/OCFuntime+Multiton.h"; sourceTree = "<group>"; };
+		FA6EC17F184CDF2E007DA37B /* OCFuntime+Multiton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "OCFuntime+Multiton.m"; path = "Categories/OCFuntime+Multiton.m"; sourceTree = "<group>"; };
+		FA6EC182184CDFFF007DA37B /* NSObject+OCFuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+OCFuntime.h"; path = "Categories/NSObject+OCFuntime.h"; sourceTree = "<group>"; };
+		FA6EC183184CDFFF007DA37B /* NSObject+OCFuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+OCFuntime.m"; path = "Categories/NSObject+OCFuntime.m"; sourceTree = "<group>"; };
+		FA6EC185184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSObject+OCFuntimeSpec.mm"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				FA1F52351785C92400A3C156 /* OCFuntimeSpec.mm */,
+				FA6EC185184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm */,
 			);
 			name = Spec;
 			sourceTree = "<group>";
@@ -89,6 +98,7 @@
 				FA1F52471785C96800A3C156 /* OCFModel.m */,
 				FA1F52481785C96800A3C156 /* OCFuntime.h */,
 				FA1F52491785C96800A3C156 /* OCFuntime.m */,
+				FA6EC181184CDF36007DA37B /* Categories */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -154,6 +164,17 @@
 				FA392BE31785C7BC00FEDB79 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FA6EC181184CDF36007DA37B /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				FA6EC17E184CDF2E007DA37B /* OCFuntime+Multiton.h */,
+				FA6EC17F184CDF2E007DA37B /* OCFuntime+Multiton.m */,
+				FA6EC182184CDFFF007DA37B /* NSObject+OCFuntime.h */,
+				FA6EC183184CDFFF007DA37B /* NSObject+OCFuntime.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,9 +278,12 @@
 				FA392BDA1785C7BC00FEDB79 /* main.m in Sources */,
 				FA1F52361785C92400A3C156 /* OCFMock.m in Sources */,
 				FA1F52371785C92400A3C156 /* OCFuntimeSpec.mm in Sources */,
+				FA6EC180184CDF2E007DA37B /* OCFuntime+Multiton.m in Sources */,
+				FA6EC184184CDFFF007DA37B /* NSObject+OCFuntime.m in Sources */,
 				FA1F524A1785C96800A3C156 /* OCFMethod.m in Sources */,
 				FA1F524B1785C96800A3C156 /* OCFModel.m in Sources */,
 				FA1F524C1785C96800A3C156 /* OCFuntime.m in Sources */,
+				FA6EC186184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
