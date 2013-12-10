@@ -1,14 +1,14 @@
 //
-//  OCFMethod.m
+//  OCFMethodImplementation.m
 //  OCFuntime
 //
 //  Created by Alexey Belkevich on 4/22/13.
 //  Copyright (c) 2013 okolodev. All rights reserved.
 //
 
-#import "OCFMethod.h"
+#import "OCFMethodImplementation.h"
 
-@implementation OCFMethod
+@implementation OCFMethodImplementation
 
 #pragma mark - life cycle
 
@@ -39,16 +39,6 @@
         }
     }
     return self;
-}
-
-+ (instancetype)methodWithClass:(Class)theClass instanceMethod:(SEL)selector
-{
-    return [[self alloc] initWithClass:theClass instanceMethod:selector];
-}
-
-+ (instancetype)methodWithClass:(Class)theClass classMethod:(SEL)selector
-{
-    return [[self alloc] initWithClass:theClass classMethod:selector];
 }
 
 #pragma mark - public

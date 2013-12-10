@@ -1,5 +1,5 @@
 //
-//  OCFMethod.h
+//  OCFMethodImplementation.h
 //  OCFuntime
 //
 //  Created by Alexey Belkevich on 4/22/13.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 
-@interface OCFMethod : NSObject
+@interface OCFMethodImplementation : NSObject
 {
 @private
     Method method;
@@ -19,8 +19,6 @@
 // initialization
 - (id)initWithClass:(Class)theClass instanceMethod:(SEL)selector;
 - (id)initWithClass:(Class)theClass classMethod:(SEL)selector;
-+ (instancetype)methodWithClass:(Class)theClass instanceMethod:(SEL)selector;
-+ (instancetype)methodWithClass:(Class)theClass classMethod:(SEL)selector;
 // actions
 - (void)changeImplementationWithBlock:(id)block;
 - (void)revertImplementation;

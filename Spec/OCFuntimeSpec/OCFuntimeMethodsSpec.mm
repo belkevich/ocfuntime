@@ -1,5 +1,5 @@
 //
-//  OCFuntimeSpec.mm
+//  OCFuntimeMethodsSpec.mm
 //  OCFuntimeSpec
 //
 //  Created by Alexey Belkevich on 4/22/13.
@@ -12,7 +12,7 @@
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
-SPEC_BEGIN(OCFuntimeSpec)
+SPEC_BEGIN(OCFuntimeMethodsSpec)
 
 __block OCFuntime *funtime;
 __block OCFMock *mock;
@@ -128,7 +128,7 @@ describe(@"OCFuntime with changed method", ^{
     });
 });
 
-describe(@"OCFuntime memory management", ^
+describe(@"OCFuntime methods changing memory management", ^
 {
     it(@"should call default instance method if 'funtime' instance deallocated", ^
     {
@@ -159,7 +159,7 @@ describe(@"OCFuntime memory management", ^
     });
 });
 
-describe(@"OCFuntime protection", ^{
+describe(@"OCFuntime method changing protection", ^{
 
     beforeEach(^
                {
@@ -195,7 +195,7 @@ describe(@"OCFuntime protection", ^{
         } should raise_exception([NSException class]);
     });
 
-    it(@"should not throw exception if nil provided as instance method", ^
+    it(@"should not throw exception if nil implementation provided as instance method", ^
     {
         ^
         {
@@ -204,7 +204,7 @@ describe(@"OCFuntime protection", ^{
         } should_not raise_exception;
     });
 
-    it(@"should not throw exception if nil provided as class method", ^
+    it(@"should not throw exception if nil implementation provided as class method", ^
     {
         ^
         {

@@ -1,5 +1,5 @@
 //
-//  OCFModel.h
+//  OCFClassMethods.h
 //  OCFuntime
 //
 //  Created by Alexey Belkevich on 4/22/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface OCFModel : NSObject
+@interface OCFClassMethods : NSObject
 {
 @private
     Class theClass;
@@ -18,12 +18,11 @@
 
 // initialization
 - (id)initWithClass:(Class)theClass;
-+ (instancetype)modelWithClass:(Class)theClass;
 // actions
-- (void)changeInstanceMethod:(SEL)selector withBlock:(id)block;
-- (void)changeClassMethod:(SEL)selector withBlock:(id)block;
-- (void)revertMethod:(SEL)selector;
+- (void)changeInstanceMethod:(SEL)selector implementationWithBlock:(id)block;
+- (void)changeClassMethod:(SEL)selector implementationWithBlock:(id)block;
+- (void)revertInstanceMethod:(SEL)selector;
 - (void)revertClassMethod:(SEL)selector;
-- (void)revertModel;
+- (void)revertAllToDefaultImplementation;
 
 @end

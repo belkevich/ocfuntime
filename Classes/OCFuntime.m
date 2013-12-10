@@ -8,8 +8,7 @@
 
 #import <objc/runtime.h>
 #import "OCFuntime.h"
-#import "OCFModel.h"
-#import "objc/runtime.h"
+#import "OCFClassMethods.h"
 
 @implementation OCFuntime
 
@@ -34,37 +33,37 @@
 
 - (void)changeClass:(Class)theClass instanceMethod:(SEL)method implementation:(id)block
 {
-    OCFModel *model = [self modelForClass:theClass create:YES];
-    [model changeInstanceMethod:method withBlock:block];
+    OCFClassMethods *model = [self modelForClass:theClass create:YES];
+    [model changeInstanceMethod:method implementationWithBlock:block];
 }
 
 - (void)changeClass:(Class)theClass classMethod:(SEL)method implementation:(id)block
 {
-    OCFModel *model = [self modelForClass:theClass create:YES];
-    [model changeClassMethod:method withBlock:block];
+    OCFClassMethods *model = [self modelForClass:theClass create:YES];
+    [model changeClassMethod:method implementationWithBlock:block];
 }
 
 - (void)revertClass:(Class)theClass instanceMethod:(SEL)method
 {
-    OCFModel *model = [self modelForClass:theClass create:NO];
-    [model revertMethod:method];
+    OCFClassMethods *model = [self modelForClass:theClass create:NO];
+    [model revertInstanceMethod:method];
 }
 
 - (void)revertClass:(Class)theClass classMethod:(SEL)method
 {
-    OCFModel *model = [self modelForClass:theClass create:NO];
+    OCFClassMethods *model = [self modelForClass:theClass create:NO];
     [model revertClassMethod:method];
 }
 
 - (void)revertClass:(Class)theClass
 {
-    OCFModel *model = [self modelForClass:theClass create:NO];
-    [model revertModel];
+    OCFClassMethods *model = [self modelForClass:theClass create:NO];
+    [model revertAllToDefaultImplementation];
 }
 
 - (void)revertAll
 {
-    [[classes allValues] makeObjectsPerformSelector:@selector(revertModel)];
+    [[classes allValues] makeObjectsPerformSelector:@selector(revertAllToDefaultImplementation)];
 }
 
 - (void)synthesizeProperty:(NSString *)propertyName ofClass:(Class)theClass
@@ -102,13 +101,13 @@
 
 #pragma mark - private
 
-- (OCFModel *)modelForClass:(Class)theClass create:(BOOL)create
+- (OCFClassMethods *)modelForClass:(Class)theClass create:(BOOL)create
 {
     NSString *className = NSStringFromClass(theClass);
-    OCFModel *model = [classes objectForKey:className];
+    OCFClassMethods *model = [classes objectForKey:className];
     if (!model && create)
     {
-        model = [OCFModel modelWithClass:theClass];
+        model = [[OCFClassMethods alloc] initWithClass:theClass];
         [classes setObject:model forKey:className];
 
     }
