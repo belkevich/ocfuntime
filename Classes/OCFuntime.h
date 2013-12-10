@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 okolodev. All rights reserved.
 //
 
-
 #import <Foundation/Foundation.h>
 
 @interface OCFuntime : NSObject
@@ -15,12 +14,13 @@
     NSMutableDictionary *classes;
 }
 
-// actions
 - (void)changeClass:(Class)theClass instanceMethod:(SEL)method implementation:(id)block;
 - (void)changeClass:(Class)theClass classMethod:(SEL)method implementation:(id)block;
 - (void)revertClass:(Class)theClass instanceMethod:(SEL)method;
 - (void)revertClass:(Class)theClass classMethod:(SEL)method;
 - (void)revertClass:(Class)theClass;
 - (void)revertAll;
+
+- (void)synthesizeProperty:(NSString *)propertyName ofClass:(Class)theClass;
 
 @end

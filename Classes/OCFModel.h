@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 okolodev. All rights reserved.
 //
 
-
 #import <Foundation/Foundation.h>
 
 @interface OCFModel : NSObject

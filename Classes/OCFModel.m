@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 okolodev. All rights reserved.
 //
 
-
 #import "OCFModel.h"
 #import "OCFMethod.h"
 

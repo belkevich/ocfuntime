@@ -21,6 +21,8 @@
 		FA392BE01785C7BC00FEDB79 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FA392BDF1785C7BC00FEDB79 /* Default.png */; };
 		FA392BE21785C7BC00FEDB79 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA392BE11785C7BC00FEDB79 /* Default@2x.png */; };
 		FA392BE41785C7BC00FEDB79 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA392BE31785C7BC00FEDB79 /* Default-568h@2x.png */; };
+		FA5113701850C3F200A8FBAA /* OCFPropertyMock.m in Sources */ = {isa = PBXBuildFile; fileRef = FA51136F1850C3F200A8FBAA /* OCFPropertyMock.m */; };
+		FA5113721850C7C900A8FBAA /* OCFuntimePropertySpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA5113711850C7C900A8FBAA /* OCFuntimePropertySpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FA6EC180184CDF2E007DA37B /* OCFuntime+Multiton.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6EC17F184CDF2E007DA37B /* OCFuntime+Multiton.m */; };
 		FA6EC184184CDFFF007DA37B /* NSObject+OCFuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6EC183184CDFFF007DA37B /* NSObject+OCFuntime.m */; };
 		FA6EC186184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA6EC185184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -49,6 +51,9 @@
 		FA392BDF1785C7BC00FEDB79 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		FA392BE11785C7BC00FEDB79 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		FA392BE31785C7BC00FEDB79 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		FA51136E1850C3F200A8FBAA /* OCFPropertyMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCFPropertyMock.h; sourceTree = "<group>"; };
+		FA51136F1850C3F200A8FBAA /* OCFPropertyMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCFPropertyMock.m; sourceTree = "<group>"; };
+		FA5113711850C7C900A8FBAA /* OCFuntimePropertySpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OCFuntimePropertySpec.mm; sourceTree = "<group>"; };
 		FA6EC17E184CDF2E007DA37B /* OCFuntime+Multiton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "OCFuntime+Multiton.h"; path = "Categories/OCFuntime+Multiton.h"; sourceTree = "<group>"; };
 		FA6EC17F184CDF2E007DA37B /* OCFuntime+Multiton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "OCFuntime+Multiton.m"; path = "Categories/OCFuntime+Multiton.m"; sourceTree = "<group>"; };
 		FA6EC182184CDFFF007DA37B /* NSObject+OCFuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+OCFuntime.h"; path = "Categories/NSObject+OCFuntime.h"; sourceTree = "<group>"; };
@@ -71,19 +76,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FA1F52321785C92400A3C156 /* Mock */ = {
+		FA1F52321785C92400A3C156 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
 				FA1F52331785C92400A3C156 /* OCFMock.h */,
 				FA1F52341785C92400A3C156 /* OCFMock.m */,
+				FA51136E1850C3F200A8FBAA /* OCFPropertyMock.h */,
+				FA51136F1850C3F200A8FBAA /* OCFPropertyMock.m */,
 			);
-			path = Mock;
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		FA1F52381785C92B00A3C156 /* Spec */ = {
 			isa = PBXGroup;
 			children = (
 				FA1F52351785C92400A3C156 /* OCFuntimeSpec.mm */,
+				FA5113711850C7C900A8FBAA /* OCFuntimePropertySpec.mm */,
 				FA6EC185184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm */,
 			);
 			name = Spec;
@@ -146,7 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				FA1F52381785C92B00A3C156 /* Spec */,
-				FA1F52321785C92400A3C156 /* Mock */,
+				FA1F52321785C92400A3C156 /* Mocks */,
 				FA392BD41785C7BC00FEDB79 /* Supporting Files */,
 			);
 			path = OCFuntimeSpec;
@@ -277,11 +285,13 @@
 			files = (
 				FA392BDA1785C7BC00FEDB79 /* main.m in Sources */,
 				FA1F52361785C92400A3C156 /* OCFMock.m in Sources */,
+				FA5113721850C7C900A8FBAA /* OCFuntimePropertySpec.mm in Sources */,
 				FA1F52371785C92400A3C156 /* OCFuntimeSpec.mm in Sources */,
 				FA6EC180184CDF2E007DA37B /* OCFuntime+Multiton.m in Sources */,
 				FA6EC184184CDFFF007DA37B /* NSObject+OCFuntime.m in Sources */,
 				FA1F524A1785C96800A3C156 /* OCFMethod.m in Sources */,
 				FA1F524B1785C96800A3C156 /* OCFModel.m in Sources */,
+				FA5113701850C3F200A8FBAA /* OCFPropertyMock.m in Sources */,
 				FA1F524C1785C96800A3C156 /* OCFuntime.m in Sources */,
 				FA6EC186184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm in Sources */,
 			);
