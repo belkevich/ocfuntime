@@ -11,7 +11,7 @@
 @interface OCFuntime : NSObject
 {
 @private
-    NSMutableDictionary *classes;
+    NSMutableDictionary *changedMethods;
 }
 
 - (void)changeClass:(Class)theClass instanceMethod:(SEL)method implementation:(id)block;

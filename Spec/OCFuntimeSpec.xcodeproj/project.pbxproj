@@ -26,6 +26,7 @@
 		FA6EC180184CDF2E007DA37B /* OCFuntime+Multiton.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6EC17F184CDF2E007DA37B /* OCFuntime+Multiton.m */; };
 		FA6EC184184CDFFF007DA37B /* NSObject+OCFuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6EC183184CDFFF007DA37B /* NSObject+OCFuntime.m */; };
 		FA6EC186184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA6EC185184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FAFD6B72185719DA009000A1 /* OCFClassProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = FAFD6B71185719DA009000A1 /* OCFClassProperties.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,8 @@
 		FA6EC182184CDFFF007DA37B /* NSObject+OCFuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+OCFuntime.h"; path = "Categories/NSObject+OCFuntime.h"; sourceTree = "<group>"; };
 		FA6EC183184CDFFF007DA37B /* NSObject+OCFuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+OCFuntime.m"; path = "Categories/NSObject+OCFuntime.m"; sourceTree = "<group>"; };
 		FA6EC185184CE0D5007DA37B /* NSObject+OCFuntimeSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSObject+OCFuntimeSpec.mm"; sourceTree = "<group>"; };
+		FAFD6B70185719DA009000A1 /* OCFClassProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCFClassProperties.h; sourceTree = "<group>"; };
+		FAFD6B71185719DA009000A1 /* OCFClassProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCFClassProperties.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +107,8 @@
 				FA1F52451785C96800A3C156 /* OCFMethodImplementation.m */,
 				FA1F52461785C96800A3C156 /* OCFClassMethods.h */,
 				FA1F52471785C96800A3C156 /* OCFClassMethods.m */,
+				FAFD6B70185719DA009000A1 /* OCFClassProperties.h */,
+				FAFD6B71185719DA009000A1 /* OCFClassProperties.m */,
 				FA1F52481785C96800A3C156 /* OCFuntime.h */,
 				FA1F52491785C96800A3C156 /* OCFuntime.m */,
 				FA6EC181184CDF36007DA37B /* Categories */,
@@ -285,6 +290,7 @@
 			files = (
 				FA392BDA1785C7BC00FEDB79 /* main.m in Sources */,
 				FA1F52361785C92400A3C156 /* OCFMock.m in Sources */,
+				FAFD6B72185719DA009000A1 /* OCFClassProperties.m in Sources */,
 				FA5113721850C7C900A8FBAA /* OCFuntimePropertySpec.mm in Sources */,
 				FA1F52371785C92400A3C156 /* OCFuntimeMethodsSpec.mm in Sources */,
 				FA6EC180184CDF2E007DA37B /* OCFuntime+Multiton.m in Sources */,

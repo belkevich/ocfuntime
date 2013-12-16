@@ -16,10 +16,8 @@
     IMP defaultImplementation;
 }
 
-// initialization
 - (id)initWithClass:(Class)theClass instanceMethod:(SEL)selector;
 - (id)initWithClass:(Class)theClass classMethod:(SEL)selector;
-// actions
 - (void)changeImplementationWithBlock:(id)block;
 - (void)revertImplementation;
 
