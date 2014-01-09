@@ -7,13 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <objc/runtime.h>
 
 @interface OCFClassProperties : NSObject
 {
+@private
     Class theClass;
+    objc_property_t *properties;
+    unsigned int propertyCount;
 }
 
-- (id)initWithPropertiesClass:(Class)theClass;
+- (id)initWithClass:(Class)theClass;
 - (void)synthesizeProperty:(NSString *)propertyName;
 
 @end

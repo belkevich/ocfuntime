@@ -7,26 +7,26 @@
 //
 
 #import "NSObject+OCFuntime.h"
-#import "OCFMock.h"
+#import "OCFMethodMock.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
 
 SPEC_BEGIN(NSObject_OCFuntimeSpec)
 
-__block OCFMock *mock;
+__block OCFMethodMock *mock;
 
 describe(@"Object with changed method", ^{
     
     beforeEach(^
                {
-                   mock = [[OCFMock alloc] init];
+                   mock = [[OCFMethodMock alloc] init];
                    [mock changeMethod:@selector(funInstanceMethod) implementation:^
                    {
                        NSLog(@"Changed FUN instance method!");
                        return 1;
                    }];
-                   [OCFMock changeMethod:@selector(funClassMethod) implementation:^
+                   [OCFMethodMock changeMethod:@selector(funClassMethod) implementation:^
                    {
                        NSLog(@"Changed FUN class method!");
                        return 1;
@@ -46,7 +46,7 @@ describe(@"Object with changed method", ^{
 
     it(@"should call changed class method if it changed", ^
     {
-        [OCFMock funClassMethod] should equal(1);
+        [OCFMethodMock funClassMethod] should equal(1);
     });
 
     it(@"should call default instance method if method reverted", ^
@@ -57,22 +57,22 @@ describe(@"Object with changed method", ^{
 
     it(@"should call default class method if method reverted", ^
     {
-        [OCFMock revertMethod:@selector(funClassMethod)];
-        [OCFMock funClassMethod] should equal(0);
+        [OCFMethodMock revertMethod:@selector(funClassMethod)];
+        [OCFMethodMock funClassMethod] should equal(0);
     });
 
     it(@"should call default methods if instance reverted", ^
     {
         [mock revertMethods];
         [mock funInstanceMethod] should equal(0);
-        [OCFMock funClassMethod] should equal(0);
+        [OCFMethodMock funClassMethod] should equal(0);
     });
 
     it(@"should call default methods if class reverted", ^
     {
-        [OCFMock revertMethods];
+        [OCFMethodMock revertMethods];
         [mock funInstanceMethod] should equal(0);
-        [OCFMock funClassMethod] should equal(0);
+        [OCFMethodMock funClassMethod] should equal(0);
     });
 });
 

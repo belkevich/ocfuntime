@@ -1,5 +1,5 @@
 //
-//  OCFMock.h
+//  OCFMethodMock.h
 //  OCFuntimeSpec
 //
 //  Created by Alexey Belkevich on 4/22/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface OCFMock : NSObject
+@interface OCFMethodMock : NSObject
 
 - (NSUInteger)funInstanceMethod;
 + (NSUInteger)funClassMethod;

@@ -1,5 +1,5 @@
 //
-//  OCFMethodImplementation.h
+//  OCFMethod.h
 //  OCFuntime
 //
 //  Created by Alexey Belkevich on 4/22/13.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 
-@interface OCFMethodImplementation : NSObject
+@interface OCFMethod : NSObject
 {
 @private
     Method method;

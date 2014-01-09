@@ -68,7 +68,7 @@
 
 - (void)synthesizeProperty:(NSString *)propertyName ofClass:(Class)theClass
 {
-    OCFClassProperties *properties = [[OCFClassProperties alloc] initWithPropertiesClass:theClass];
+    OCFClassProperties *properties = [[OCFClassProperties alloc] initWithClass:theClass];
     [properties synthesizeProperty:propertyName];
 }
 
@@ -80,7 +80,7 @@
     OCFClassMethods *model = [changedMethods objectForKey:className];
     if (!model && create)
     {
-        model = [[OCFClassMethods alloc] initWithMethodsClass:theClass];
+        model = [[OCFClassMethods alloc] initWithClass:theClass];
         [changedMethods setObject:model forKey:className];
 
     }

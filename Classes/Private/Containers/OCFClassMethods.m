@@ -7,13 +7,13 @@
 //
 
 #import "OCFClassMethods.h"
-#import "OCFMethodImplementation.h"
+#import "OCFMethod.h"
 
 @implementation OCFClassMethods
 
 #pragma mark - life cycle
 
-- (id)initWithMethodsClass:(Class)aClass
+- (id)initWithClass:(Class)aClass
 {
     self = [super init];
     if (self)
@@ -59,20 +59,20 @@
 
 - (void)changeMethod:(SEL)selector withBlock:(id)block instance:(BOOL)instance
 {
-    OCFMethodImplementation *method = [self methodForSelector:selector instance:instance];
+    OCFMethod *method = [self methodForSelector:selector instance:instance];
     [method changeImplementationWithBlock:block];
 }
 
-- (OCFMethodImplementation *)methodForSelector:(SEL)selector instance:(BOOL)instance
+- (OCFMethod *)methodForSelector:(SEL)selector instance:(BOOL)instance
 {
     NSString *selectorName = NSStringFromSelector(selector);
     NSMutableDictionary *methodsDictionary = instance ? instanceMethods : classMethods;
-    OCFMethodImplementation *method = [methodsDictionary objectForKey:selectorName];
+    OCFMethod *method = [methodsDictionary objectForKey:selectorName];
     if (!method)
     {
         method = instance ?
-                 [[OCFMethodImplementation alloc] initWithClass:theClass instanceMethod:selector]:
-                 [[OCFMethodImplementation alloc] initWithClass:theClass classMethod:selector];
+                 [[OCFMethod alloc] initWithClass:theClass instanceMethod:selector]:
+                 [[OCFMethod alloc] initWithClass:theClass classMethod:selector];
         [methodsDictionary setObject:method forKey:selectorName];
     }
     return method;
@@ -82,7 +82,7 @@
 {
     NSMutableDictionary *methodsDictionary = instance ? instanceMethods : classMethods;
     NSString *key = NSStringFromSelector(selector);
-    OCFMethodImplementation *method = [methodsDictionary objectForKey:key];
+    OCFMethod *method = [methodsDictionary objectForKey:key];
     if (method)
     {
         [method revertImplementation];

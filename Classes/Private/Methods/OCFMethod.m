@@ -1,14 +1,14 @@
 //
-//  OCFMethodImplementation.m
+//  OCFMethod.m
 //  OCFuntime
 //
 //  Created by Alexey Belkevich on 4/22/13.
 //  Copyright (c) 2013 okolodev. All rights reserved.
 //
 
-#import "OCFMethodImplementation.h"
+#import "OCFMethod.h"
 
-@implementation OCFMethodImplementation
+@implementation OCFMethod
 
 #pragma mark - life cycle
 

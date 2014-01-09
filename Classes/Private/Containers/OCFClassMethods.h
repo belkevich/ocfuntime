@@ -16,7 +16,7 @@
     NSMutableDictionary *classMethods;
 }
 
-- (id)initWithMethodsClass:(Class)theClass;
+- (id)initWithClass:(Class)theClass;
 - (void)changeInstanceMethod:(SEL)selector implementationWithBlock:(id)block;
 - (void)changeClassMethod:(SEL)selector implementationWithBlock:(id)block;
 - (void)revertInstanceMethod:(SEL)selector;
