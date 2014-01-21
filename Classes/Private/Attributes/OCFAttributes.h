@@ -20,7 +20,7 @@ typedef enum
 
 @interface OCFAttributes : NSObject
 
-@property (nonatomic, readonly) const char *type;
+@property (nonatomic, readonly) NSString *type;
 @property (nonatomic, readonly) OCFAttributeStorage storage;
 @property (nonatomic, readonly) BOOL isReadonly;
 @property (nonatomic, readonly) BOOL isNonatomic;

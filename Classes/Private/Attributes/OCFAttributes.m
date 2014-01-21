@@ -35,7 +35,9 @@
         objc_property_attribute_t attribute = attributes[i];
         if (strcmp(attribute.name, "T")  == 0)
         {
-            _type = attribute.value;
+            NSUInteger length = strlen(attribute.value);
+            _type = [[NSString alloc] initWithBytes:attribute.value length:length
+                                           encoding:NSASCIIStringEncoding];
         }
         else if (strcmp(attribute.name, "R") == 0)
         {

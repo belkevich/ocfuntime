@@ -8,19 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-typedef struct
-{
-    NSInteger firstValue;
-    NSInteger secondValue;
-} OCFSimpleStruct;
+typedef void (^OCFPropertyMockBlock)();
 
 @interface OCFPropertyMock : NSObject
 
 @property (nonatomic, strong) id objectStrongProperty;
 @property (nonatomic, weak) id objectWeakProperty;
 @property (nonatomic, copy) id objectCopyProperty;
+@property (nonatomic, copy) OCFPropertyMockBlock blockProperty;
+@property (nonatomic, assign) BOOL booleanProperty;
 @property (nonatomic, assign) NSInteger integerProperty;
-@property (nonatomic, assign) char *pointerProperty;
-@property (nonatomic, assign) OCFSimpleStruct structProperty;
+@property (nonatomic, assign) CGFloat floatProperty;
+@property (nonatomic, assign) NSInteger *pIntegerProperty;
+@property (nonatomic, assign) CGFloat *pFloatProperty;
 
 @end

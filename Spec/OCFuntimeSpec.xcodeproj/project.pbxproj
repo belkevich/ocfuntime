@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		ED94B83B8B534236A7B31851 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34670366F46B46A0B81A81CE /* libPods.a */; };
+		FA01CB24188ED0F1009795CB /* NSString+ASCIIString.m in Sources */ = {isa = PBXBuildFile; fileRef = FA01CB23188ED0F1009795CB /* NSString+ASCIIString.m */; };
 		FA1F52361785C92400A3C156 /* OCFMethodMock.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1F52341785C92400A3C156 /* OCFMethodMock.m */; };
 		FA1F52371785C92400A3C156 /* OCFuntimeMethodsSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA1F52351785C92400A3C156 /* OCFuntimeMethodsSpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FA392BCE1785C7BC00FEDB79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA392BCD1785C7BC00FEDB79 /* UIKit.framework */; };
@@ -35,6 +36,8 @@
 /* Begin PBXFileReference section */
 		34670366F46B46A0B81A81CE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9076973839A34B22B8A1DC77 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		FA01CB22188ED0F1009795CB /* NSString+ASCIIString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+ASCIIString.h"; path = "Categories/NSString+ASCIIString.h"; sourceTree = "<group>"; };
+		FA01CB23188ED0F1009795CB /* NSString+ASCIIString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+ASCIIString.m"; path = "Categories/NSString+ASCIIString.m"; sourceTree = "<group>"; };
 		FA1F52331785C92400A3C156 /* OCFMethodMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCFMethodMock.h; sourceTree = "<group>"; };
 		FA1F52341785C92400A3C156 /* OCFMethodMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCFMethodMock.m; sourceTree = "<group>"; };
 		FA1F52351785C92400A3C156 /* OCFuntimeMethodsSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OCFuntimeMethodsSpec.mm; sourceTree = "<group>"; };
@@ -88,6 +91,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA01CB25188ED0F5009795CB /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				FA01CB22188ED0F1009795CB /* NSString+ASCIIString.h */,
+				FA01CB23188ED0F1009795CB /* NSString+ASCIIString.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		FA1F52321785C92400A3C156 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +211,7 @@
 				FACF5586185F4E9A0091D736 /* Properties */,
 				FACF559B185F55330091D736 /* Attributes */,
 				FAA016B2187F316B009D02DA /* Stores */,
+				FA01CB25188ED0F5009795CB /* Categories */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -364,6 +377,7 @@
 				FACF5597185F4EA50091D736 /* OCFuntime+Multiton.m in Sources */,
 				FACF559A185F552D0091D736 /* OCFAttributes.m in Sources */,
 				FACF558E185F4E9A0091D736 /* OCFMethod.m in Sources */,
+				FA01CB24188ED0F1009795CB /* NSString+ASCIIString.m in Sources */,
 				FA392BDA1785C7BC00FEDB79 /* main.m in Sources */,
 				FA1F52361785C92400A3C156 /* OCFMethodMock.m in Sources */,
 				FACF558D185F4E9A0091D736 /* OCFClassProperties.m in Sources */,

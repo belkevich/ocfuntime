@@ -9,7 +9,7 @@
 #import "OCFProperty.h"
 #import "OCFAttributes.h"
 #import "OCFWeakStore.h"
-
+#import "NSString+ASCIIString.h"
 
 @implementation OCFProperty
 
@@ -42,16 +42,79 @@
 - (void)implementReadMethod
 {
     const char *key = [name cStringUsingEncoding:NSUTF8StringEncoding];
-    IMP implementation = imp_implementationWithBlock((id)^(id instance)
+    IMP implementation = nil;
+    if ([attributes.type isEqualToString:@"@"] || [attributes.type isEqualToString:@"@?"])
     {
-        id object = objc_getAssociatedObject(instance, key);
-        if (attributes.storage == OCFAttributeStorageWeak)
+        implementation = imp_implementationWithBlock(^(id instance)
         {
-            OCFWeakStore *store = object;
-            return store.weakValue;
-        }
-        return object;
-    });
+            id object = objc_getAssociatedObject(instance, key);
+            if (attributes.storage == OCFAttributeStorageWeak)
+            {
+                OCFWeakStore *store = object;
+                return store.weakValue;
+            }
+            return object;
+        });
+    }
+    else if ([attributes.type isEqualToString:@"i"])
+    {
+        implementation = imp_implementationWithBlock((id)^(id instance)
+        {
+            NSValue *store = objc_getAssociatedObject(instance, key);
+            if (store)
+            {
+                NSInteger value;
+                [store getValue:&value];
+                return value;
+            }
+            return 0;
+        });
+    }
+    else if ([attributes.type isEqualToString:@"c"])
+    {
+        implementation = imp_implementationWithBlock((id)^(id instance)
+        {
+            NSValue *store = objc_getAssociatedObject(instance, key);
+            if (store)
+            {
+                char value;
+                [store getValue:&value];
+                return value;
+            }
+            return (char)0;
+        });
+
+    }
+    else if ([attributes.type isEqualToString:@"f"])
+    {
+        implementation = imp_implementationWithBlock((id)^(id instance)
+        {
+            NSValue *store = objc_getAssociatedObject(instance, key);
+            if (store)
+            {
+                float value;
+                [store getValue:&value];
+                return value;
+            }
+            return (float)0;
+        });
+    }
+    else if ([[attributes.type substringToIndex:1] isEqualToString:@"^"])
+    {
+        implementation = imp_implementationWithBlock((id)^(id instance)
+        {
+            NSValue *store = objc_getAssociatedObject(instance, key);
+            if (store)
+            {
+                return store.pointerValue;
+            }
+            return NULL;
+        });
+    }
+    else
+    {
+#warning add exception or error
+    }
 
     SEL selector = NSSelectorFromString(name);
     BOOL result = class_addMethod(theClass, selector, implementation, "@@:");
@@ -64,31 +127,72 @@
 - (void)implementWriteMethod
 {
     const char *key = [name cStringUsingEncoding:NSUTF8StringEncoding];
-    IMP implementation = imp_implementationWithBlock(^(id instance, id value)
+    IMP implementation = nil;
+    if ([attributes.type isEqualToString:@"@"] || [attributes.type isEqualToString:@"@?"])
     {
-        if (attributes.storage == OCFAttributeStorageWeak)
+        implementation = imp_implementationWithBlock((id)^(id instance, id value)
         {
-            OCFWeakStore *store = objc_getAssociatedObject(instance, key);
-            if (!store)
+            id object = value;
+            if (attributes.storage == OCFAttributeStorageWeak)
             {
-                store = [[OCFWeakStore alloc] init];
+                OCFWeakStore *store = objc_getAssociatedObject(instance, key);
+                if (!store)
+                {
+                    store = [[OCFWeakStore alloc] init];
+                }
+                store.weakValue = object;
+                objc_setAssociatedObject(instance, key, store, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             }
-            store.weakValue = value;
+            else if (attributes.storage == OCFAttributeStorageCopy)
+            {
+                objc_setAssociatedObject(instance, key, object, OBJC_ASSOCIATION_COPY_NONATOMIC);
+            }
+            else
+            {
+                objc_setAssociatedObject(instance, key, object, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            }
+        });
+    }
+    else if ([attributes.type isEqualToString:@"i"])
+    {
+        implementation = imp_implementationWithBlock((id)^(id instance, NSInteger value)
+        {
+            NSValue *store = [NSValue value:&value withObjCType:attributes.type.ASCIIString];
             objc_setAssociatedObject(instance, key, store, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        }
-        else if (attributes.storage == OCFAttributeStorageCopy)
+        });
+    }
+    else if ([attributes.type isEqualToString:@"c"])
+    {
+        implementation = imp_implementationWithBlock((id)^(id instance, char value)
         {
-            objc_setAssociatedObject(instance, key, value, OBJC_ASSOCIATION_COPY_NONATOMIC);
-        }
-        else
+            NSValue *store = [NSValue value:&value withObjCType:attributes.type.ASCIIString];
+            objc_setAssociatedObject(instance, key, store, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        });
+    }
+    else if ([attributes.type isEqualToString:@"f"])
+    {
+        implementation = imp_implementationWithBlock((id)^(id instance, float value)
         {
-            objc_setAssociatedObject(instance, key, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        }
-    });
+            NSValue *store = [NSValue value:&value withObjCType:attributes.type.ASCIIString];
+            objc_setAssociatedObject(instance, key, store, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        });
+    }
+    else if ([[attributes.type substringToIndex:1] isEqualToString:@"^"])
+    {
+        implementation = imp_implementationWithBlock((id)^(id instance, void *value)
+        {
+            NSValue *store = [NSValue valueWithPointer:value];
+            objc_setAssociatedObject(instance, key, store, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        });
+    }
+    else
+    {
+#warning add exception or error
+    }
 
     NSString *selectorName = [NSString stringWithFormat:@"set%@%@:",
-                                       [name substringToIndex:1].uppercaseString,
-                                       [name substringFromIndex:1]];
+                                                        [name substringToIndex:1].uppercaseString,
+                                                        [name substringFromIndex:1]];
     SEL selector = NSSelectorFromString(selectorName);
     BOOL result = class_addMethod(theClass, selector, implementation, "v@:@");
     if (!result)

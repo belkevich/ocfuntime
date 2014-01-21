@@ -161,6 +161,94 @@ describe(@"OCFuntime synthesize property", ^
         [mock.objectCopyProperty lastObject] should equal(@(2));
         [array release];
     });
+
+    it(@"should return nil on synthesized block property read if it not set", ^
+    {
+        [funtime synthesizeProperty:@"blockProperty" ofClass:OCFPropertyMock.class];
+        id block = mock.blockProperty;
+        block should be_nil;
+    });
+
+    it(@"should be able to set synthesized block property", ^
+    {
+        [funtime synthesizeProperty:@"blockProperty" ofClass:OCFPropertyMock.class];
+        __block BOOL someValue = NO;
+        mock.blockProperty = ^
+        {
+            someValue = YES;
+        };
+        id block = mock.blockProperty;
+        block should_not be_nil;
+        ^{mock.blockProperty();} should_not raise_exception;
+        someValue should equal(YES);
+    });
+
+    it(@"should return NO on synthesized boolean property read if it not set", ^
+    {
+        [funtime synthesizeProperty:@"booleanProperty" ofClass:OCFPropertyMock.class];
+        mock.booleanProperty should equal(0);
+    });
+
+    it(@"should be able to set synthesized boolean property", ^
+    {
+        [funtime synthesizeProperty:@"booleanProperty" ofClass:OCFPropertyMock.class];
+        mock.booleanProperty = YES;
+        mock.booleanProperty should equal(YES);
+    });
+
+    it(@"should return 0 on synthesized integer property read if it not set", ^
+    {
+        [funtime synthesizeProperty:@"integerProperty" ofClass:OCFPropertyMock.class];
+        mock.integerProperty should equal(0);
+    });
+
+    it(@"should be able to set synthesized integer property", ^
+    {
+        [funtime synthesizeProperty:@"integerProperty" ofClass:OCFPropertyMock.class];
+        mock.integerProperty = 5;
+        mock.integerProperty should equal(5);
+    });
+
+    it(@"should return 0.0 on synthesized float property read if it not set", ^
+    {
+        [funtime synthesizeProperty:@"floatProperty" ofClass:OCFPropertyMock.class];
+        mock.floatProperty should equal(0.f);
+    });
+
+    it(@"should be able to set synthesized float property", ^
+    {
+        [funtime synthesizeProperty:@"floatProperty" ofClass:OCFPropertyMock.class];
+        mock.floatProperty = 5.5;
+        mock.floatProperty should equal(5.5);
+    });
+
+    it(@"should return NULL on synthesized integer pointer property read if it not set", ^
+    {
+        [funtime synthesizeProperty:@"pIntegerProperty" ofClass:OCFPropertyMock.class];
+        mock.pIntegerProperty should be_nil;
+    });
+
+    it(@"should be able to set synthesized integer pointer property", ^
+    {
+        [funtime synthesizeProperty:@"pIntegerProperty" ofClass:OCFPropertyMock.class];
+        NSInteger integer = 5;
+        mock.pIntegerProperty = &integer;
+        mock.pIntegerProperty should equal(&integer);
+    });
+
+    it(@"should return NULL on synthesized float pointer property read if it not set", ^
+    {
+        [funtime synthesizeProperty:@"pFloatProperty" ofClass:OCFPropertyMock.class];
+        mock.pFloatProperty should be_nil;
+    });
+
+    it(@"should be able to set synthesized float pointer property", ^
+    {
+        [funtime synthesizeProperty:@"pFloatProperty" ofClass:OCFPropertyMock.class];
+        CGFloat floatValue = 5.5;
+        mock.pFloatProperty = &floatValue;
+        mock.pFloatProperty should equal(&floatValue);
+    });
 });
 
 SPEC_END

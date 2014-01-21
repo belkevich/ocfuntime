@@ -82,7 +82,6 @@
     {
         model = [[OCFClassMethods alloc] initWithClass:theClass];
         [changedMethods setObject:model forKey:className];
-
     }
     return model;
 }
