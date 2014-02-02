@@ -69,9 +69,10 @@ describe(@"OCFuntime synthesize property", ^
     it(@"should be able to set synthesized strong property", ^
     {
         [funtime synthesizeProperty:@"objectStrongProperty" ofClass:OCFPropertyMock.class];
-        NSObject *object = [[[NSObject alloc] init] autorelease];
+        NSObject *object = [[NSObject alloc] init];
         mock.objectStrongProperty = object;
         mock.objectStrongProperty should equal(object);
+        [object release];
     });
 
     it(@"should retain value of synthesized strong property ", ^
@@ -79,6 +80,8 @@ describe(@"OCFuntime synthesize property", ^
         [funtime synthesizeProperty:@"objectStrongProperty" ofClass:OCFPropertyMock.class];
         NSObject *object = [[NSObject alloc] init];
         mock.objectStrongProperty = object;
+        mock.objectStrongProperty should equal(object);
+        mock.objectStrongProperty should equal(object);
         object.retainCount should equal(2);
         [object release];
     });
@@ -88,7 +91,9 @@ describe(@"OCFuntime synthesize property", ^
         [funtime synthesizeProperty:@"objectStrongProperty" ofClass:OCFPropertyMock.class];
         NSObject *object = [[NSObject alloc] init];
         mock.objectStrongProperty = object;
+        mock.objectStrongProperty = object;
         mock.objectStrongProperty = nil;
+        mock.objectStrongProperty should be_nil;
         object.retainCount should equal(1);
         [object release];
     });

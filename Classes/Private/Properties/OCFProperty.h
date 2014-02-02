@@ -12,14 +12,13 @@
 @class OCFAttributes;
 
 @interface OCFProperty : NSObject
-{
-@private
-    Class theClass;
-    NSString *name;
-    OCFAttributes *attributes;
-}
 
-- (id)initWithClass:(Class)theClass property:(objc_property_t)property;
-- (void)implementProperty;
+@property (nonatomic, readonly) NSString *getterName;
+@property (nonatomic, readonly) NSString *setterName;
+@property (nonatomic, readonly) NSMethodSignature *getterSignature;
+@property (nonatomic, readonly) NSMethodSignature *setterSignature;
+@property (nonatomic, readonly) OCFAttributes *attributes;
+
+- (id)initWithProperty:(objc_property_t)property;
 
 @end
