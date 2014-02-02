@@ -17,8 +17,8 @@ SPEC_BEGIN(OCFuntimeMethodsSpec)
 __block OCFuntime *funtime;
 __block OCFMethodMock *mock;
 
-describe(@"OCFuntime with changed method", ^{
-
+describe(@"OCFuntime with changed method", ^
+{
     beforeEach(^
                {
                    mock = [[OCFMethodMock alloc] init];

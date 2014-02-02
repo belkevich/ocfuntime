@@ -9,10 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface OCFuntime : NSObject
-{
-@private
-    NSMutableDictionary *changedMethods;
-}
 
 - (void)changeClass:(Class)theClass instanceMethod:(SEL)method implementation:(id)block;
 - (void)changeClass:(Class)theClass classMethod:(SEL)method implementation:(id)block;

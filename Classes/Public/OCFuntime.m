@@ -10,6 +10,14 @@
 #import "OCFClassMethods.h"
 #import "OCFClassProperties.h"
 
+@interface OCFuntime ()
+{
+    NSMutableDictionary *changedMethods;
+    NSMutableDictionary *implementedProperties;
+}
+
+@end
+
 @implementation OCFuntime
 
 #pragma mark - life cycle
@@ -20,6 +28,7 @@
     if (self)
     {
         changedMethods = [[NSMutableDictionary alloc] init];
+        implementedProperties = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -68,7 +77,7 @@
 
 - (void)synthesizeProperty:(NSString *)propertyName ofClass:(Class)theClass
 {
-    OCFClassProperties *properties = [[OCFClassProperties alloc] initWithClass:theClass];
+    OCFClassProperties *properties = [self propertiesForClass:theClass];
     [properties synthesizeProperty:propertyName];
 }
 
@@ -82,6 +91,17 @@
     {
         model = [[OCFClassMethods alloc] initWithClass:theClass];
         [changedMethods setObject:model forKey:className];
+    }
+    return model;
+}
+
+- (OCFClassProperties *)propertiesForClass:(Class)theClass
+{
+    NSString *className = NSStringFromClass(theClass);
+    OCFClassProperties *model = [implementedProperties objectForKey:className];
+    if (!model)
+    {
+        model = [[OCFClassProperties alloc] initWithClass:theClass];
     }
     return model;
 }

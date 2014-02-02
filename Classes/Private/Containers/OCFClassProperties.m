@@ -52,13 +52,10 @@
 
 - (void)addMethodSignatureMethod
 {
-#warning change to weak
-    __typeof(self) weakSelf = self;
-//    __weak __typeof(self) weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     IMP implementation = imp_implementationWithBlock((id)^(id instance, SEL methodSelector)
     {
         NSString *methodName = NSStringFromSelector(methodSelector);
-//        NSLog(@"Request method signature for - %@ (%@)", methodName, weakSelf);
         return [weakSelf.methodsSignatures objectForKey:methodName];
     });
     SEL selector = @selector(methodSignatureForSelector:);
