@@ -227,6 +227,35 @@ describe(@"OCFuntime synthesize property", ^
         mock.floatProperty should equal(5.5);
     });
 
+    it(@"should return 0.0 on synthesized double property read if it not set", ^
+    {
+        [funtime synthesizeProperty:@"doubleProperty" ofClass:OCFPropertyMock.class];
+        mock.doubleProperty should equal(0.f);
+    });
+
+    it(@"should be able to set synthesized double property", ^
+    {
+        [funtime synthesizeProperty:@"doubleProperty" ofClass:OCFPropertyMock.class];
+        mock.doubleProperty = 5.00000005;
+        mock.doubleProperty should equal(5.00000005);
+    });
+
+    it(@"should return empty struct on synthesized struct property read if it not set", ^
+    {
+        [funtime synthesizeProperty:@"structProperty" ofClass:OCFPropertyMock.class];
+        mock.structProperty.x should equal(0);
+        mock.structProperty.y should equal(0);
+    });
+
+    it(@"should be able to set synthesized struct property", ^
+    {
+        [funtime synthesizeProperty:@"structProperty" ofClass:OCFPropertyMock.class];
+        OCFStructMock example = {1, 2};
+        mock.structProperty = example;
+        mock.structProperty.x should equal(1);
+        mock.structProperty.y should equal(2);
+    });
+
     it(@"should return NULL on synthesized integer pointer property read if it not set", ^
     {
         [funtime synthesizeProperty:@"pIntegerProperty" ofClass:OCFPropertyMock.class];

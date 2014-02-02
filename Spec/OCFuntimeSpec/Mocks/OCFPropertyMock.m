@@ -11,6 +11,7 @@
 @implementation OCFPropertyMock
 
 @dynamic objectStrongProperty, objectWeakProperty, objectCopyProperty, blockProperty,
-booleanProperty, integerProperty, floatProperty, pIntegerProperty, pFloatProperty;
+booleanProperty, integerProperty, floatProperty, doubleProperty, structProperty, pIntegerProperty,
+pFloatProperty;
 
 @end

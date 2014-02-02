@@ -10,6 +10,12 @@
 
 typedef void (^OCFPropertyMockBlock)();
 
+typedef struct
+{
+    NSInteger x;
+    NSInteger y;
+} OCFStructMock;
+
 @interface OCFPropertyMock : NSObject
 
 @property (nonatomic, strong) id objectStrongProperty;
@@ -19,6 +25,8 @@ typedef void (^OCFPropertyMockBlock)();
 @property (nonatomic, assign) BOOL booleanProperty;
 @property (nonatomic, assign) NSInteger integerProperty;
 @property (nonatomic, assign) CGFloat floatProperty;
+@property (nonatomic, assign) double doubleProperty;
+@property (nonatomic, assign) OCFStructMock structProperty;
 @property (nonatomic, assign) NSInteger *pIntegerProperty;
 @property (nonatomic, assign) CGFloat *pFloatProperty;
 
