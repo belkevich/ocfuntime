@@ -13,32 +13,32 @@
 
 - (void)changeMethod:(SEL)method implementation:(id)block
 {
-    [OCFuntime.sharedInstance changeClass:self.class instanceMethod:method implementation:block];
+    [OCFuntime.shared changeClass:self.class instanceMethod:method implementation:block];
 }
 
 + (void)changeMethod:(SEL)method implementation:(id)block
 {
-    [OCFuntime.sharedInstance changeClass:self classMethod:method implementation:block];
+    [OCFuntime.shared changeClass:self classMethod:method implementation:block];
 }
 
 - (void)revertMethod:(SEL)method
 {
-    [OCFuntime.sharedInstance revertClass:self.class instanceMethod:method];
+    [OCFuntime.shared revertClass:self.class instanceMethod:method];
 }
 
 + (void)revertMethod:(SEL)method
 {
-    [OCFuntime.sharedInstance revertClass:self classMethod:method];
+    [OCFuntime.shared revertClass:self classMethod:method];
 }
 
 - (void)revertMethods
 {
-    [OCFuntime.sharedInstance revertClass:self.class];
+    [OCFuntime.shared revertClass:self.class];
 }
 
 + (void)revertMethods
 {
-    [OCFuntime.sharedInstance revertClass:self];
+    [OCFuntime.shared revertClass:self];
 }
 
 @end
