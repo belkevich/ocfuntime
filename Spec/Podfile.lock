@@ -1,0 +1,15 @@
+PODS:
+  - ABMultiton (2.0.5):
+    - ABMultiton/Core
+  - ABMultiton/Core (2.0.5)
+  - Cedar (0.9.7)
+
+DEPENDENCIES:
+  - ABMultiton
+  - Cedar
+
+SPEC CHECKSUMS:
+  ABMultiton: 25c3aab81c12b1dcc42bed0691b72000cba2bd0a
+  Cedar: d704a464f628b39ce763d49f42b5510a9e0b03b9
+
+COCOAPODS: 0.33.1

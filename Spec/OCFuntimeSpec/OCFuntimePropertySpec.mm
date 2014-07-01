@@ -14,11 +14,11 @@ using namespace Cedar::Doubles;
 
 SPEC_BEGIN(OCFuntimePropertySpec)
 
-__block OCFuntime *funtime;
-__block OCFPropertyMock *mock;
 
 describe(@"OCFuntime synthesize property", ^
 {
+    __block OCFuntime *funtime;
+    __block OCFPropertyMock *mock;
 
     beforeEach(^
                {

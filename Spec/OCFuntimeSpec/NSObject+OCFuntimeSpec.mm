@@ -17,7 +17,7 @@ SPEC_BEGIN(NSObject_OCFuntimeSpec)
 __block OCFMethodMock *mock;
 
 describe(@"Object with changed method", ^{
-    
+
     beforeEach(^
                {
                    mock = [[OCFMethodMock alloc] init];
@@ -32,48 +32,48 @@ describe(@"Object with changed method", ^{
                        return 1;
                    }];
                });
-    
+
     afterEach(^
               {
                   [mock revertMethods];
                   [mock release];
               });
 
-//    it(@"should call changed instance method if it changed", ^
-//    {
-//        [mock funInstanceMethod] should equal(1);
-//    });
-//
-//    it(@"should call changed class method if it changed", ^
-//    {
-//        [OCFMethodMock funClassMethod] should equal(1);
-//    });
-//
-//    it(@"should call default instance method if method reverted", ^
-//    {
-//        [mock revertMethod:@selector(funInstanceMethod)];
-//        [mock funInstanceMethod] should equal(0);
-//    });
-//
-//    it(@"should call default class method if method reverted", ^
-//    {
-//        [OCFMethodMock revertMethod:@selector(funClassMethod)];
-//        [OCFMethodMock funClassMethod] should equal(0);
-//    });
-//
-//    it(@"should call default methods if instance reverted", ^
-//    {
-//        [mock revertMethods];
-//        [mock funInstanceMethod] should equal(0);
-//        [OCFMethodMock funClassMethod] should equal(0);
-//    });
-//
-//    it(@"should call default methods if class reverted", ^
-//    {
-//        [OCFMethodMock revertMethods];
-//        [mock funInstanceMethod] should equal(0);
-//        [OCFMethodMock funClassMethod] should equal(0);
-//    });
+    it(@"should call changed instance method if it changed", ^
+    {
+        [mock funInstanceMethod] should equal(1);
+    });
+
+    it(@"should call changed class method if it changed", ^
+    {
+        [OCFMethodMock funClassMethod] should equal(1);
+    });
+
+    it(@"should call default instance method if method reverted", ^
+    {
+        [mock revertMethod:@selector(funInstanceMethod)];
+        [mock funInstanceMethod] should equal(0);
+    });
+
+    it(@"should call default class method if method reverted", ^
+    {
+        [OCFMethodMock revertMethod:@selector(funClassMethod)];
+        [OCFMethodMock funClassMethod] should equal(0);
+    });
+
+    it(@"should call default methods if instance reverted", ^
+    {
+        [mock revertMethods];
+        [mock funInstanceMethod] should equal(0);
+        [OCFMethodMock funClassMethod] should equal(0);
+    });
+
+    it(@"should call default methods if class reverted", ^
+    {
+        [OCFMethodMock revertMethods];
+        [mock funInstanceMethod] should equal(0);
+        [OCFMethodMock funClassMethod] should equal(0);
+    });
 });
 
 SPEC_END
