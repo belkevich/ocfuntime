@@ -8,12 +8,12 @@
 
 #import "OCFuntime.h"
 #import "OCFClassMethods.h"
-#import "OCFClassProperties.h"
+#import "OCFPropertyInjector.h"
 
 @interface OCFuntime ()
 {
-    NSMutableDictionary *changedMethods;
-    NSMutableDictionary *implementedProperties;
+    NSMutableDictionary *_changedMethods;
+    NSMutableDictionary *_injectedProperties;
 }
 
 @end
@@ -27,8 +27,8 @@
     self = [super init];
     if (self)
     {
-        changedMethods = [[NSMutableDictionary alloc] init];
-        implementedProperties = [[NSMutableDictionary alloc] init];
+        _changedMethods = [[NSMutableDictionary alloc] init];
+        _injectedProperties = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -72,13 +72,13 @@
 
 - (void)revertAll
 {
-    [[changedMethods allValues] makeObjectsPerformSelector:@selector(revertAllToDefaultImplementation)];
+    [[_changedMethods allValues] makeObjectsPerformSelector:@selector(revertAllToDefaultImplementation)];
 }
 
 - (void)synthesizeProperty:(NSString *)propertyName ofClass:(Class)theClass
 {
-    OCFClassProperties *properties = [self propertiesForClass:theClass];
-    [properties synthesizeProperty:propertyName];
+    OCFPropertyInjector *properties = [self propertiesForClass:theClass];
+    [properties injectProperty:propertyName];
 }
 
 #pragma mark - private
@@ -86,24 +86,25 @@
 - (OCFClassMethods *)modelForClass:(Class)theClass create:(BOOL)create
 {
     NSString *className = NSStringFromClass(theClass);
-    OCFClassMethods *model = [changedMethods objectForKey:className];
+    OCFClassMethods *model = [_changedMethods objectForKey:className];
     if (!model && create)
     {
         model = [[OCFClassMethods alloc] initWithClass:theClass];
-        [changedMethods setObject:model forKey:className];
+        [_changedMethods setObject:model forKey:className];
     }
     return model;
 }
 
-- (OCFClassProperties *)propertiesForClass:(Class)theClass
+- (OCFPropertyInjector *)propertiesForClass:(Class)theClass
 {
     NSString *className = NSStringFromClass(theClass);
-    OCFClassProperties *model = [implementedProperties objectForKey:className];
-    if (!model)
+    OCFPropertyInjector *injector = [_injectedProperties objectForKey:className];
+    if (!injector)
     {
-        model = [[OCFClassProperties alloc] initWithClass:theClass];
+        injector = [[OCFPropertyInjector alloc] initWithClass:theClass];
+        [_injectedProperties setObject:injector forKey:className];
     }
-    return model;
+    return injector;
 }
 
 @end
