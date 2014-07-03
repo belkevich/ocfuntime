@@ -15,7 +15,7 @@ using namespace Cedar::Doubles;
 SPEC_BEGIN(OCFuntimePropertySpec)
 
 
-describe(@"OCFuntime synthesize property", ^
+describe(@"OCFuntime inject property", ^
 {
     __block OCFuntime *funtime;
     __block OCFPropertyMock *mock;
@@ -32,7 +32,7 @@ describe(@"OCFuntime synthesize property", ^
                   [funtime release];
               });
 
-    it(@"should throw exception on property read if property doesn't synthesized", ^
+    it(@"should throw exception on property read if property doesn't injected", ^
     {
         ^
         {
@@ -41,9 +41,9 @@ describe(@"OCFuntime synthesize property", ^
         } should raise_exception;
     });
 
-    it(@"should not throw exception on property read if property synthesized", ^
+    it(@"should not throw exception on property read if property injected", ^
     {
-        [funtime synthesizeProperty:@"objectStrongProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
         ^
         {
             id someObject = mock.objectStrongProperty;
@@ -51,33 +51,33 @@ describe(@"OCFuntime synthesize property", ^
         } should_not raise_exception;
     });
 
-    it(@"should not throw exception on property write if property synthesized", ^
+    it(@"should not throw exception on property write if property injected", ^
     {
-        [funtime synthesizeProperty:@"objectStrongProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
         ^
         {
             mock.objectStrongProperty = @"string";
         } should_not raise_exception;
     });
 
-    it(@"should return nil on synthesized strong property read if it not set", ^
+    it(@"should return nil on injected strong property read if it not set", ^
     {
-        [funtime synthesizeProperty:@"objectStrongProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
         mock.objectStrongProperty should be_nil;
     });
 
-    it(@"should be able to set synthesized strong property", ^
+    it(@"should be able to set injected strong property", ^
     {
-        [funtime synthesizeProperty:@"objectStrongProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
         NSObject *object = [[NSObject alloc] init];
         mock.objectStrongProperty = object;
         mock.objectStrongProperty should equal(object);
         [object release];
     });
 
-    it(@"should retain value of synthesized strong property ", ^
+    it(@"should retain value of injected strong property ", ^
     {
-        [funtime synthesizeProperty:@"objectStrongProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
         NSObject *object = [[NSObject alloc] init];
         mock.objectStrongProperty = object;
         mock.objectStrongProperty should equal(object);
@@ -86,9 +86,9 @@ describe(@"OCFuntime synthesize property", ^
         [object release];
     });
 
-    it(@"should release value of synthesized strong property", ^
+    it(@"should release value of injected strong property", ^
     {
-        [funtime synthesizeProperty:@"objectStrongProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
         NSObject *object = [[NSObject alloc] init];
         mock.objectStrongProperty = object;
         mock.objectStrongProperty = object;
@@ -98,64 +98,64 @@ describe(@"OCFuntime synthesize property", ^
         [object release];
     });
 
-    it(@"should return nil on synthesized weak property read if it not set", ^
+    it(@"should return nil on injected weak property read if it not set", ^
     {
-        [funtime synthesizeProperty:@"objectWeakProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectWeakProperty"];
         mock.objectWeakProperty should be_nil;
     });
 
-    it(@"should be able to set synthesized weak property", ^
+    it(@"should be able to set injected weak property", ^
     {
-        [funtime synthesizeProperty:@"objectWeakProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectWeakProperty"];
         NSObject *object = [[[NSObject alloc] init] autorelease];
         mock.objectWeakProperty = object;
         mock.objectWeakProperty should equal(object);
     });
 
-    it(@"should not retain value of synthesized weak property ", ^
+    it(@"should not retain value of injected weak property ", ^
     {
-        [funtime synthesizeProperty:@"objectWeakProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectWeakProperty"];;
         NSObject *object = [[NSObject alloc] init];
         mock.objectWeakProperty = object;
         object.retainCount should equal(1);
         [object release];
     });
 
-    it(@"should be nil if value of synthesized weak property released", ^
+    it(@"should be nil if value of injected weak property released", ^
     {
-        [funtime synthesizeProperty:@"objectWeakProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectWeakProperty"];
         NSObject *object = [[NSObject alloc] init];
         mock.objectWeakProperty = object;
         [object release];
         mock.objectWeakProperty should be_nil;
     });
 
-    it(@"should return nil on synthesized copy property read if it not set", ^
+    it(@"should return nil on injected copy property read if it not set", ^
     {
-        [funtime synthesizeProperty:@"objectCopyProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectCopyProperty"];
         mock.objectCopyProperty should be_nil;
     });
 
-    it(@"should be able to set synthesized copy property", ^
+    it(@"should be able to set injected copy property", ^
     {
-        [funtime synthesizeProperty:@"objectCopyProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectCopyProperty"];
         NSObject *object = [[[NSString alloc] initWithFormat:@"string"] autorelease];
         mock.objectCopyProperty = object;
         mock.objectCopyProperty should equal(object);
     });
 
-    it(@"should not retain value of synthesized copy property ", ^
+    it(@"should not retain value of injected copy property ", ^
     {
-        [funtime synthesizeProperty:@"objectCopyProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectCopyProperty"];
         NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@(1), @(2), nil];
         mock.objectCopyProperty = array;
         array.retainCount should equal(1);
         [array release];
     });
 
-    it(@"should copy value of synthesized copy property", ^
+    it(@"should copy value of injected copy property", ^
     {
-        [funtime synthesizeProperty:@"objectCopyProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"objectCopyProperty"];
         NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@(1), @(2), nil];
         mock.objectCopyProperty = array;
         // --- workaround to prevent compiler optimizations ---
@@ -167,16 +167,16 @@ describe(@"OCFuntime synthesize property", ^
         [array release];
     });
 
-    it(@"should return nil on synthesized block property read if it not set", ^
+    it(@"should return nil on injected block property read if it not set", ^
     {
-        [funtime synthesizeProperty:@"blockProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"blockProperty"];
         id block = mock.blockProperty;
         block should be_nil;
     });
 
-    it(@"should be able to set synthesized block property", ^
+    it(@"should be able to set injected block property", ^
     {
-        [funtime synthesizeProperty:@"blockProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"blockProperty"];
         __block BOOL someValue = NO;
         mock.blockProperty = ^
         {
@@ -188,97 +188,97 @@ describe(@"OCFuntime synthesize property", ^
         someValue should equal(YES);
     });
 
-    it(@"should return NO on synthesized boolean property read if it not set", ^
+    it(@"should return NO on injected boolean property read if it not set", ^
     {
-        [funtime synthesizeProperty:@"booleanProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"booleanProperty"];
         mock.booleanProperty should equal(0);
     });
 
-    it(@"should be able to set synthesized boolean property", ^
+    it(@"should be able to set injected boolean property", ^
     {
-        [funtime synthesizeProperty:@"booleanProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"booleanProperty"];
         mock.booleanProperty = YES;
         mock.booleanProperty should equal(YES);
     });
 
-    it(@"should return 0 on synthesized integer property read if it not set", ^
+    it(@"should return 0 on injected integer property read if it not set", ^
     {
-        [funtime synthesizeProperty:@"integerProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"integerProperty"];
         mock.integerProperty should equal(0);
     });
 
-    it(@"should be able to set synthesized integer property", ^
+    it(@"should be able to set injected integer property", ^
     {
-        [funtime synthesizeProperty:@"integerProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"integerProperty"];
         mock.integerProperty = 5;
         mock.integerProperty should equal(5);
     });
 
-    it(@"should return 0.0 on synthesized float property read if it not set", ^
+    it(@"should return 0.0 on injected float property read if it not set", ^
     {
-        [funtime synthesizeProperty:@"floatProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"floatProperty"];
         mock.floatProperty should equal(0.f);
     });
 
-    it(@"should be able to set synthesized float property", ^
+    it(@"should be able to set injected float property", ^
     {
-        [funtime synthesizeProperty:@"floatProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"floatProperty"];
         mock.floatProperty = 5.5;
         mock.floatProperty should equal(5.5);
     });
 
-    it(@"should return 0.0 on synthesized double property read if it not set", ^
+    it(@"should return 0.0 on injected double property read if it not set", ^
     {
-        [funtime synthesizeProperty:@"doubleProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"doubleProperty"];
         mock.doubleProperty should equal(0.f);
     });
 
-    it(@"should be able to set synthesized double property", ^
+    it(@"should be able to set injected double property", ^
     {
-        [funtime synthesizeProperty:@"doubleProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"doubleProperty"];
         mock.doubleProperty = 5.00000005;
         mock.doubleProperty should equal(5.00000005);
     });
 
-    it(@"should return empty struct on synthesized struct property read if it not set", ^
+    it(@"should return empty struct on injected struct property read if it not set", ^
     {
-        [funtime synthesizeProperty:@"structProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"structProperty"];
         mock.structProperty.x should equal(0);
         mock.structProperty.y should equal(0);
     });
 
-    it(@"should be able to set synthesized struct property", ^
+    it(@"should be able to set injected struct property", ^
     {
-        [funtime synthesizeProperty:@"structProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"structProperty"];
         OCFStructMock example = {1, 2};
         mock.structProperty = example;
         mock.structProperty.x should equal(1);
         mock.structProperty.y should equal(2);
     });
 
-    it(@"should return NULL on synthesized integer pointer property read if it not set", ^
+    it(@"should return NULL on injected integer pointer property read if it not set", ^
     {
-        [funtime synthesizeProperty:@"pIntegerProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"pIntegerProperty"];
         mock.pIntegerProperty should be_nil;
     });
 
-    it(@"should be able to set synthesized integer pointer property", ^
+    it(@"should be able to set injected integer pointer property", ^
     {
-        [funtime synthesizeProperty:@"pIntegerProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"pIntegerProperty"];
         NSInteger integer = 5;
         mock.pIntegerProperty = &integer;
         mock.pIntegerProperty should equal(&integer);
     });
 
-    it(@"should return NULL on synthesized float pointer property read if it not set", ^
+    it(@"should return NULL on injected float pointer property read if it not set", ^
     {
-        [funtime synthesizeProperty:@"pFloatProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"pFloatProperty"];
         mock.pFloatProperty should be_nil;
     });
 
-    it(@"should be able to set synthesized float pointer property", ^
+    it(@"should be able to set injected float pointer property", ^
     {
-        [funtime synthesizeProperty:@"pFloatProperty" ofClass:OCFPropertyMock.class];
+        [funtime injectClass:OCFPropertyMock.class property:@"pFloatProperty"];
         CGFloat floatValue = 5.5;
         mock.pFloatProperty = &floatValue;
         mock.pFloatProperty should equal(&floatValue);

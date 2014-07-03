@@ -17,6 +17,6 @@
 - (void)revertClass:(Class)theClass;
 - (void)revertAll;
 
-- (void)synthesizeProperty:(NSString *)propertyName ofClass:(Class)theClass;
+- (void)injectClass:(Class)theClass property:(NSString *)propertyName;
 
 @end

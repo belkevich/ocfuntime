@@ -75,7 +75,7 @@
     [[_changedMethods allValues] makeObjectsPerformSelector:@selector(revertAllToDefaultImplementation)];
 }
 
-- (void)synthesizeProperty:(NSString *)propertyName ofClass:(Class)theClass
+- (void)injectClass:(Class)theClass property:(NSString *)propertyName
 {
     OCFPropertyInjector *properties = [self propertiesForClass:theClass];
     [properties injectProperty:propertyName];
