@@ -6,6 +6,6 @@ before_install:
         - sudo gem install ios_ci
         - brew install ios-sim
         - cd Spec
-        - pod 
+        - pod install
 
 script: ios_ci cedar --source-root $TRAVIS_BUILD_DIR/Spec --workspace OCFuntimeSpec.xcworkspace --scheme OCFuntimeSpec --build-path Build/Products

@@ -7,14 +7,7 @@
 //
 
 #import "OCFuntime+Multiton.h"
-#import "ABMultiton.h"
 
 @implementation OCFuntime (Multiton)
-
-+ (instancetype)sharedInstance
-{
-    return [ABMultiton sharedInstanceOfClass:self.class];
-}
-
 
 @end
