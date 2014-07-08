@@ -41,6 +41,14 @@ describe(@"OCFuntime inject property", ^
         } should raise_exception;
     });
 
+    it(@"should throw exception on property injection if property doesn't defined", ^
+    {
+        ^
+        {
+            [funtime injectClass:OCFPropertyMock.class property:@"undefinedProperty"];
+        } should raise_exception;
+    });
+
     it(@"should not throw exception on property read if property injected", ^
     {
         [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];

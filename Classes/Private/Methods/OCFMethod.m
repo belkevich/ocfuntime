@@ -7,6 +7,7 @@
 //
 
 #import "OCFMethod.h"
+#import "NSException+OCFuntime.h"
 
 @implementation OCFMethod
 
@@ -31,11 +32,7 @@
                       class_getClassMethod(theClass, selector);
         if (!method)
         {
-            NSString *reason = [NSString stringWithFormat:@"Method '%@' not found in class '%@'",
-                                NSStringFromSelector(selector), NSStringFromClass(theClass)];
-            NSLog(@"%@", reason);
-            @throw [NSException exceptionWithName:@"OCFuntime can't find method exception"
-                                           reason:reason userInfo:nil];
+            @throw [NSException exceptionNoMethod:selector inClass:theClass];
         }
     }
     return self;

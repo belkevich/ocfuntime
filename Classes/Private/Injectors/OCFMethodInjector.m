@@ -24,7 +24,7 @@
 {
     IMP implementation = imp_implementationWithBlock(block);
     BOOL result = class_addMethod(theClass, method, implementation, types);
-    NSLog(@"injection of %@ is %@", NSStringFromSelector(method), result ? @"success" : @"fail");
+//    NSLog(@"injection of %@ is %@", NSStringFromSelector(method), result ? @"success" : @"fail");
     if (!result)
     {
         class_replaceMethod(theClass, method, implementation, types);

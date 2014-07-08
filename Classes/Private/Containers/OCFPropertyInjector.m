@@ -11,9 +11,11 @@
 #import "OCFPropertyFetcher.h"
 #import "OCFPropertyBlocksBuilder.h"
 #import "OCFMethodInjector.h"
+#import "NSException+OCFuntime.h"
 
 @interface OCFPropertyInjector ()
 {
+    Class _theClass;
     OCFPropertyFetcher *_fetcher;
     OCFPropertyParser *_parser;
     NSMutableDictionary *_methodsSignatures;
@@ -29,6 +31,7 @@
 {
     if (self = [super init])
     {
+        _theClass = theClass;
         _fetcher = [[OCFPropertyFetcher alloc] init];
         [_fetcher fetchAllPropertiesOfClass:theClass];
         _parser = [[OCFPropertyParser alloc] init];
@@ -41,20 +44,6 @@
 }
 
 #pragma mark - public
-
-- (void)injectMethodSignatureMethodToClass:(Class)theClass
-{
-    SEL method = @selector(methodSignatureForSelector:);
-    id block = [OCFPropertyBlocksBuilder methodSignatureBlockWithDictionary:_methodsSignatures];
-    [OCFMethodInjector injectClass:theClass instanceMethod:method types:"@@::" block:block];
-}
-
-- (void)injectForwardInvocationMethodToClass:(Class)theClass
-{
-    SEL method = @selector(forwardInvocation:);
-    id block = [OCFPropertyBlocksBuilder forwardInvocationBlockWithDictionary:_methodsAttributes];
-    [OCFMethodInjector injectClass:theClass instanceMethod:method types:"v@:@" block:block];
-}
 
 - (void)injectProperty:(NSString *)propertyName
 {
@@ -70,10 +59,26 @@
         _methodsAttributes[getterName] = attributes;
         _methodsAttributes[setterName] = attributes;
     }
-    else {
-#warning throw exception if property doesn't exist in this class
-        NSLog(@"something went wrong");
+    else
+    {
+        @throw [NSException exceptionNoProperty:propertyName inClass:_theClass];
     }
+}
+
+#pragma mark - private
+
+- (void)injectMethodSignatureMethodToClass:(Class)theClass
+{
+    SEL method = @selector(methodSignatureForSelector:);
+    id block = [OCFPropertyBlocksBuilder methodSignatureBlockWithDictionary:_methodsSignatures];
+    [OCFMethodInjector injectClass:theClass instanceMethod:method types:"@@::" block:block];
+}
+
+- (void)injectForwardInvocationMethodToClass:(Class)theClass
+{
+    SEL method = @selector(forwardInvocation:);
+    id block = [OCFPropertyBlocksBuilder forwardInvocationBlockWithDictionary:_methodsAttributes];
+    [OCFMethodInjector injectClass:theClass instanceMethod:method types:"v@:@" block:block];
 }
 
 @end
