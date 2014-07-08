@@ -50,7 +50,7 @@
     objc_property_t property = [_fetcher findPropertyWithName:propertyName];
     if (property)
     {
-        [_parser parseProperty:property];
+        [_parser parseProperty:property name:propertyName];
         OCFPropertyAttributes *attributes = _parser.attributes;
         NSString *getterName = _parser.getterName;
         NSString *setterName = _parser.setterName;

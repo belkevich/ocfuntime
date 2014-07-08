@@ -18,6 +18,6 @@
 @property (nonatomic, readonly) NSMethodSignature *setterSignature;
 @property (nonatomic, readonly) OCFPropertyAttributes *attributes;
 
-- (void)parseProperty:(objc_property_t)property;
+- (void)parseProperty:(objc_property_t)property name:(NSString *)name;
 
 @end

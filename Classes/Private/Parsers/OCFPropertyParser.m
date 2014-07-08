@@ -11,10 +11,10 @@
 
 @implementation OCFPropertyParser
 
-- (void)parseProperty:(objc_property_t)property
+- (void)parseProperty:(objc_property_t)property name:(NSString *)name
 {
     _name = [self propertyNameWithProperty:property];
-    _attributes = [[OCFPropertyAttributes alloc] initWithProperty:property name:nil];
+    _attributes = [[OCFPropertyAttributes alloc] initWithProperty:property name:name];
     [self parseAccessorsWithPropertyName:_name];
     [self parseSignaturesWithPropertyType:_attributes.type];
 }
