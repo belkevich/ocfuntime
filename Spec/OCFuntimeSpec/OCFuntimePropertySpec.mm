@@ -49,6 +49,24 @@ describe(@"OCFuntime inject property", ^
         } should raise_exception;
     });
 
+    it(@"should throw exception on property injection if property synthesized", ^
+    {
+        OCFPropertyMock *instance = [[OCFPropertyMock alloc] init];
+        instance.implementedProperty = [NSObject new];
+        ^
+        {
+            [funtime injectClass:OCFPropertyMock.class property:@"synthesizedProperty"];
+        } should raise_exception;
+    });
+
+    it(@"should throw exception on property injection if property already implemented", ^
+    {
+        ^
+        {
+            [funtime injectClass:OCFPropertyMock.class property:@"implementedProperty"];
+        } should raise_exception;
+    });
+
     it(@"should not throw exception on property read if property injected", ^
     {
         [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];

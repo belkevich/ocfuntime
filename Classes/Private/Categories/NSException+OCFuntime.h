@@ -10,7 +10,8 @@
 
 @interface NSException (OCFuntime)
 
-+ (instancetype)exceptionNoMethod:(SEL)method inClass:(Class)theClass;
-+ (instancetype)exceptionNoProperty:(NSString *)propertyName inClass:(Class)theClass;
++ (instancetype)exceptionUnexistedMethod:(SEL)method inClass:(Class)theClass;
++ (instancetype)exceptionUndefinedProperty:(NSString *)propertyName inClass:(Class)theClass;
++ (instancetype)exceptionImplementedProperty:(NSString *)propertyName inClass:(Class)theClass;
 
 @end

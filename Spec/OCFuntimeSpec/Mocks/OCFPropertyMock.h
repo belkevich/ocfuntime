@@ -30,4 +30,7 @@ typedef struct
 @property (nonatomic, assign) NSInteger *pIntegerProperty;
 @property (nonatomic, assign) CGFloat *pFloatProperty;
 
+@property (nonatomic, strong) id implementedProperty;
+@property (nonatomic, strong) id synthesizedProperty;
+
 @end

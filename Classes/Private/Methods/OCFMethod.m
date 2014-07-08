@@ -32,7 +32,7 @@
                       class_getClassMethod(theClass, selector);
         if (!method)
         {
-            @throw [NSException exceptionNoMethod:selector inClass:theClass];
+            @throw [NSException exceptionUnexistedMethod:selector inClass:theClass];
         }
     }
     return self;

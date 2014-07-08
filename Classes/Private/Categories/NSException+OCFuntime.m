@@ -12,7 +12,7 @@
 
 #pragma mark - public
 
-+ (instancetype)exceptionNoMethod:(SEL)method inClass:(Class)theClass
++ (instancetype)exceptionUnexistedMethod:(SEL)method inClass:(Class)theClass
 {
     NSString *reason = [NSString stringWithFormat:@"Method '%@' not found in class '%@'",
                                                   NSStringFromSelector(method),
@@ -20,12 +20,20 @@
     return [self exceptionWithSuffix:@"Method not found" reason:reason];
 }
 
-+ (instancetype)exceptionNoProperty:(NSString *)propertyName inClass:(Class)theClass
++ (instancetype)exceptionUndefinedProperty:(NSString *)propertyName inClass:(Class)theClass
 {
     NSString *reason = [NSString stringWithFormat:@"Property with name '%@' doesn't defined in "
                                                   "class '%@'", propertyName,
                                                   NSStringFromClass(theClass)];
     return [self exceptionWithSuffix:@"Property doesn't defined" reason:reason];
+}
+
++ (instancetype)exceptionImplementedProperty:(NSString *)propertyName inClass:(Class)theClass
+{
+    NSString *reason = [NSString stringWithFormat:@"Property with name '%@' is already "
+                                                  "implemented in class '%@'", propertyName,
+                                                  NSStringFromClass(theClass)];
+    return [self exceptionWithSuffix:@"Property already implemented" reason:reason];
 }
 
 #pragma mark - private

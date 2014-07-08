@@ -54,14 +54,22 @@
         OCFPropertyAttributes *attributes = _parser.attributes;
         NSString *getterName = _parser.getterName;
         NSString *setterName = _parser.setterName;
-        _methodsSignatures[getterName] = _parser.getterSignature;
-        _methodsSignatures[setterName] = _parser.setterSignature;
-        _methodsAttributes[getterName] = attributes;
-        _methodsAttributes[setterName] = attributes;
+        if (![_theClass instancesRespondToSelector:NSSelectorFromString(getterName)] &&
+            ![_theClass instancesRespondToSelector:NSSelectorFromString(setterName)])
+        {
+            _methodsSignatures[getterName] = _parser.getterSignature;
+            _methodsSignatures[setterName] = _parser.setterSignature;
+            _methodsAttributes[getterName] = attributes;
+            _methodsAttributes[setterName] = attributes;
+        }
+        else
+        {
+            @throw [NSException exceptionImplementedProperty:propertyName inClass:_theClass];
+        }
     }
     else
     {
-        @throw [NSException exceptionNoProperty:propertyName inClass:_theClass];
+        @throw [NSException exceptionUndefinedProperty:propertyName inClass:_theClass];
     }
 }
 

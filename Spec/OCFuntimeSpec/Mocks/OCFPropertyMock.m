@@ -14,4 +14,17 @@
 booleanProperty, integerProperty, floatProperty, doubleProperty, structProperty, pIntegerProperty,
 pFloatProperty;
 
+@synthesize synthesizedProperty;
+@dynamic implementedProperty;
+
+- (id)implementedProperty
+{
+    return nil;
+}
+
+- (void)setImplementedProperty:(id)implementedProperty
+{
+    // nothing
+}
+
 @end
