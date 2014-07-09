@@ -10,9 +10,12 @@
 
 @interface OCFMethodInjector : NSObject
 
-+ (BOOL)injectClass:(Class)theClass classMethod:(SEL)method types:(const char *)types
++ (void)injectClass:(Class)theClass classMethod:(SEL)method types:(const char *)types
               block:(id)block;
-+ (BOOL)injectClass:(Class)theClass instanceMethod:(SEL)method types:(const char *)types
++ (void)injectClass:(Class)theClass instanceMethod:(SEL)method types:(const char *)types
               block:(id)block;
++ (void)swizzleClass:(Class)theClass classMethod:(SEL)originalMethod withMethod:(SEL)swizzledMethod;
++ (void)swizzleClass:(Class)theClass instanceMethod:(SEL)originalMethod
+          withMethod:(SEL)swizzledMethod;
 
 @end

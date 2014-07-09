@@ -16,28 +16,29 @@ SPEC_BEGIN(NSObject_OCFuntimeSpec)
 
 __block OCFMethodMock *mock;
 
-describe(@"Object with changed method", ^{
+describe(@"Object with changed method", ^
+{
 
-    beforeEach(^
-               {
-                   mock = [[OCFMethodMock alloc] init];
-                   [mock changeMethod:@selector(funInstanceMethod) implementation:^
-                   {
-                       NSLog(@"Changed FUN instance method!");
-                       return 1;
-                   }];
-                   [OCFMethodMock changeMethod:@selector(funClassMethod) implementation:^
-                   {
-                       NSLog(@"Changed FUN class method!");
-                       return 1;
-                   }];
-               });
+    beforeEach((id)^
+    {
+        mock = [[OCFMethodMock alloc] init];
+        [mock changeMethod:@selector(funInstanceMethod) implementation:^
+        {
+            NSLog(@"Changed FUN instance method!");
+            return 1;
+        }];
+        [OCFMethodMock changeMethod:@selector(funClassMethod) implementation:^
+        {
+            NSLog(@"Changed FUN class method!");
+            return 1;
+        }];
+    });
 
-    afterEach(^
-              {
-                  [mock revertMethods];
-                  [mock release];
-              });
+    afterEach((id)^
+    {
+        [mock revertMethods];
+        [mock release];
+    });
 
     it(@"should call changed instance method if it changed", ^
     {

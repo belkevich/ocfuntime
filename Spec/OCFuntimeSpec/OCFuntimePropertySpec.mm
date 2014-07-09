@@ -17,20 +17,20 @@ SPEC_BEGIN(OCFuntimePropertySpec)
 
 describe(@"OCFuntime inject property", ^
 {
-    __block OCFuntime *funtime;
-    __block OCFPropertyMock *mock;
+    __block OCFuntime *funtime = nil;
+    __block OCFPropertyMock *mock = nil;
 
-    beforeEach(^
-               {
-                   mock = [[OCFPropertyMock alloc] init];
-                   funtime = [[OCFuntime alloc] init];
-               });
+    beforeEach((id)^
+    {
+        mock = [[OCFPropertyMock alloc] init];
+        funtime = [[OCFuntime alloc] init];
+    });
 
-    afterEach(^
-              {
-                  [mock release];
-                  [funtime release];
-              });
+    afterEach((id)^
+    {
+        [mock release];
+        [funtime release];
+    });
 
     it(@"should throw exception on property read if property doesn't injected", ^
     {
@@ -38,21 +38,11 @@ describe(@"OCFuntime inject property", ^
         {
             id someObject = mock.objectStrongProperty;
             NSLog(@"%@", someObject);
-        } should raise_exception;
-    });
-
-    it(@"should throw exception on property injection if property doesn't defined", ^
-    {
-        ^
-        {
-            [funtime injectClass:OCFPropertyMock.class property:@"undefinedProperty"];
-        } should raise_exception;
+        }should raise_exception;
     });
 
     it(@"should throw exception on property injection if property synthesized", ^
     {
-        OCFPropertyMock *instance = [[OCFPropertyMock alloc] init];
-        instance.implementedProperty = [NSObject new];
         ^
         {
             [funtime injectClass:OCFPropertyMock.class property:@"synthesizedProperty"];
@@ -308,6 +298,38 @@ describe(@"OCFuntime inject property", ^
         CGFloat floatValue = 5.5;
         mock.pFloatProperty = &floatValue;
         mock.pFloatProperty should equal(&floatValue);
+    });
+
+    it(@"should not break original 'methodSignature' method", ^
+    {
+        [funtime injectClass:OCFPropertyMock.class property:@"pFloatProperty"];
+        [mock methodSignatureForSelector:NSSelectorFromString(@"testSelector")] should_not be_nil;
+        mock.isMethodSignatureCalled should equal(YES);
+    });
+
+    it(@"should not break original 'forwardInvocation' method", ^
+    {
+        [funtime injectClass:OCFPropertyMock.class property:@"pFloatProperty"];
+        NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:"];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+        ^
+        {
+            [mock forwardInvocation:invocation];
+        } should raise_exception;
+        mock.isForwardInvocationCalled should equal(YES);
+    });
+
+    it(@"should revert to original 'methodSignature' after dealloc", ^
+    {
+        SEL testSelector = NSSelectorFromString(kTestSelectorName);
+        SEL propertySelector = NSSelectorFromString(@"objectStrongProperty");
+        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
+        [mock methodSignatureForSelector:propertySelector] should_not be_nil;
+        [mock methodSignatureForSelector:testSelector] should_not be_nil;
+        [funtime release];
+        funtime = nil;
+        [mock methodSignatureForSelector:propertySelector] should be_nil;
+        [mock methodSignatureForSelector:testSelector] should_not be_nil;
     });
 });
 

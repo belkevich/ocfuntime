@@ -28,6 +28,7 @@
 		FA795D9019657B920056FE90 /* OCFPropertyFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = FA795D8F19657B920056FE90 /* OCFPropertyFetcher.m */; };
 		FA795D98196590170056FE90 /* OCFInvocationParser.m in Sources */ = {isa = PBXBuildFile; fileRef = FA795D97196590170056FE90 /* OCFInvocationParser.m */; };
 		FA9E725F196C3333000347C5 /* NSException+OCFuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9E725E196C3333000347C5 /* NSException+OCFuntime.m */; };
+		FA9E7262196C4861000347C5 /* NSObject+OCFuntimeSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9E7261196C4861000347C5 /* NSObject+OCFuntimeSwizzling.m */; };
 		FAA016B1187F3167009D02DA /* OCFWeakStore.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA016B0187F3167009D02DA /* OCFWeakStore.m */; };
 		FACF558C185F4E9A0091D736 /* OCFClassMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = FACF5580185F4E9A0091D736 /* OCFClassMethods.m */; };
 		FACF558D185F4E9A0091D736 /* OCFPropertyInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = FACF5582185F4E9A0091D736 /* OCFPropertyInjector.m */; };
@@ -73,6 +74,8 @@
 		FA795D97196590170056FE90 /* OCFInvocationParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OCFInvocationParser.m; path = Parsers/OCFInvocationParser.m; sourceTree = "<group>"; };
 		FA9E725D196C3333000347C5 /* NSException+OCFuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSException+OCFuntime.h"; path = "Categories/NSException+OCFuntime.h"; sourceTree = "<group>"; };
 		FA9E725E196C3333000347C5 /* NSException+OCFuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSException+OCFuntime.m"; path = "Categories/NSException+OCFuntime.m"; sourceTree = "<group>"; };
+		FA9E7260196C4861000347C5 /* NSObject+OCFuntimeSwizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+OCFuntimeSwizzling.h"; path = "Categories/NSObject+OCFuntimeSwizzling.h"; sourceTree = "<group>"; };
+		FA9E7261196C4861000347C5 /* NSObject+OCFuntimeSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+OCFuntimeSwizzling.m"; path = "Categories/NSObject+OCFuntimeSwizzling.m"; sourceTree = "<group>"; };
 		FAA016AF187F3167009D02DA /* OCFWeakStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OCFWeakStore.h; path = Stores/OCFWeakStore.h; sourceTree = "<group>"; };
 		FAA016B0187F3167009D02DA /* OCFWeakStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OCFWeakStore.m; path = Stores/OCFWeakStore.m; sourceTree = "<group>"; };
 		FACF557F185F4E9A0091D736 /* OCFClassMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCFClassMethods.h; sourceTree = "<group>"; };
@@ -109,6 +112,8 @@
 		FA01CB25188ED0F5009795CB /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				FA9E7260196C4861000347C5 /* NSObject+OCFuntimeSwizzling.h */,
+				FA9E7261196C4861000347C5 /* NSObject+OCFuntimeSwizzling.m */,
 				FA9E725D196C3333000347C5 /* NSException+OCFuntime.h */,
 				FA9E725E196C3333000347C5 /* NSException+OCFuntime.m */,
 				FA01CB22188ED0F1009795CB /* NSString+ASCIIString.h */,
@@ -429,6 +434,7 @@
 				FACF558E185F4E9A0091D736 /* OCFMethod.m in Sources */,
 				FA01CB24188ED0F1009795CB /* NSString+ASCIIString.m in Sources */,
 				FA392BDA1785C7BC00FEDB79 /* main.m in Sources */,
+				FA9E7262196C4861000347C5 /* NSObject+OCFuntimeSwizzling.m in Sources */,
 				FA1F52361785C92400A3C156 /* OCFMethodMock.m in Sources */,
 				FA795D98196590170056FE90 /* OCFInvocationParser.m in Sources */,
 				FACF558D185F4E9A0091D736 /* OCFPropertyInjector.m in Sources */,

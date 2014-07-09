@@ -9,6 +9,7 @@
 #import "OCFPropertyBlocksBuilder.h"
 #import "OCFPropertyAttributes.h"
 #import "OCFInvocationParser.h"
+#import "NSObject+OCFuntimeSwizzling.h"
 
 @implementation OCFPropertyBlocksBuilder
 
@@ -18,7 +19,13 @@
     return ^(id instance, SEL methodSelector)
     {
         NSString *methodName = NSStringFromSelector(methodSelector);
-        return methodsSignatures[methodName];
+        NSMethodSignature *signature = methodsSignatures[methodName];
+        if (signature)
+        {
+            return signature;
+        }
+        // run original method
+        return [instance OCFMethodSignatureForSelector:methodSelector];
     };
 }
 
@@ -33,6 +40,11 @@
         {
             [OCFInvocationParser parsePropertyInvocation:invocation onInstance:instance
                                           withAttributes:attributes];
+        }
+        else
+        {
+            // run original method
+            [instance OCFForwardInvocation:invocation];
         }
     };
 }

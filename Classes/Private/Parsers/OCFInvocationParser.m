@@ -135,7 +135,7 @@
     const char *key = attributes.key;
     size_t size = 0;
     NSGetSizeAndAlignment(type, &size, NULL);
-    void *buffer = calloc(0, size);
+    void *buffer = calloc(1, size);
     NSValue *store = objc_getAssociatedObject(instance, key);
     [store getValue:buffer];
     [invocation setReturnValue:buffer];

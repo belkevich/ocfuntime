@@ -18,5 +18,8 @@
 - (void)revertAll;
 
 - (void)injectClass:(Class)theClass property:(NSString *)propertyName;
+- (void)removeClass:(Class)theClass property:(NSString *)propertyName;
+- (void)removeClassProperties:(Class)theClass;
+- (void)removeAllProperties;
 
 @end

@@ -36,6 +36,7 @@
 - (void)dealloc
 {
     [self revertAll];
+    [self removeAllProperties];
 }
 
 #pragma mark - public
@@ -77,8 +78,32 @@
 
 - (void)injectClass:(Class)theClass property:(NSString *)propertyName
 {
-    OCFPropertyInjector *properties = [self propertiesForClass:theClass];
-    [properties injectProperty:propertyName];
+    OCFPropertyInjector *injector = [self propertyInjectorForClass:theClass];
+    if (!injector)
+    {
+        injector = [[OCFPropertyInjector alloc] initWithClass:theClass];
+        [_injectedProperties setObject:injector forKey:NSStringFromClass(theClass)];
+    }
+    [injector injectProperty:propertyName];
+}
+
+- (void)removeClass:(Class)theClass property:(NSString *)propertyName
+{
+    OCFPropertyInjector *injector = [self propertyInjectorForClass:theClass];
+    [injector removeProperty:propertyName];
+}
+
+- (void)removeClassProperties:(Class)theClass
+{
+    OCFPropertyInjector *injector = [self propertyInjectorForClass:theClass];
+    [injector removeAllProperties];
+    [_injectedProperties removeObjectForKey:NSStringFromClass(theClass)];
+}
+
+- (void)removeAllProperties
+{
+    [_injectedProperties.allValues makeObjectsPerformSelector:@selector(removeAllProperties)];
+    [_injectedProperties removeAllObjects];
 }
 
 #pragma mark - private
@@ -95,16 +120,10 @@
     return model;
 }
 
-- (OCFPropertyInjector *)propertiesForClass:(Class)theClass
+- (OCFPropertyInjector *)propertyInjectorForClass:(Class)theClass
 {
     NSString *className = NSStringFromClass(theClass);
-    OCFPropertyInjector *injector = [_injectedProperties objectForKey:className];
-    if (!injector)
-    {
-        injector = [[OCFPropertyInjector alloc] initWithClass:theClass];
-        [_injectedProperties setObject:injector forKey:className];
-    }
-    return injector;
+    return  [_injectedProperties objectForKey:className];
 }
 
 @end

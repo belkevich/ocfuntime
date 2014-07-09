@@ -11,25 +11,38 @@
 
 @implementation OCFMethodInjector
 
-+ (BOOL)injectClass:(Class)theClass classMethod:(SEL)method types:(const char *)types
++ (void)injectClass:(Class)theClass classMethod:(SEL)method types:(const char *)types
               block:(id)block
 {
     Class class = object_getClass(theClass);
-    return [self injectClass:class instanceMethod:method types:types block:block];
+    [self injectClass:class instanceMethod:method types:types block:block];
 }
 
 
-+ (BOOL)injectClass:(Class)theClass instanceMethod:(SEL)method types:(const char *)types
++ (void)injectClass:(Class)theClass instanceMethod:(SEL)method types:(const char *)types
               block:(id)block
 {
     IMP implementation = imp_implementationWithBlock(block);
     BOOL result = class_addMethod(theClass, method, implementation, types);
-//    NSLog(@"injection of %@ is %@", NSStringFromSelector(method), result ? @"success" : @"fail");
     if (!result)
     {
         class_replaceMethod(theClass, method, implementation, types);
     }
-    return result;
+}
+
++ (void)swizzleClass:(Class)theClass classMethod:(SEL)originalMethod withMethod:(SEL)swizzledMethod
+{
+    Method original = class_getClassMethod(theClass, originalMethod);
+    Method swizzled = class_getClassMethod(theClass, swizzledMethod);
+    method_exchangeImplementations(original, swizzled);
+}
+
++ (void)swizzleClass:(Class)theClass instanceMethod:(SEL)originalMethod
+          withMethod:(SEL)swizzledMethod
+{
+    Method original = class_getInstanceMethod(theClass, originalMethod);
+    Method swizzled = class_getInstanceMethod(theClass, swizzledMethod);
+    method_exchangeImplementations(original, swizzled);
 }
 
 @end

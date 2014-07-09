@@ -19,30 +19,30 @@ __block OCFMethodMock *mock;
 
 describe(@"OCFuntime with changed method", ^
 {
-    beforeEach(^
-               {
-                   mock = [[OCFMethodMock alloc] init];
-                   funtime = [[OCFuntime alloc] init];
-                   [funtime changeClass:[OCFMethodMock class] instanceMethod:@selector(funInstanceMethod)
-                         implementation:^
-                         {
-                             NSLog(@"Changed FUN instance method!");
-                             return 1;
-                         }];
-                   [funtime changeClass:[OCFMethodMock class] classMethod:@selector(funClassMethod)
-                         implementation:^
-                         {
-                             NSLog(@"Changed FUN class method!");
-                             return 1;
-                         }];
-               });
+    beforeEach((id)^
+    {
+        mock = [[OCFMethodMock alloc] init];
+        funtime = [[OCFuntime alloc] init];
+        [funtime changeClass:[OCFMethodMock class] instanceMethod:@selector(funInstanceMethod)
+              implementation:^
+        {
+            NSLog(@"Changed FUN instance method!");
+            return 1;
+        }];
+        [funtime changeClass:[OCFMethodMock class] classMethod:@selector(funClassMethod)
+              implementation:^
+        {
+            NSLog(@"Changed FUN class method!");
+            return 1;
+        }];
+    });
 
-    afterEach(^
-              {
-                  [mock release];
-                  [funtime revertAll];
-                  [funtime release];
-              });
+    afterEach((id)^
+    {
+        [mock release];
+        [funtime revertAll];
+        [funtime release];
+    });
 
     it(@"should call changed instance method if it changed", ^
     {
@@ -84,10 +84,10 @@ describe(@"OCFuntime with changed method", ^
     {
         [funtime changeClass:[OCFMethodMock class] instanceMethod:@selector(funInstanceMethod)
               implementation:^
-              {
-                  NSLog(@"One more time changed FUN instance method");
-                  return 2;
-              }];
+        {
+            NSLog(@"One more time changed FUN instance method");
+            return 2;
+        }];
         [mock funInstanceMethod] should equal(2);
     });
 
@@ -95,9 +95,9 @@ describe(@"OCFuntime with changed method", ^
     {
         [funtime changeClass:[OCFMethodMock class] classMethod:@selector(funClassMethod)
               implementation:^{
-                  NSLog(@"One more time changed FUN class method");
-                  return 2;
-              }];
+            NSLog(@"One more time changed FUN class method");
+            return 2;
+        }];
         [OCFMethodMock funClassMethod] should equal(2);
     });
 
@@ -105,11 +105,11 @@ describe(@"OCFuntime with changed method", ^
     {
         [funtime changeClass:[OCFMethodMock class] instanceMethod:@selector(funInstanceMethod)
               implementation:^
-              {
-                  // still returns NO
-                  NSLog(@"One more time changed FUN instance method");
-                  return 2;
-              }];
+        {
+            // still returns NO
+            NSLog(@"One more time changed FUN instance method");
+            return 2;
+        }];
         [funtime revertClass:[OCFMethodMock class]];
         [mock funInstanceMethod] should equal(0);
     });
@@ -118,11 +118,11 @@ describe(@"OCFuntime with changed method", ^
     {
         [funtime changeClass:[OCFMethodMock class] classMethod:@selector(funClassMethod)
               implementation:^
-              {
-                  // still returns NO
-                  NSLog(@"One more time changed FUN class method");
-                  return 2;
-              }];
+        {
+            // still returns NO
+            NSLog(@"One more time changed FUN class method");
+            return 2;
+        }];
         [funtime revertClass:[OCFMethodMock class]];
         [OCFMethodMock funClassMethod] should equal(0);
     });
@@ -135,9 +135,9 @@ describe(@"OCFuntime methods changing memory management", ^
         funtime = [[OCFuntime alloc] init];
         [funtime changeClass:[OCFMethodMock class] instanceMethod:@selector(funInstanceMethod)
               implementation:^
-              {
-                  return 1;
-              }];
+        {
+            return 1;
+        }];
         mock = [[OCFMethodMock alloc] init];
         [mock funInstanceMethod] should equal(1);
         [funtime release];
@@ -150,16 +150,17 @@ describe(@"OCFuntime methods changing memory management", ^
         funtime = [[OCFuntime alloc] init];
         [funtime changeClass:[OCFMethodMock class] classMethod:@selector(funClassMethod)
               implementation:^
-              {
-                  return 1;
-              }];
+        {
+            return 1;
+        }];
         [OCFMethodMock funClassMethod] should equal(1);
         [funtime release];
         [OCFMethodMock funClassMethod] should equal(0);
     });
 });
 
-describe(@"OCFuntime method changing protection", ^{
+describe(@"OCFuntime method changing protection", ^
+{
 
     beforeEach(^
                {
@@ -177,9 +178,9 @@ describe(@"OCFuntime method changing protection", ^{
         {
             [funtime changeClass:[OCFMethodMock class] instanceMethod:@selector(unexistedMethod)
                   implementation:^
-                  {
-                      return 2;
-                  }];
+            {
+                return 2;
+            }];
         } should raise_exception([NSException class]);
     });
 
@@ -189,9 +190,9 @@ describe(@"OCFuntime method changing protection", ^{
         {
             [funtime changeClass:[OCFMethodMock class] classMethod:@selector(unexistedMethod)
                   implementation:^
-                  {
-                      return 2;
-                  }];
+            {
+                return 2;
+            }];
         } should raise_exception([NSException class]);
     });
 
@@ -199,8 +200,8 @@ describe(@"OCFuntime method changing protection", ^{
     {
         ^
         {
-            [funtime changeClass:[OCFMethodMock class] instanceMethod:@selector(funInstanceMethod)
-                  implementation:nil];
+            [funtime changeClass:[OCFMethodMock class]
+                  instanceMethod:@selector(funInstanceMethod) implementation:nil];
         } should_not raise_exception;
     });
 

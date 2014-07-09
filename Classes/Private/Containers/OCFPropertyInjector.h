@@ -12,5 +12,7 @@
 
 - (id)initWithClass:(Class)theClass;
 - (void)injectProperty:(NSString *)propertyName;
+- (void)removeProperty:(NSString *)propertyName;
+- (void)removeAllProperties;
 
 @end

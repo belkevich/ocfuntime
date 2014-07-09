@@ -27,4 +27,29 @@ pFloatProperty;
     // nothing
 }
 
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
+{
+    _isMethodSignatureCalled = YES;
+    NSString *selectorName = NSStringFromSelector(aSelector);
+    if ([selectorName isEqualToString:kTestSelectorName])
+    {
+        return [NSMethodSignature signatureWithObjCTypes:"v@:"];
+    }
+    return nil;
+}
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation
+{
+    _isForwardInvocationCalled = YES;
+    NSString *selectorName = NSStringFromSelector(anInvocation.selector);
+    if ([selectorName isEqualToString:kTestSelectorName])
+    {
+        // do nothing
+    }
+    else
+    {
+        [super forwardInvocation:anInvocation];
+    }
+}
+
 @end
