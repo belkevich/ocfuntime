@@ -1,5 +1,5 @@
 //
-//  OCFClassMethods.h
+//  OCFMethodsSwitcher.h
 //  OCFuntime
 //
 //  Created by Alexey Belkevich on 4/22/13.
@@ -8,13 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface OCFClassMethods : NSObject
-{
-@private
-    Class theClass;
-    NSMutableDictionary *instanceMethods;
-    NSMutableDictionary *classMethods;
-}
+@interface OCFMethodsSwitcher : NSObject
 
 - (id)initWithClass:(Class)theClass;
 - (void)changeInstanceMethod:(SEL)selector implementationWithBlock:(id)block;

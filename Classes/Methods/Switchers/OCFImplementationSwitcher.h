@@ -1,5 +1,5 @@
 //
-//  OCFMethod.h
+//  OCFImplementationSwitcher.h
 //  OCFuntime
 //
 //  Created by Alexey Belkevich on 4/22/13.
@@ -9,12 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 
-@interface OCFMethod : NSObject
-{
-@private
-    Method method;
-    IMP defaultImplementation;
-}
+@interface OCFImplementationSwitcher : NSObject
 
 - (id)initWithClass:(Class)theClass instanceMethod:(SEL)selector;
 - (id)initWithClass:(Class)theClass classMethod:(SEL)selector;

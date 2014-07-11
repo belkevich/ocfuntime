@@ -1,15 +1,22 @@
 //
-//  OCFMethod.m
+//  OCFImplementationSwitcher.m
 //  OCFuntime
 //
 //  Created by Alexey Belkevich on 4/22/13.
 //  Copyright (c) 2013 okolodev. All rights reserved.
 //
 
-#import "OCFMethod.h"
+#import "OCFImplementationSwitcher.h"
 #import "NSException+OCFuntimeMethods.h"
 
-@implementation OCFMethod
+@interface OCFImplementationSwitcher ()
+{
+    Method _method;
+    IMP _defaultImplementation;
+}
+@end
+
+@implementation OCFImplementationSwitcher
 
 #pragma mark - life cycle
 
@@ -28,9 +35,9 @@
     self = [super init];
     if (self)
     {
-        method = instance ? class_getInstanceMethod(theClass, selector) :
-                      class_getClassMethod(theClass, selector);
-        if (!method)
+        _method = instance ? class_getInstanceMethod(theClass, selector) :
+                  class_getClassMethod(theClass, selector);
+        if (!_method)
         {
             @throw [NSException exceptionNonexistentMethod:selector inClass:theClass];
         }
@@ -42,26 +49,26 @@
 
 - (void)changeImplementationWithBlock:(id)block
 {
-    if (!defaultImplementation)
+    if (!_defaultImplementation)
     {
-        defaultImplementation = method_getImplementation(method);
+        _defaultImplementation = method_getImplementation(_method);
     }
     if (!block)
     {
         block = ^{};
     }
     IMP blockImplementation = imp_implementationWithBlock(block);
-    method_setImplementation(method, blockImplementation);
+    method_setImplementation(_method, blockImplementation);
 }
 
 - (void)revertImplementation
 {
-    if (defaultImplementation)
+    if (_defaultImplementation)
     {
-        IMP blockImplementation = method_getImplementation(method);
+        IMP blockImplementation = method_getImplementation(_method);
         imp_removeBlock(blockImplementation);
-        method_setImplementation(method, defaultImplementation);
-        defaultImplementation = NULL;
+        method_setImplementation(_method, _defaultImplementation);
+        _defaultImplementation = NULL;
     }
 }
 

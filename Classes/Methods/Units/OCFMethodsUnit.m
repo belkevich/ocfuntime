@@ -7,7 +7,7 @@
 //
 
 #import "OCFMethodsUnit.h"
-#import "OCFClassMethods.h"
+#import "OCFMethodsSwitcher.h"
 
 @interface OCFMethodsUnit ()
 {
@@ -33,31 +33,31 @@
 
 - (void)changeClass:(Class)theClass instanceMethod:(SEL)method implementation:(id)block
 {
-    OCFClassMethods *model = [self modelForClass:theClass create:YES];
+    OCFMethodsSwitcher *model = [self modelForClass:theClass create:YES];
     [model changeInstanceMethod:method implementationWithBlock:block];
 }
 
 - (void)changeClass:(Class)theClass classMethod:(SEL)method implementation:(id)block
 {
-    OCFClassMethods *model = [self modelForClass:theClass create:YES];
+    OCFMethodsSwitcher *model = [self modelForClass:theClass create:YES];
     [model changeClassMethod:method implementationWithBlock:block];
 }
 
 - (void)revertClass:(Class)theClass instanceMethod:(SEL)method
 {
-    OCFClassMethods *model = [self modelForClass:theClass create:NO];
+    OCFMethodsSwitcher *model = [self modelForClass:theClass create:NO];
     [model revertInstanceMethod:method];
 }
 
 - (void)revertClass:(Class)theClass classMethod:(SEL)method
 {
-    OCFClassMethods *model = [self modelForClass:theClass create:NO];
+    OCFMethodsSwitcher *model = [self modelForClass:theClass create:NO];
     [model revertClassMethod:method];
 }
 
 - (void)revertClass:(Class)theClass
 {
-    OCFClassMethods *model = [self modelForClass:theClass create:NO];
+    OCFMethodsSwitcher *model = [self modelForClass:theClass create:NO];
     [model revertAllToDefaultImplementation];
 }
 
@@ -75,13 +75,13 @@
 
 #pragma mark - private
 
-- (OCFClassMethods *)modelForClass:(Class)theClass create:(BOOL)create
+- (OCFMethodsSwitcher *)modelForClass:(Class)theClass create:(BOOL)create
 {
     NSString *className = NSStringFromClass(theClass);
-    OCFClassMethods *model = _changedMethods[className];
+    OCFMethodsSwitcher *model = _changedMethods[className];
     if (!model && create)
     {
-        model = [[OCFClassMethods alloc] initWithClass:theClass];
+        model = [[OCFMethodsSwitcher alloc] initWithClass:theClass];
         _changedMethods[className] = model;
     }
     return model;
