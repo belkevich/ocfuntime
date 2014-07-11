@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 okolodev. All rights reserved.
 //
 
-#import "OCFuntime.h"
+#import "OCFuntime+Properties.h"
 #import "OCFPropertyMock.h"
 
 using namespace Cedar::Matchers;
