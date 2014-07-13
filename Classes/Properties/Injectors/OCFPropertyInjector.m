@@ -12,6 +12,7 @@
 #import "OCFPropertyBlocksBuilder.h"
 #import "OCFMethodInjector.h"
 #import "NSException+OCFuntimeProperties.h"
+#import "NSObject+OCFuntimeProperties.h"
 
 @interface OCFPropertyInjector ()
 {
