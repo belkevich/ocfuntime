@@ -55,13 +55,13 @@
     [model revertClassMethod:method];
 }
 
-- (void)revertClass:(Class)theClass
+- (void)revertClassMethods:(Class)theClass
 {
     OCFMethodsSwitcher *model = [self modelForClass:theClass create:NO];
     [model revertAllToDefaultImplementation];
 }
 
-- (void)revertAll
+- (void)revertAllMethods
 {
     [[_changedMethods allValues] makeObjectsPerformSelector:@selector(revertAllToDefaultImplementation)];
 }
@@ -70,7 +70,7 @@
 
 - (void)shutdownUnit
 {
-    [self revertAll];
+    [self revertAllMethods];
 }
 
 #pragma mark - private

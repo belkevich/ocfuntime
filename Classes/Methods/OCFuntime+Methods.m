@@ -36,16 +36,16 @@
     [unit revertClass:theClass classMethod:method];
 }
 
-- (void)revertClass:(Class)theClass
+- (void)revertClassMethods:(Class)theClass
 {
     OCFMethodsUnit *unit = (OCFMethodsUnit *)[self unitOfClass:OCFMethodsUnit.class];
-    [unit revertClass:theClass];
+    [unit revertClassMethods:theClass];
 }
 
-- (void)revertAll
+- (void)revertAllMethods
 {
     OCFMethodsUnit *unit = (OCFMethodsUnit *)[self unitOfClass:OCFMethodsUnit.class];
-    [unit revertAll];
+    [unit revertAllMethods];
 }
 
 @end

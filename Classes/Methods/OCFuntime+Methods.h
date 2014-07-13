@@ -7,6 +7,7 @@
 //
 
 #import "OCFuntime.h"
+#import "OCFuntime+Methods_Deprecated.h"
 
 @interface OCFuntime (Methods)
 
@@ -14,7 +15,7 @@
 - (void)changeClass:(Class)theClass classMethod:(SEL)method implementation:(id)block;
 - (void)revertClass:(Class)theClass instanceMethod:(SEL)method;
 - (void)revertClass:(Class)theClass classMethod:(SEL)method;
-- (void)revertClass:(Class)theClass;
-- (void)revertAll;
+- (void)revertClassMethods:(Class)theClass;
+- (void)revertAllMethods;
 
 @end
