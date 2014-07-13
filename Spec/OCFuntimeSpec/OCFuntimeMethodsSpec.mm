@@ -40,7 +40,7 @@ describe(@"OCFuntime with changed method", ^
     afterEach((id)^
     {
         [mock release];
-        [funtime revertAll];
+        [funtime revertAllMethods];
         [funtime release];
     });
 
@@ -68,14 +68,14 @@ describe(@"OCFuntime with changed method", ^
 
     it(@"should call default methods if class reverted", ^
     {
-        [funtime revertClass:[OCFMethodMock class]];
+        [funtime revertClassMethods:[OCFMethodMock class]];
         [mock funInstanceMethod] should equal(0);
         [OCFMethodMock funClassMethod] should equal(0);
     });
 
     it(@"should call default methods if all reverted", ^
     {
-        [funtime revertAll];
+        [funtime revertAllMethods];
         [mock funInstanceMethod] should equal(0);
         [OCFMethodMock funClassMethod] should equal(0);
     });
@@ -110,7 +110,7 @@ describe(@"OCFuntime with changed method", ^
             NSLog(@"One more time changed FUN instance method");
             return 2;
         }];
-        [funtime revertClass:[OCFMethodMock class]];
+        [funtime revertClassMethods:[OCFMethodMock class]];
         [mock funInstanceMethod] should equal(0);
     });
 
@@ -123,7 +123,7 @@ describe(@"OCFuntime with changed method", ^
             NSLog(@"One more time changed FUN class method");
             return 2;
         }];
-        [funtime revertClass:[OCFMethodMock class]];
+        [funtime revertClassMethods:[OCFMethodMock class]];
         [OCFMethodMock funClassMethod] should equal(0);
     });
 });

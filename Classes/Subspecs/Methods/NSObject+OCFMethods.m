@@ -34,12 +34,12 @@
 
 - (void)revertMethods
 {
-    [OCFuntime.shared revertClass:self.class];
+    [OCFuntime.shared revertClassMethods:self.class];
 }
 
 + (void)revertMethods
 {
-    [OCFuntime.shared revertClass:self];
+    [OCFuntime.shared revertClassMethods:self];
 }
 
 @end
