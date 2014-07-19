@@ -4,48 +4,43 @@ OCFuntime
 #### About
 [![Build Status](https://travis-ci.org/belkevich/ocfuntime.png?branch=develop)](https://travis-ci.org/belkevich/ocfuntime)
 
-OCFuntime is a simple wrapper on [Objective-C runtime](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ObjCRuntimeRef/Reference/reference.html). So if you don't know the easiest way to shoot off your both legs then this solution for you! Time to have a fun! 
+OCFuntime is a toolkit for [Objective-C runtime](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ObjCRuntimeRef/Reference/reference.html).
 
----
+**Features**
+* Change instance or class method implementation and revert it back
+* Inject property of any type to any class
 
-#### Features
-* Change instance method implementation
-* Change class method implementation
-* Return value of any type or don't return anything
-* Revert to default method implementation
+#### Change method implementation
+Method implementation changing is very similar to method overriding, but without subclassing.
 
-#### Installation
-Include `ocfuntime` pod in Podfile
+**Note.** Method implementation changing isn't method swizzling!
 
----
-
-#### Using
+Add `pod 'OCFuntime/Methods'` to Podfile
 ```objective-c
 OCFuntime *funtime = [[OCFuntime alloc] init];
 // Change instance method implementation
-[funtime changeClass:[MyClass class] instanceMethod:@selector(someInstanceMethod) 
+[funtime changeClass:MyClass.class instanceMethod:@selector(someInstanceMethod) 
       implementation:^
 {
-   NSLog(@"Changed FUN instance method!");
-   return 1;
+   NSLog(@"Changed instance method!");
+   // return something if need
 }];
 // Change class method implementation
-[funtime changeClass:[MyClass class] classMethod:@selector(someClassMethod) 
+[funtime changeClass:MyClass.class classMethod:@selector(someClassMethod) 
       implementation:^
 {
-    NSLog(@"Changed FUN class method!");
-    return [[NSObject alloc] init];
+    NSLog(@"Changed class method!");
+    // return something if need
 }];
 //Revert method to default implementation
-[funtime revertClass:[MyClass class] instanceMethod:@selector(someInstanceMethod)];
-[funtime revertClass:[MyClass class] classMethod:@selector(somClassMethod)];
+[funtime revertClass:MyClass.class instanceMethod:@selector(someInstanceMethod)];
+[funtime revertClass:MyClass.class classMethod:@selector(somClassMethod)];
 // Revert all methods of class to default implementation
-[funtime revertClass:[MyClass class]];
+[funtime revertClassMethods:MyClass.class];
 // Revert all changed methods to default implementation
-[funtime revertAll];
+[funtime revertAllMethods];
 ```
-
----
+**Note.** After `OCFuntime` instance will be deallocated all changed methods will be reverted to default implementations
 
 #### Changes
 [@okolodev](https://twitter.com/okolodev)
