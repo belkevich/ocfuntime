@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.source            = { :git => "https://github.com/belkevich/ocfuntime.git",
 		                      :tag => s.version.to_s }
   s.requires_arc      = true
-  
+
   s.ios.deployment_target = "5.0"
   s.osx.deployment_target = "10.7"
 
@@ -46,6 +46,7 @@ Pod::Spec.new do |s|
  end
 
  s.subspec 'All' do |sp|
+   sp.source_files = 'Classes/All/*.h'
    sp.dependency 'OCFuntime/NSObject+OCFMethods'
    sp.dependency 'OCFuntime/NSObject+OCFProperties'
  end
