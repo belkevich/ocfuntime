@@ -12,7 +12,7 @@ OCFuntime is a toolkit for [Objective-C runtime](https://developer.apple.com/lib
 * Modular structure: each task extracted as [Cocoapods](http://cocoapods.org/) [subspec](http://guides.cocoapods.org/syntax/podspec.html#subspec)
 
 ## Change method implementation
-Method implementation changing allows to run block of code on corresponding method call. Also, don't be confused with [method swizzling](http://nshipster.com/method-swizzling/)
+Method implementation changing allows to run block of code on corresponding method call. Don't be confused with [method swizzling](http://nshipster.com/method-swizzling/).
 
 **Installation**
 
@@ -46,13 +46,14 @@ OCFuntime *funtime = [[OCFuntime alloc] init];
 [funtime revertAllMethods];
 ```
 **Notes**
-* After `OCFuntime` instance will be deallocated all changed methods will be reverted to default implementations. To avoid it use [Shared Instance](https://github.com/belkevich/ocfuntime#using#Other) of `OCFuntime`.
+* After `OCFuntime` instance will be deallocated all changed methods will be reverted to default implementations. To avoid it use [Shared Instance](https://github.com/belkevich/ocfuntime#Other) of `OCFuntime`.
 * Changing unexisted method will rise an exception.
 * Changing implementation isn't thread safe.
 
 **NSObject Category**
 
-There are special subspec that makes method implementation change even easier.
+Run method implementation changing on corresponding class with `NSObject` category.
+
 Add `pod 'OCFuntime/NSObject+OCFMethods'` to [Podfile](http://guides.cocoapods.org/using/the-podfile.html)
 ```objective-c
 #import "NSObject+OCFMethods.h"
@@ -81,7 +82,7 @@ Add `pod 'OCFuntime/NSObject+OCFMethods'` to [Podfile](http://guides.cocoapods.o
 ## Inject property
 Property injection allow to use `@dynamic` properties as it've been `@synthesize`.
 And it's the best way to avoid *"no synthesized properties in objective-c categories"* restriction.
-Injection is based on [Message Forwarding](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html) and [Associated Objects](http://nshipster.com/associated-objects/)
+Injection is based on [Message Forwarding](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html) and [Associated Objects](http://nshipster.com/associated-objects/).
 
 **Installation**
 
@@ -125,11 +126,13 @@ someInstance.integerProperty = 5;
 * After `OCFuntime` instance will be deallocated all injected properties will be removed. To avoid it use [Shared Instance](https://github.com/belkevich/ocfuntime#using#Other) of `OCFuntime`.
 * If property doesn't defined in class interface exception will raise.
 * If property synthesized or already injected exception will raise.
+* Property injection doesn't break methods `forwardInvocation:` and `methodSignatureForSelector:` because of [Swizzling](http://nshipster.com/method-swizzling/).
 * Property injection isn't thread safe.
 
 **NSObject Category**
 
-There are special subspec that makes property injection even easier.
+Run property injection on corresponding class with `NSObject` category.
+
 Add `pod 'OCFuntime/NSObject+OCFProperties'` to [Podfile](http://guides.cocoapods.org/using/the-podfile.html)
 ```objective-c
 #import "NSObject+OCFProperties.h"
