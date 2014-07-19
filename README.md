@@ -1,32 +1,37 @@
 OCFuntime
 ============
 
-#### About
+### About
 [![Build Status](https://travis-ci.org/belkevich/ocfuntime.png?branch=develop)](https://travis-ci.org/belkevich/ocfuntime)
 
 OCFuntime is a toolkit for [Objective-C runtime](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/ObjCRuntimeRef/Reference/reference.html).
 
-**Features**
+#### Features
 * Change instance or class method implementation and revert it back
 * Inject property of any type to any class
+* Modular structure: each task extracted as [Cocoapods](http://cocoapods.org/) [subspec](http://guides.cocoapods.org/syntax/podspec.html#subspec)
 
-#### Change method implementation
-Method implementation changing is very similar to method overriding, but without subclassing.
+## Change method implementation
+Method implementation changing allows to run block of code on corresponding method call. Also, don't be confused with [method swizzling](http://nshipster.com/method-swizzling/)
 
-**Note.** Method implementation changing isn't method swizzling!
+**Installation**
 
-Add `pod 'OCFuntime/Methods'` to Podfile
+Add `pod 'OCFuntime/Methods'` to [Podfile](http://guides.cocoapods.org/using/the-podfile.html)
+
+**Example**
 ```objective-c
+#import "OCFuntime+Methods.h"
+...
 OCFuntime *funtime = [[OCFuntime alloc] init];
 // Change instance method implementation
-[funtime changeClass:MyClass.class instanceMethod:@selector(someInstanceMethod) 
+[funtime changeClass:MyClass.class instanceMethod:@selector(someInstanceMethod)
       implementation:^
 {
    NSLog(@"Changed instance method!");
    // return something if need
 }];
 // Change class method implementation
-[funtime changeClass:MyClass.class classMethod:@selector(someClassMethod) 
+[funtime changeClass:MyClass.class classMethod:@selector(someClassMethod)
       implementation:^
 {
     NSLog(@"Changed class method!");
@@ -34,25 +39,144 @@ OCFuntime *funtime = [[OCFuntime alloc] init];
 }];
 //Revert method to default implementation
 [funtime revertClass:MyClass.class instanceMethod:@selector(someInstanceMethod)];
-[funtime revertClass:MyClass.class classMethod:@selector(somClassMethod)];
+[funtime revertClass:MyClass.class classMethod:@selector(someClassMethod)];
 // Revert all methods of class to default implementation
 [funtime revertClassMethods:MyClass.class];
 // Revert all changed methods to default implementation
 [funtime revertAllMethods];
 ```
-**Note.** After `OCFuntime` instance will be deallocated all changed methods will be reverted to default implementations
+**Notes**
+* After `OCFuntime` instance will be deallocated all changed methods will be reverted to default implementations. To avoid it use [Shared Instance](https://github.com/belkevich/ocfuntime#using#Other) of `OCFuntime`.
+* Changing unexisted method will rise an exception.
+* Changing implementation isn't thread safe.
 
-#### Changes
-[@okolodev](https://twitter.com/okolodev)
+**NSObject Category**
 
----
+There are special subspec that makes method implementation change even easier.
+Add `pod 'OCFuntime/NSObject+OCFMethods'` to [Podfile](http://guides.cocoapods.org/using/the-podfile.html)
+```objective-c
+#import "NSObject+OCFMethods.h"
+...
+// Change class method implementation
+[MyClass changeClassMethod:@selector(someStaticMethod) implementation:^
+{
+    NSLog(@"Changed 'someStaticMethod'");
+    // return value if need
+}];
+// Change instance method implementation
+[MyClass changeInstanceMethod:@selector(someMethod) implementation:^
+{
+    NSLog(@"Changed 'someMethod'");
+    // return value if need
+}];
+// Revert class method implementation
+[MyClass revertClassMethod:@selector(someStaticMethod)];
+// Revert instance method implementation
+[MyClass revertInstanceMethod:@selector(someMethod)];
+// Revert all methods
+[MyClass revertMethods];
+```
+`NSObject+OCFMethods` subspec includes `Methods` and `Shared` subspecs as dependencies. Don't include them to Podfile.
 
-**Version 0.1.1**
+## Inject property
+Property injection allow to use `@dynamic` properties as it've been `@synthesize`.
+And it's the best way to avoid *"no synthesized properties in objective-c categories"* restriction.
+Injection is based on [Message Forwarding](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtForwarding.html) and [Associated Objects](http://nshipster.com/associated-objects/)
+
+**Installation**
+
+Add `pod 'OCFuntime/Properties'` to [Podfile](http://guides.cocoapods.org/using/the-podfile.html)
+
+**Example**
+```objective-c
+@interface SomeClass : NSObject
+@property (nonatomic, strong) id objectStrongProperty;
+@property (nonatomic, assign) NSInteger integerProperty;
+@end
+...
+@implementation
+@dynamic objectStrongProperty, integerProperty;
+@end
+...
+```
+
+```objective-c
+#import "OCFuntime+Properties.h"
+#import "SomeClass.h"
+...
+// Inject properties
+OCFuntime *funtime = [[OCFuntime alloc] init];
+[funtime injectClass:SomeClass.class property:@"objectStrongProperty"];
+[funtime injectClass:SomeClass.class property:@"integerProperty"];
+// Use properties
+SomeClass *someInstance = [[SomeClass alloc] init];
+someInstance.objectStrongProperty = [[NSObject alloc] init];
+someInstance.integerProperty = 5;
+// Remove injected property
+[funtime removeClass:SomeClass.class property:@"objectStrongProperty"];
+// Remove all class injected properties
+[funtime removeClassProperties:SomeClass.class];
+// Remove all injected properties
+[funtime removeAllProperties];
+```
+
+**Notes**
+* `atomic` properties injected as `nonatomic`. It's will be fixed in one of the next releases.
+* After `OCFuntime` instance will be deallocated all injected properties will be removed. To avoid it use [Shared Instance](https://github.com/belkevich/ocfuntime#using#Other) of `OCFuntime`.
+* If property doesn't defined in class interface exception will raise.
+* If property synthesized or already injected exception will raise.
+* Property injection isn't thread safe.
+
+**NSObject Category**
+
+There are special subspec that makes property injection even easier.
+Add `pod 'OCFuntime/NSObject+OCFProperties'` to [Podfile](http://guides.cocoapods.org/using/the-podfile.html)
+```objective-c
+#import "NSObject+OCFProperties.h"
+...
+// Inject properties
+[SomeClass injectProperty:@"objectStrongProperty"];
+[SomeClass injectProperty:@"integerProperty"];
+// Remove property
+[SomeClass removeProperty:@"objectStrongProperty"];
+// Remove all injected properties of class
+[SomeClass removeProperties];
+```
+`NSObject+OCFProperties` subspec includes `Properties` and `Shared` subspecs as dependencies. Don't include them to Podfile.
+
+## Other
+
+**Shared instance**
+
+Add `pod 'OCFuntime/Shared'` to [Podfile](http://guides.cocoapods.org/using/the-podfile.html)
+```objective-c
+#import "OCFuntime+Shared.h"
+...
+[OCFuntime.shared changeClass:MyClass.class
+               instanceMethod:@selector(someMethod)]
+               implementation:^
+{
+    NSLog(@"Changed someMethod with shared instance")
+}];
+```
+
+**Default subspec**
+
+Default subspec `pod 'OCFuntime'` includes all subspecs. Use `@import "OCFuntimeHeader.h"` to enable all features of `OCFuntime`.
+
+## Changes
+Follow updates [@okolodev](https://twitter.com/okolodev)
+
+**Change log**
+
+*0.2.0*
+* Added property injection
+* Refactored to modular structure
+
+*0.1.1*
 * Added reverting to default method implementations on OCFuntime instance deallocation
 
----
-
-**Version 0.1.0**
+*0.1.0*
 * Added exception if changed method doesn't exist in the class
 * Fixed reverting to default method implementation, not previous implementation
 * Fixed changing class and instance method with the same name

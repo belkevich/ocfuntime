@@ -10,11 +10,10 @@
 
 @interface NSObject (OCFMethods)
 
-- (void)changeMethod:(SEL)method implementation:(id)block;
-+ (void)changeMethod:(SEL)method implementation:(id)block;
-- (void)revertMethod:(SEL)method;
-+ (void)revertMethod:(SEL)method;
-- (void)revertMethods;
++ (void)changeInstanceMethod:(SEL)method implementation:(id)block;
++ (void)changeClassMethod:(SEL)method implementation:(id)block;
++ (void)revertInstanceMethod:(SEL)method;
++ (void)revertClassMethod:(SEL)method;
 + (void)revertMethods;
 
 @end

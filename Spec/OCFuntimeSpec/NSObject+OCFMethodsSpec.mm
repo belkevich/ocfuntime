@@ -21,12 +21,12 @@ describe(@"Object with changed method", ^
     beforeEach((id)^
     {
         mock = [[OCFMethodMock alloc] init];
-        [mock changeMethod:@selector(funInstanceMethod) implementation:^
+        [OCFMethodMock changeInstanceMethod:@selector(funInstanceMethod) implementation:^
         {
             NSLog(@"Changed FUN instance method!");
             return 1;
         }];
-        [OCFMethodMock changeMethod:@selector(funClassMethod) implementation:^
+        [OCFMethodMock changeClassMethod:@selector(funClassMethod) implementation:^
         {
             NSLog(@"Changed FUN class method!");
             return 1;
@@ -35,7 +35,7 @@ describe(@"Object with changed method", ^
 
     afterEach((id)^
     {
-        [mock revertMethods];
+        [OCFMethodMock revertMethods];
         [mock release];
     });
 
@@ -51,19 +51,19 @@ describe(@"Object with changed method", ^
 
     it(@"should call default instance method if method reverted", ^
     {
-        [mock revertMethod:@selector(funInstanceMethod)];
+        [OCFMethodMock revertInstanceMethod:@selector(funInstanceMethod)];
         [mock funInstanceMethod] should equal(0);
     });
 
     it(@"should call default class method if method reverted", ^
     {
-        [OCFMethodMock revertMethod:@selector(funClassMethod)];
+        [OCFMethodMock revertClassMethod:@selector(funClassMethod)];
         [OCFMethodMock funClassMethod] should equal(0);
     });
 
     it(@"should call default methods if instance reverted", ^
     {
-        [mock revertMethods];
+        [OCFMethodMock revertMethods];
         [mock funInstanceMethod] should equal(0);
         [OCFMethodMock funClassMethod] should equal(0);
     });

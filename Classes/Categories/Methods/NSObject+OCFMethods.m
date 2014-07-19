@@ -12,29 +12,24 @@
 
 @implementation NSObject (OCFMethods)
 
-- (void)changeMethod:(SEL)method implementation:(id)block
++ (void)changeInstanceMethod:(SEL)method implementation:(id)block
 {
     [OCFuntime.shared changeClass:self.class instanceMethod:method implementation:block];
 }
 
-+ (void)changeMethod:(SEL)method implementation:(id)block
++ (void)changeClassMethod:(SEL)method implementation:(id)block
 {
     [OCFuntime.shared changeClass:self classMethod:method implementation:block];
 }
 
-- (void)revertMethod:(SEL)method
++ (void)revertInstanceMethod:(SEL)method
 {
     [OCFuntime.shared revertClass:self.class instanceMethod:method];
 }
 
-+ (void)revertMethod:(SEL)method
++ (void)revertClassMethod:(SEL)method
 {
     [OCFuntime.shared revertClass:self classMethod:method];
-}
-
-- (void)revertMethods
-{
-    [OCFuntime.shared revertClassMethods:self.class];
 }
 
 + (void)revertMethods
