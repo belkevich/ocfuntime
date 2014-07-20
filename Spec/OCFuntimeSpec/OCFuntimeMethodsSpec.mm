@@ -126,6 +126,33 @@ describe(@"OCFuntime with changed method", ^
         [funtime revertClassMethods:[OCFMethodMock class]];
         [OCFMethodMock funClassMethod] should equal(0);
     });
+
+    it(@"should receive instance and arguments of changed instance methods", ^
+    {
+        __block id checkInstance = nil;
+        NSObject *checkArg = [[[NSObject alloc] init] autorelease];
+        [funtime changeClass:[OCFMethodMock class] instanceMethod:@selector(funInstanceMethodWithArg:)
+              implementation:^(id instance, NSObject *arg)
+        {
+            checkInstance = instance;
+            return arg;
+        }];
+        [mock funInstanceMethodWithArg:checkArg] should equal(checkArg);
+        checkInstance should equal(mock);
+    });
+
+    it(@"should receive class and arguments of changed class methods", ^
+    {
+        __block Class checkClass = nil;
+        [funtime changeClass:[OCFMethodMock class] classMethod:@selector(funClassMethodWithArg:)
+              implementation:^(Class theClass, NSUInteger arg)
+        {
+            checkClass = theClass;
+            return arg;
+        }];
+        [OCFMethodMock funClassMethodWithArg:5] should equal(5);
+        checkClass should equal([OCFMethodMock class]);
+    });
 });
 
 describe(@"OCFuntime methods changing memory management", ^

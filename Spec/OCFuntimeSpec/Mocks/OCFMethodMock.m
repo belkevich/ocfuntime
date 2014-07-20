@@ -22,5 +22,17 @@
     return 0;
 }
 
+- (NSObject *)funInstanceMethodWithArg:(NSObject *)arg
+{
+    NSLog(@"This is FUN instance method with arg: %@", arg);
+    return nil;
+}
+
++ (NSUInteger)funClassMethodWithArg:(NSUInteger)arg
+{
+    NSLog(@"This is FUN class method with arg %i", arg);
+    return 0;
+}
+
 
 @end

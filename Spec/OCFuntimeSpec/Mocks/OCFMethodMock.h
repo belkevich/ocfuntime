@@ -12,5 +12,7 @@
 
 - (NSUInteger)funInstanceMethod;
 + (NSUInteger)funClassMethod;
+- (NSObject *)funInstanceMethodWithArg:(NSObject *)arg;
++ (NSUInteger)funClassMethodWithArg:(NSUInteger)arg;
 
 @end
