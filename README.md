@@ -14,28 +14,43 @@ OCFuntime is a toolkit for [Objective-C runtime](https://developer.apple.com/lib
 ## Change method implementation
 Method implementation changing allows to run block of code on corresponding method call. Don't be confused with [method swizzling](http://nshipster.com/method-swizzling/).
 
+Instance method implementation block should conform signature:
+```objective-c
+method_return_type ^(id selfInstance, arg1_type arg1, arg2_type arg2, ...)
+```
+Class method implementation block should conform signature:
+```objective-c
+method_return_type ^(Class theClass, arg1_type arg1, arg2_type arg2, ...)
+```
+
 **Installation**
 
 Add `pod 'OCFuntime/Methods'` to [Podfile](http://guides.cocoapods.org/using/the-podfile.html)
 
 **Example**
 ```objective-c
+@interface MyClass : NSObject
+- (void)someInstanceMethod:(NSObject *)someArg;
++ (NSInteger)someClassMethod;
+@end
+```
+
+```objective-c
 #import "OCFuntime+Methods.h"
 ...
 OCFuntime *funtime = [[OCFuntime alloc] init];
 // Change instance method implementation
-[funtime changeClass:MyClass.class instanceMethod:@selector(someInstanceMethod)
-      implementation:^
+[funtime changeClass:MyClass.class instanceMethod:@selector(someInstanceMethod:)
+      implementation:^(MyClass *instance, NSObject *someArg)
 {
-   NSLog(@"Changed instance method!");
-   // return something if need
+   NSLog(@"Changed instance method with arg %@!", someArg);
 }];
 // Change class method implementation
 [funtime changeClass:MyClass.class classMethod:@selector(someClassMethod)
-      implementation:^
+      implementation:^(Class theClass)
 {
-    NSLog(@"Changed class method!");
-    // return something if need
+    NSLog(@"Changed class method of %@!", NSStringFromClass(theClass));
+    return 5;
 }];
 //Revert method to default implementation
 [funtime revertClass:MyClass.class instanceMethod:@selector(someInstanceMethod)];
@@ -46,6 +61,8 @@ OCFuntime *funtime = [[OCFuntime alloc] init];
 [funtime revertAllMethods];
 ```
 **Notes**
+* Skip arguments in implementation block signature if you don't need them.
+* Skipping value return will cause undefined behaviour.
 * After `OCFuntime` instance will be deallocated all changed methods will be reverted to default implementations. To avoid it use [Shared Instance](https://github.com/belkevich/ocfuntime#Other) of `OCFuntime`.
 * Changing unexisted method will rise an exception.
 * Changing implementation isn't thread safe.
@@ -59,16 +76,16 @@ Add `pod 'OCFuntime/NSObject+OCFMethods'` to [Podfile](http://guides.cocoapods.o
 #import "NSObject+OCFMethods.h"
 ...
 // Change class method implementation
-[MyClass changeClassMethod:@selector(someStaticMethod) implementation:^
+[MyClass changeClassMethod:@selector(someClassMethod) implementation:^
 {
-    NSLog(@"Changed 'someStaticMethod'");
-    // return value if need
+    NSLog(@"Changed 'someClassMethod'");
+    return 0;
 }];
 // Change instance method implementation
-[MyClass changeInstanceMethod:@selector(someMethod) implementation:^
+[MyClass changeInstanceMethod:@selector(someInstanceMethod)
+               implementation:^(MyClass *instance, NSObject *someArg)
 {
-    NSLog(@"Changed 'someMethod'");
-    // return value if need
+    NSLog(@"Called changed method of %@ with arg %@", instance, someArg);
 }];
 // Revert class method implementation
 [MyClass revertClassMethod:@selector(someStaticMethod)];
