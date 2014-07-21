@@ -63,7 +63,7 @@ OCFuntime *funtime = [[OCFuntime alloc] init];
 **Notes**
 * Skip arguments in implementation block signature if you don't need them.
 * Skipping value return will cause undefined behaviour.
-* After `OCFuntime` instance will be deallocated all changed methods will be reverted to default implementations. To avoid it use [Shared Instance](https://github.com/belkevich/ocfuntime#Other) of `OCFuntime`.
+* After `OCFuntime` instance will be deallocated all changed methods will be reverted to default implementations. To avoid it use [Shared Instance](https://github.com/belkevich/ocfuntime#other) of `OCFuntime`.
 * Changing unexisted method will rise an exception.
 * Changing implementation isn't thread safe.
 
@@ -140,7 +140,7 @@ someInstance.integerProperty = 5;
 
 **Notes**
 * `atomic` properties injected as `nonatomic`. It's will be fixed in one of the next releases.
-* After `OCFuntime` instance will be deallocated all injected properties will be removed. To avoid it use [Shared Instance](https://github.com/belkevich/ocfuntime#using#Other) of `OCFuntime`.
+* After `OCFuntime` instance will be deallocated all injected properties will be removed. To avoid it use [Shared Instance](https://github.com/belkevich/ocfuntime#other) of `OCFuntime`.
 * If property doesn't defined in class interface exception will raise.
 * If property synthesized or already injected exception will raise.
 * Property injection doesn't break methods `forwardInvocation:` and `methodSignatureForSelector:` because of [Swizzling](http://nshipster.com/method-swizzling/).
