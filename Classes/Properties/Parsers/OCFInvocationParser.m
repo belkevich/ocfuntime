@@ -96,7 +96,7 @@
 + (void)parsePrimitiveSetterInvocation:(NSInvocation *)invocation instance:(id)instance
                             attributes:(OCFPropertyAttributes *)attributes
 {
-    size_t size = 0;
+    NSUInteger size = 0;
     const char *type = attributes.type.ASCIIString;
     const char *key = attributes.key;
     NSGetSizeAndAlignment(type, &size, NULL);
@@ -133,7 +133,7 @@
 {
     const char *type = attributes.type.ASCIIString;
     const char *key = attributes.key;
-    size_t size = 0;
+    NSUInteger size = 0;
     NSGetSizeAndAlignment(type, &size, NULL);
     void *buffer = calloc(1, size);
     NSValue *store = objc_getAssociatedObject(instance, key);

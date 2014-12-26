@@ -30,7 +30,7 @@
 
 + (NSUInteger)funClassMethodWithArg:(NSUInteger)arg
 {
-    NSLog(@"This is FUN class method with arg %i", arg);
+    NSLog(@"This is FUN class method with arg %@", @(arg));
     return 0;
 }
 
