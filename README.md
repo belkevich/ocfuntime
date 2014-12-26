@@ -184,21 +184,10 @@ Add `pod 'OCFuntime/Shared'` to [Podfile](http://guides.cocoapods.org/using/the-
 
 Default subspec `pod 'OCFuntime'` includes all subspecs. Use `@import "OCFuntimeHeader.h"` to enable all features of `OCFuntime`.
 
-## Changes
+## History
+
+[Releases](https://github.com/belkevich/ocfuntime/releases)
+
+## Updates
+
 Follow updates [@okolodev](https://twitter.com/okolodev)
-
-**Change log**
-
-*0.2.0*
-* Added property injection
-* Refactored to modular structure
-
-*0.1.1*
-* Added reverting to default method implementations on OCFuntime instance deallocation
-
-*0.1.0*
-* Added exception if changed method doesn't exist in the class
-* Fixed reverting to default method implementation, not previous implementation
-* Fixed changing class and instance method with the same name
-* Fixed setting empty implementations
-* Converted to ARC
