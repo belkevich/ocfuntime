@@ -25,6 +25,8 @@
 		FA392BE01785C7BC00FEDB79 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FA392BDF1785C7BC00FEDB79 /* Default.png */; };
 		FA392BE21785C7BC00FEDB79 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA392BE11785C7BC00FEDB79 /* Default@2x.png */; };
 		FA392BE41785C7BC00FEDB79 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA392BE31785C7BC00FEDB79 /* Default-568h@2x.png */; };
+		FA4B95791A6852100003F6E1 /* OCFClassesFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4B95781A6852100003F6E1 /* OCFClassesFetcher.m */; };
+		FA4B957D1A68523C0003F6E1 /* OCFProtocolMethodsFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4B957C1A68523C0003F6E1 /* OCFProtocolMethodsFetcher.m */; };
 		FA5113701850C3F200A8FBAA /* OCFPropertyMock.m in Sources */ = {isa = PBXBuildFile; fileRef = FA51136F1850C3F200A8FBAA /* OCFPropertyMock.m */; };
 		FA5113721850C7C900A8FBAA /* OCFuntimePropertySpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA5113711850C7C900A8FBAA /* OCFuntimePropertySpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FA6EC186184CE0D5007DA37B /* NSObject+OCFMethodsSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA6EC185184CE0D5007DA37B /* NSObject+OCFMethodsSpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -86,6 +88,10 @@
 		FA392BDF1785C7BC00FEDB79 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		FA392BE11785C7BC00FEDB79 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		FA392BE31785C7BC00FEDB79 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		FA4B95771A6852100003F6E1 /* OCFClassesFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OCFClassesFetcher.h; path = Protocols/Fetchers/OCFClassesFetcher.h; sourceTree = "<group>"; };
+		FA4B95781A6852100003F6E1 /* OCFClassesFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OCFClassesFetcher.m; path = Protocols/Fetchers/OCFClassesFetcher.m; sourceTree = "<group>"; };
+		FA4B957B1A68523C0003F6E1 /* OCFProtocolMethodsFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OCFProtocolMethodsFetcher.h; path = Protocols/Fetchers/OCFProtocolMethodsFetcher.h; sourceTree = "<group>"; };
+		FA4B957C1A68523C0003F6E1 /* OCFProtocolMethodsFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OCFProtocolMethodsFetcher.m; path = Protocols/Fetchers/OCFProtocolMethodsFetcher.m; sourceTree = "<group>"; };
 		FA51136E1850C3F200A8FBAA /* OCFPropertyMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCFPropertyMock.h; sourceTree = "<group>"; };
 		FA51136F1850C3F200A8FBAA /* OCFPropertyMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCFPropertyMock.m; sourceTree = "<group>"; };
 		FA5113711850C7C900A8FBAA /* OCFuntimePropertySpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OCFuntimePropertySpec.mm; sourceTree = "<group>"; };
@@ -203,6 +209,7 @@
 		FA294F591A6805E1003E7EF4 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				FA4B957A1A6852150003F6E1 /* Fetchers */,
 				FA294F6B1A68234F003E7EF4 /* Helpers */,
 				FA294F671A681C59003E7EF4 /* Categories */,
 				FA294F5D1A680635003E7EF4 /* Units */,
@@ -292,6 +299,17 @@
 				FA392BE31785C7BC00FEDB79 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FA4B957A1A6852150003F6E1 /* Fetchers */ = {
+			isa = PBXGroup;
+			children = (
+				FA4B95771A6852100003F6E1 /* OCFClassesFetcher.h */,
+				FA4B95781A6852100003F6E1 /* OCFClassesFetcher.m */,
+				FA4B957B1A68523C0003F6E1 /* OCFProtocolMethodsFetcher.h */,
+				FA4B957C1A68523C0003F6E1 /* OCFProtocolMethodsFetcher.m */,
+			);
+			name = Fetchers;
 			sourceTree = "<group>";
 		};
 		FAE50D4F1972A85200946751 /* Classes */ = {
@@ -648,6 +666,7 @@
 				FA392BDA1785C7BC00FEDB79 /* main.m in Sources */,
 				FAE50DB01972AECA00946751 /* OCFuntime+Methods_Deprecated.m in Sources */,
 				FA1F52361785C92400A3C156 /* OCFMethodMock.m in Sources */,
+				FA4B957D1A68523C0003F6E1 /* OCFProtocolMethodsFetcher.m in Sources */,
 				FA294F581A6805DC003E7EF4 /* OCFuntime+Protocols.m in Sources */,
 				FA0365C6196EE46400B831DC /* NSObject+OCFPropertiesSpec.mm in Sources */,
 				FAE50D971972A85300946751 /* NSException+OCFuntimeMethods.m in Sources */,
@@ -660,6 +679,7 @@
 				FAE50DA21972A85300946751 /* OCFMethodInjector.m in Sources */,
 				FAE50D981972A85300946751 /* OCFuntime+Methods.m in Sources */,
 				FAE50DA31972A85300946751 /* OCFPropertyInjector.m in Sources */,
+				FA4B95791A6852100003F6E1 /* OCFClassesFetcher.m in Sources */,
 				FAE50D951972A85300946751 /* NSException+OCFuntimeCore.m in Sources */,
 				FAE50DA11972A85300946751 /* OCFPropertyFetcher.m in Sources */,
 				FA294F5C1A680631003E7EF4 /* OCFProtocolsUnit.m in Sources */,
@@ -750,6 +770,7 @@
 			baseConfigurationReference = B8F80A2118AB7EB343CBCE4A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OCFuntimeSpec/OCFuntimeSpec-Prefix.pch";
 				INFOPLIST_FILE = "OCFuntimeSpec/OCFuntimeSpec-Info.plist";
@@ -763,6 +784,7 @@
 			baseConfigurationReference = 6DE3B9DF3A0E319F1C69588B /* Pods.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OCFuntimeSpec/OCFuntimeSpec-Prefix.pch";
 				INFOPLIST_FILE = "OCFuntimeSpec/OCFuntimeSpec-Info.plist";

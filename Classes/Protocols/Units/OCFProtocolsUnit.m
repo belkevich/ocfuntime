@@ -12,7 +12,19 @@
 #import "OCFAutoInjectProtocol.h"
 #import "NSException+OCFuntimeProtocols.h"
 
+@interface OCFProtocolsUnit ()
+{
+    NSMutableDictionary *_protocols;
+}
+@end
+
 @implementation OCFProtocolsUnit
+
+#pragma mark - life cycle
+
+- (void)dealloc
+{
+}
 
 #pragma mark - public
 

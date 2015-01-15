@@ -76,17 +76,17 @@ describe(@"OCFuntime protocol optional method injection", ^
         [mock implementedMethod] should equal(NO);
     });
 
-    it (@"should skip injection if method is already injected", ^
+    it (@"should override injection if method is already injected", ^
     {
         [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodTwoWithArgument:)
-                  implementaion:^
+                  implementaion:^(id instance, BOOL argument)
         {
-            return NO;
+            return argument;
         }];
         [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodTwoWithArgument:)
-                  implementaion:^
+                  implementaion:^(id instance, BOOL argument)
         {
-            return YES;
+            return !argument;
         }];
         [mock simpleMethodTwoWithArgument:YES] should equal(NO);
     });
