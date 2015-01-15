@@ -113,7 +113,8 @@ describe(@"OCFuntime protocol optional method injection", ^
 
     it(@"should remove injection for protocol method", ^{
         [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodOne) implementaion:^{}];
-        [funtime removeProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodOne)];
+        [funtime removeInjectedProtocol:@protocol(OCFSimpleProtocol)
+                                 method:@selector(simpleMethodOne)];
         ^
         {
             [mock simpleMethodOne];
@@ -127,7 +128,7 @@ describe(@"OCFuntime protocol optional method injection", ^
         {
             return NO;
         }];
-        [funtime removeProtocol:@protocol(OCFSimpleProtocol)];
+        [funtime removeInjectedProtocol:@protocol(OCFSimpleProtocol)];
         ^
         {
             [mock simpleMethodOne];
@@ -176,7 +177,7 @@ describe(@"OCFuntime protocol optional method injection", ^
     {
         ^
         {
-            [funtime removeProtocol:nil method:@selector(simpleMethodOne)];
+            [funtime removeInjectedProtocol:nil method:@selector(simpleMethodOne)];
         } should raise_exception;
     });
 
@@ -184,7 +185,7 @@ describe(@"OCFuntime protocol optional method injection", ^
     {
         ^
         {
-            [funtime removeProtocol:@protocol(OCFSimpleProtocol) method:nil];
+            [funtime removeInjectedProtocol:@protocol(OCFSimpleProtocol) method:nil];
         } should raise_exception;
     });
 
@@ -192,7 +193,7 @@ describe(@"OCFuntime protocol optional method injection", ^
     {
         ^
         {
-            [funtime removeProtocol:nil];
+            [funtime removeInjectedProtocol:nil];
         } should raise_exception;
     });
 

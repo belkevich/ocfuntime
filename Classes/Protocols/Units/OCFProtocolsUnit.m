@@ -21,12 +21,12 @@
     [self checkProtocol:theProtocol method:method implementation:implementation];
 }
 
-- (void)removeProtocol:(Protocol *)theProtocol method:(SEL)method
+- (void)removeInjectedProtocol:(Protocol *)theProtocol method:(SEL)method
 {
     [self checkProtocol:theProtocol method:method];
 }
 
-- (void)removeProtocol:(Protocol *)theProtocol
+- (void)removeInjectedProtocolMethods:(Protocol *)theProtocol
 {
     [self checkProtocol:theProtocol];
 }

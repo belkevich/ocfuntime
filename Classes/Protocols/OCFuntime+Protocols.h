@@ -11,7 +11,7 @@
 @interface OCFuntime (Protocols)
 
 - (void)injectProtocol:(Protocol *)theProtocol method:(SEL)method implementaion:(id)implementation;
-- (void)removeProtocol:(Protocol *)theProtocol method:(SEL)method;
-- (void)removeProtocol:(Protocol *)theProtocol;
+- (void)removeInjectedProtocol:(Protocol *)theProtocol method:(SEL)method;
+- (void)removeInjectedProtocol:(Protocol *)theProtocol;
 
 @end

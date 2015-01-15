@@ -19,16 +19,16 @@
     [unit injectProtocol:theProtocol method:method implementaion:implementation];
 }
 
-- (void)removeProtocol:(Protocol *)theProtocol method:(SEL)method
+- (void)removeInjectedProtocol:(Protocol *)theProtocol method:(SEL)method
 {
     OCFProtocolsUnit *unit = (OCFProtocolsUnit *)[self unitOfClass:OCFProtocolsUnit.class];
-    [unit removeProtocol:theProtocol method:method];
+    [unit removeInjectedProtocol:theProtocol method:method];
 }
 
-- (void)removeProtocol:(Protocol *)theProtocol
+- (void)removeInjectedProtocol:(Protocol *)theProtocol
 {
     OCFProtocolsUnit *unit = (OCFProtocolsUnit *)[self unitOfClass:OCFProtocolsUnit.class];
-    [unit removeProtocol:theProtocol];
+    [unit removeInjectedProtocolMethods:theProtocol];
 }
 
 
