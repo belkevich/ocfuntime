@@ -9,6 +9,7 @@ OCFuntime is a toolkit for [Objective-C runtime](https://developer.apple.com/lib
 #### Features
 * Change instance or class method implementation and revert it back
 * Inject property of any type to any class
+* Auto injection of protocol optional method
 * Modular structure: each task extracted as [Cocoapods](http://cocoapods.org/) [subspec](http://guides.cocoapods.org/syntax/podspec.html#subspec)
 
 ## Change method implementation
@@ -163,6 +164,51 @@ Add `pod 'OCFuntime/NSObject+OCFProperties'` to [Podfile](http://guides.cocoapod
 [SomeClass removeProperties];
 ```
 `NSObject+OCFProperties` subspec includes `Properties` and `Shared` subspecs as dependencies. Don't include them to Podfile.
+
+## Auto injection of protocol optional method
+Auto injection of protocol optional method allows to inject method with block to all classes that conform protocol. To override existing implementation or previous injection use `forceInject` method.
+
+** Installation**
+
+Add `pod 'OCFuntime/Protocols'` to [Podfile](http://guides.cocoapods.org/using/the-podfile.html)
+
+**Example**
+```objective-c
+#import "OCFAutoInjectProtocol.h"
+@protocol SomeProtocol <OCFAutoInjectProtocol>
+- (BOOL)instanceMethod:(BOOL)arg;
++ (BOOL)classMethod:(BOOL)arg;
+@end
+...
+@interface SomeClass : NSObject <SomeProtocol>
+@end
+...
+@interface AnotherClass : NSObject <SomeProtocol>
+@end
+```
+
+```objective-c
+#import "OCFuntime+Protocols.h"
+...
+OCFuntime *funtime = [[OCFuntime alloc] init];
+[funtime injectProtocol:@protocol(SomeProtocol) instanceMethod:@selector(instanceMethod:)
+         implementation:^(id selfInstance, BOOL argument)
+{
+    return argument;
+}];
+[funtime injectProtocol:@protocol(SomeProtocol) classMethod:@selector(classMethod:)
+         implementation:^(id selfInstance, BOOL argument)
+{
+    return !argument;
+}];
+...
+SomeClass *someInstance = [[SomeClass alloc] init];
+AnotherClass *anotherInstance = [[AnotherClass alloc] init];
+[someInstance instanceMethod:YES]; // YES
+[anotherInstance instanceMethod:YES]; // YES
+[SomeClass classMethod:YES]; // NO;
+[AnotherClass classMethod:YES]; // NO;
+```
 
 ## Other
 
