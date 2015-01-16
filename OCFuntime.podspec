@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = "OCFuntime"
-  s.version           = "0.2.0"
+  s.version           = "0.3.0"
   s.summary           = "OCFuntime is a toolkit for objective-c runtime."
   s.homepage          = "https://github.com/belkevich/ocfuntime"
   s.license           = { :type => 'MIT', :file => 'LICENSE.txt' }
@@ -27,6 +27,12 @@ Pod::Spec.new do |s|
    sp.dependency 'OCFuntime/Core'
  end
 
+ s.subspec 'Protocols' do |sp|
+   sp.source_files = 'Classes/Protocols/**/*.{h,m}'
+   sp.dependency 'OCFuntime/Core'
+ end
+
+
  s.subspec 'Shared' do |sp|
    sp.source_files = 'Classes/Shared/*.{h,m}'
    sp.dependency 'OCFuntime/Core'
@@ -49,6 +55,7 @@ Pod::Spec.new do |s|
    sp.source_files = 'Classes/All/*.h'
    sp.dependency 'OCFuntime/NSObject+OCFMethods'
    sp.dependency 'OCFuntime/NSObject+OCFProperties'
+   sp.dependency 'OCFuntime/Protocols'
  end
 
  s.default_subspecs = 'All'
