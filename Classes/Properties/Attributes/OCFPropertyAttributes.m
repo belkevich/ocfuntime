@@ -20,7 +20,7 @@
 
 #pragma mark - life cycle
 
-- (id)initWithProperty:(objc_property_t)property name:(NSString *)name
+- (instancetype)initWithProperty:(objc_property_t)property name:(NSString *)name
 {
     self = [super init];
     if (self)

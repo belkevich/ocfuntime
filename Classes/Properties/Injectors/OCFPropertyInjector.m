@@ -28,7 +28,7 @@
 
 #pragma mark - life cycle
 
-- (id)initWithClass:(Class)theClass
+- (instancetype)initWithClass:(Class)theClass
 {
     if (self = [super init])
     {

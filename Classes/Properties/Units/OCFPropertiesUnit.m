@@ -19,7 +19,7 @@
 
 #pragma mark - life cycle
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self)

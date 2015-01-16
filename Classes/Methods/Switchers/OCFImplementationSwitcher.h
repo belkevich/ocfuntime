@@ -11,8 +11,8 @@
 
 @interface OCFImplementationSwitcher : NSObject
 
-- (id)initWithClass:(Class)theClass instanceMethod:(SEL)selector;
-- (id)initWithClass:(Class)theClass classMethod:(SEL)selector;
+- (instancetype)initWithClass:(Class)theClass instanceMethod:(SEL)selector;
+- (instancetype)initWithClass:(Class)theClass classMethod:(SEL)selector;
 - (void)changeImplementationWithBlock:(id)block;
 - (void)revertImplementation;
 

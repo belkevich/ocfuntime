@@ -28,6 +28,6 @@ typedef enum
 @property (nonatomic, readonly) BOOL isSynthesized;
 @property (nonatomic, readonly) const char *key;
 
-- (id)initWithProperty:(objc_property_t)property name:(NSString *)name;
+- (instancetype)initWithProperty:(objc_property_t)property name:(NSString *)name;
 
 @end

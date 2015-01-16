@@ -10,7 +10,7 @@
 
 @interface OCFPropertyInjector : NSObject
 
-- (id)initWithClass:(Class)theClass;
+- (instancetype)initWithClass:(Class)theClass;
 - (void)injectProperty:(NSString *)propertyName;
 - (void)removeProperty:(NSString *)propertyName;
 - (void)removeAllProperties;

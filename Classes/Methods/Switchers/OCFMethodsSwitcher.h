@@ -10,7 +10,7 @@
 
 @interface OCFMethodsSwitcher : NSObject
 
-- (id)initWithClass:(Class)theClass;
+- (instancetype)initWithClass:(Class)theClass;
 - (void)changeInstanceMethod:(SEL)selector implementationWithBlock:(id)block;
 - (void)changeClassMethod:(SEL)selector implementationWithBlock:(id)block;
 - (void)revertInstanceMethod:(SEL)selector;

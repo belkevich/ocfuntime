@@ -20,17 +20,17 @@
 
 #pragma mark - life cycle
 
-- (id)initWithClass:(Class)theClass instanceMethod:(SEL)selector
+- (instancetype)initWithClass:(Class)theClass instanceMethod:(SEL)selector
 {
     return [self initWithClass:theClass method:selector instance:YES];
 }
 
-- (id)initWithClass:(Class)theClass classMethod:(SEL)selector
+- (instancetype)initWithClass:(Class)theClass classMethod:(SEL)selector
 {
     return [self initWithClass:theClass method:selector instance:NO];
 }
 
-- (id)initWithClass:(Class)theClass method:(SEL)selector instance:(BOOL)instance
+- (instancetype)initWithClass:(Class)theClass method:(SEL)selector instance:(BOOL)instance
 {
     self = [super init];
     if (self)
