@@ -17,6 +17,7 @@
 - (BOOL)implementedMethodToOverride;
 + (BOOL)implementedMethod;
 + (BOOL)implementedMethodToOverride;
+@property (nonatomic, assign) BOOL someProperty;
 @required
 - (void)requiredMethod;
 @end

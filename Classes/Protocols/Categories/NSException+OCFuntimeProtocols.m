@@ -10,7 +10,6 @@
 #import "NSException+OCFuntimeCore.h"
 #import "OCFAutoInjectProtocol.h"
 
-
 @implementation NSException (OCFuntimeProtocols)
 
 + (NSException *)exceptionNoProtocol

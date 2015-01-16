@@ -71,6 +71,24 @@ describe(@"OCFuntime protocol optional method injection", ^
         [OCFProtocolMock staticMethod] should equal(YES);
     });
 
+    it(@"should inject protocol property getter", ^
+    {
+        [funtime injectProtocol:@protocol(OCFSimpleProtocol) instanceMethod:@selector(someProperty) implementaion:^
+        {
+            return YES;
+        }];
+        mock.someProperty should equal(YES);
+    });
+
+    it(@"should inject protocol property setter", ^
+    {
+        [funtime injectProtocol:@protocol(OCFSimpleProtocol) instanceMethod:@selector(setSomeProperty:) implementaion:^{}];
+        ^
+        {
+            mock.someProperty = NO;
+        } should_not raise_exception;
+    });
+
     it (@"should skip injection if instance method is already implemented", ^
     {
         [funtime injectProtocol:@protocol(OCFSimpleProtocol) instanceMethod:@selector(implementedMethod)
