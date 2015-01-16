@@ -11,7 +11,6 @@
 @protocol OCFUnitProtocol <NSObject>
 
 @optional
-- (void)prepareUnit;
 - (void)shutdownUnit;
 
 @end
