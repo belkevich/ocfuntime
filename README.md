@@ -210,6 +210,9 @@ AnotherClass *anotherInstance = [[AnotherClass alloc] init];
 [AnotherClass classMethod:YES]; // NO;
 ```
 
+**Notes**
+* Injection of '@required' methods will raise exception
+
 ## Other
 
 **Shared instance**
