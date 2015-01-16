@@ -10,8 +10,9 @@
 
 @interface OCFuntime (Protocols)
 
-- (void)injectProtocol:(Protocol *)theProtocol method:(SEL)method implementaion:(id)implementation;
-- (void)removeInjectedProtocol:(Protocol *)theProtocol method:(SEL)method;
-- (void)removeInjectedProtocol:(Protocol *)theProtocol;
+- (void)injectProtocol:(Protocol *)theProtocol classMethod:(SEL)method implementaion:(id)implementation;
+- (void)injectProtocol:(Protocol *)theProtocol instanceMethod:(SEL)method implementaion:(id)implementation;
+- (void)forceInjectProtocol:(Protocol *)theProtocol classMethod:(SEL)method implementaion:(id)implementation;
+- (void)forceInjectProtocol:(Protocol *)theProtocol instanceMethod:(SEL)method implementaion:(id)implementation;
 
 @end

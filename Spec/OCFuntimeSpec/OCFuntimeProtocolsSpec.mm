@@ -8,7 +8,6 @@
 
 #import "OCFuntime+Protocols.h"
 #import "OCFProtocolMock.h"
-#import "OCFuntime+Properties.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -26,26 +25,11 @@ describe(@"OCFuntime protocol optional method injection", ^
         mock = [[OCFProtocolMock alloc] init];
     });
 
-    afterEach((id)^
-    {
-        [funtime removeAllProperties];
-        funtime = nil;
-        mock = nil;
-    });
-
-    it(@"should throw exception if protocol method doesn't injected", ^
-    {
-        ^
-        {
-            [mock simpleMethodOne];
-        } should raise_exception;
-    });
-
     it(@"should throw exception on injection if protocol doesn't conform OCFAutoInjectProtocol", ^
     {
         ^
         {
-            [funtime injectProtocol:@protocol(OCFBadProtocol) method:@selector(badMethod) implementaion:^{}];
+            [funtime injectProtocol:@protocol(OCFBadProtocol) instanceMethod:@selector(badMethod) implementaion:^{}];
         } should raise_exception;
     });
 
@@ -53,7 +37,7 @@ describe(@"OCFuntime protocol optional method injection", ^
     {
         ^
         {
-            [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(badMethod) implementaion:^{}];
+            [funtime injectProtocol:@protocol(OCFSimpleProtocol) instanceMethod:@selector(badMethod) implementaion:^{}];
         } should raise_exception;
     });
 
@@ -61,14 +45,35 @@ describe(@"OCFuntime protocol optional method injection", ^
     {
         ^
         {
-            [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(requiredMethod) implementaion:^{}];
+            [funtime injectProtocol:@protocol(OCFSimpleProtocol) instanceMethod:@selector(requiredMethod)
+                      implementaion:^{}];
         } should raise_exception;
 
     });
 
-    it (@"should skip injection if method is already implemented", ^
+    it(@"should inject protocol instance method", ^
     {
-        [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(implementedMethod)
+        [funtime injectProtocol:@protocol(OCFSimpleProtocol) instanceMethod:@selector(instanceMethod)
+                  implementaion:^
+        {
+            return YES;
+        }];
+        [mock instanceMethod] should equal(YES);
+    });
+
+    it(@"should inject protocol class method", ^
+    {
+        [funtime injectProtocol:@protocol(OCFSimpleProtocol) classMethod:@selector(staticMethod)
+                  implementaion:^
+        {
+            return YES;
+        }];
+        [OCFProtocolMock staticMethod] should equal(YES);
+    });
+
+    it (@"should skip injection if instance method is already implemented", ^
+    {
+        [funtime injectProtocol:@protocol(OCFSimpleProtocol) instanceMethod:@selector(implementedMethod)
                   implementaion:^
         {
             return YES;
@@ -76,128 +81,61 @@ describe(@"OCFuntime protocol optional method injection", ^
         [mock implementedMethod] should equal(NO);
     });
 
-    it (@"should override injection if method is already injected", ^
+    it (@"should override instance method if force injection", ^
     {
-        [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodTwoWithArgument:)
-                  implementaion:^(id instance, BOOL argument)
+        [funtime forceInjectProtocol:@protocol(OCFSimpleProtocol) instanceMethod:@selector(implementedMethodToOverride)
+                       implementaion:^
         {
-            return argument;
+            return YES;
         }];
-        [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodTwoWithArgument:)
-                  implementaion:^(id instance, BOOL argument)
-        {
-            return !argument;
-        }];
-        [mock simpleMethodTwoWithArgument:YES] should equal(NO);
+        [mock implementedMethodToOverride] should equal(YES);
     });
 
-    it(@"should not throw exception on method call if method was injected", ^
+    it (@"should skip injection if class method is already implemented", ^
     {
-        [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodOne) implementaion:^{}];
-        ^
-        {
-            [mock simpleMethodOne];
-        } should_not raise_exception;
-    });
-
-    it(@"should inject protocol method", ^
-    {
-        [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodTwoWithArgument:)
-                  implementaion:^(id instance, BOOL argument)
-        {
-            return argument;
-        }];
-        [mock simpleMethodTwoWithArgument:YES] should equal(YES);
-        [mock simpleMethodTwoWithArgument:NO] should equal(NO);
-    });
-
-    it(@"should remove injection for protocol method", ^{
-        [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodOne) implementaion:^{}];
-        [funtime removeInjectedProtocol:@protocol(OCFSimpleProtocol)
-                                 method:@selector(simpleMethodOne)];
-        ^
-        {
-            [mock simpleMethodOne];
-        } should raise_exception;
-    });
-
-    it(@"should remove injection for all protocol methods", ^{
-        [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodOne) implementaion:^{}];
-        [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodTwoWithArgument:)
+        [funtime injectProtocol:@protocol(OCFSimpleProtocol) classMethod:@selector(implementedMethod)
                   implementaion:^
         {
-            return NO;
+            return YES;
         }];
-        [funtime removeInjectedProtocol:@protocol(OCFSimpleProtocol)];
-        ^
-        {
-            [mock simpleMethodOne];
-        } should raise_exception;
-        ^
-        {
-            [mock simpleMethodTwoWithArgument:NO];
-        } should raise_exception;
+        [OCFProtocolMock implementedMethod] should equal(NO);
     });
 
-    it(@"should remove injection on 'funtime' dealloc", ^
+    it (@"should override instance method if force injection", ^
     {
-        [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodOne) implementaion:^{}];
-        funtime = nil;
-        ^
+        [funtime forceInjectProtocol:@protocol(OCFSimpleProtocol) classMethod:@selector(implementedMethodToOverride)
+                       implementaion:^
         {
-            [mock simpleMethodOne];
-        } should raise_exception;
+            return YES;
+        }];
+        [OCFProtocolMock implementedMethodToOverride] should equal(YES);
     });
 
-    it(@"should thow exception on injection if protocol is nil", ^
+    it(@"should throw exception on injection if protocol is nil", ^
     {
         ^
         {
-            [funtime injectProtocol:nil method:@selector(simpleMethodOne) implementaion:^{}];
+            [funtime injectProtocol:nil instanceMethod:@selector(simpleMethodOne) implementaion:^{}];
         } should raise_exception;
     });
 
-    it(@"should thow exception on injection if method is nil on injection", ^
+    it(@"should throw exception on injection if method is nil on injection", ^
     {
         ^
         {
-            [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:nil implementaion:^{}];
+            [funtime injectProtocol:@protocol(OCFSimpleProtocol) instanceMethod:nil implementaion:^{}];
         } should raise_exception;
     });
 
-    it(@"should thow exception on injection if implementation is nil", ^
+    it(@"should throw exception on injection if implementation is nil", ^
     {
         ^
         {
-            [funtime injectProtocol:@protocol(OCFSimpleProtocol) method:@selector(simpleMethodOne) implementaion:nil];
-        } should raise_exception;
-    });
-
-    it(@"should thow exception on removing method injection if protocol is nil", ^
-    {
-        ^
-        {
-            [funtime removeInjectedProtocol:nil method:@selector(simpleMethodOne)];
-        } should raise_exception;
-    });
-
-    it(@"should thow exception on removing method injection if method is nil", ^
-    {
-        ^
-        {
-            [funtime removeInjectedProtocol:@protocol(OCFSimpleProtocol) method:nil];
-        } should raise_exception;
-    });
-
-    it(@"should thow exception on removing protocol injection if protocol is nil", ^
-    {
-        ^
-        {
-            [funtime removeInjectedProtocol:nil];
+            [funtime injectProtocol:@protocol(OCFSimpleProtocol) instanceMethod:@selector(simpleMethodOne)
+                      implementaion:nil];
         } should raise_exception;
     });
 
 });
-
 
 SPEC_END

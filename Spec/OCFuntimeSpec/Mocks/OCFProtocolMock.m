@@ -10,8 +10,30 @@
 
 @implementation OCFProtocolMock
 
-- (BOOL)implementedMethod {
+- (BOOL)implementedMethod
+{
     return NO;
 }
+
+- (BOOL)implementedMethodToOverride
+{
+    return NO;
+}
+
++ (BOOL)implementedMethod
+{
+    return NO;
+}
+
++ (BOOL)implementedMethodToOverride
+{
+    return NO;
+}
+
+- (void)requiredMethod
+{
+
+}
+
 
 @end

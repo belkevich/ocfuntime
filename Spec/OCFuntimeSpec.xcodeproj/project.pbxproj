@@ -29,6 +29,7 @@
 		FA4B957D1A68523C0003F6E1 /* OCFProtocolMethodsFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4B957C1A68523C0003F6E1 /* OCFProtocolMethodsFetcher.m */; };
 		FA5113701850C3F200A8FBAA /* OCFPropertyMock.m in Sources */ = {isa = PBXBuildFile; fileRef = FA51136F1850C3F200A8FBAA /* OCFPropertyMock.m */; };
 		FA5113721850C7C900A8FBAA /* OCFuntimePropertySpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA5113711850C7C900A8FBAA /* OCFuntimePropertySpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FA65257A1A691F5F008E87CD /* OCFProtocolInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = FA6525791A691F5F008E87CD /* OCFProtocolInjector.m */; };
 		FA6EC186184CE0D5007DA37B /* NSObject+OCFMethodsSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA6EC185184CE0D5007DA37B /* NSObject+OCFMethodsSpec.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FAE50D951972A85300946751 /* NSException+OCFuntimeCore.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE50D531972A85200946751 /* NSException+OCFuntimeCore.m */; };
 		FAE50D961972A85300946751 /* OCFuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE50D551972A85200946751 /* OCFuntime.m */; };
@@ -95,6 +96,8 @@
 		FA51136E1850C3F200A8FBAA /* OCFPropertyMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCFPropertyMock.h; sourceTree = "<group>"; };
 		FA51136F1850C3F200A8FBAA /* OCFPropertyMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCFPropertyMock.m; sourceTree = "<group>"; };
 		FA5113711850C7C900A8FBAA /* OCFuntimePropertySpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OCFuntimePropertySpec.mm; sourceTree = "<group>"; };
+		FA6525781A691F5F008E87CD /* OCFProtocolInjector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OCFProtocolInjector.h; path = Protocols/Injectors/OCFProtocolInjector.h; sourceTree = "<group>"; };
+		FA6525791A691F5F008E87CD /* OCFProtocolInjector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OCFProtocolInjector.m; path = Protocols/Injectors/OCFProtocolInjector.m; sourceTree = "<group>"; };
 		FA6EC185184CE0D5007DA37B /* NSObject+OCFMethodsSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSObject+OCFMethodsSpec.mm"; sourceTree = "<group>"; };
 		FAE50D521972A85200946751 /* NSException+OCFuntimeCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSException+OCFuntimeCore.h"; sourceTree = "<group>"; };
 		FAE50D531972A85200946751 /* NSException+OCFuntimeCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSException+OCFuntimeCore.m"; sourceTree = "<group>"; };
@@ -210,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				FA4B957A1A6852150003F6E1 /* Fetchers */,
+				FA65257B1A691F66008E87CD /* Injectors */,
 				FA294F6B1A68234F003E7EF4 /* Helpers */,
 				FA294F671A681C59003E7EF4 /* Categories */,
 				FA294F5D1A680635003E7EF4 /* Units */,
@@ -310,6 +314,15 @@
 				FA4B957C1A68523C0003F6E1 /* OCFProtocolMethodsFetcher.m */,
 			);
 			name = Fetchers;
+			sourceTree = "<group>";
+		};
+		FA65257B1A691F66008E87CD /* Injectors */ = {
+			isa = PBXGroup;
+			children = (
+				FA6525781A691F5F008E87CD /* OCFProtocolInjector.h */,
+				FA6525791A691F5F008E87CD /* OCFProtocolInjector.m */,
+			);
+			name = Injectors;
 			sourceTree = "<group>";
 		};
 		FAE50D4F1972A85200946751 /* Classes */ = {
@@ -687,6 +700,7 @@
 				FAE50D9B1972A85300946751 /* OCFMethodsUnit.m in Sources */,
 				FAE50DB91972C43300946751 /* NSObject+OCFMethods.m in Sources */,
 				FAE50DA01972A85300946751 /* NSString+ASCIIString.m in Sources */,
+				FA65257A1A691F5F008E87CD /* OCFProtocolInjector.m in Sources */,
 				FA294F6A1A682343003E7EF4 /* OCFProtocolMethodsHelper.m in Sources */,
 				FA294F661A681C54003E7EF4 /* NSException+OCFuntimeProtocols.m in Sources */,
 				FAE50D9A1972A85300946751 /* OCFMethodsSwitcher.m in Sources */,

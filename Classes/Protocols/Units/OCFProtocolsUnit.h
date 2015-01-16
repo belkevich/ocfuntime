@@ -10,8 +10,7 @@
 
 @interface OCFProtocolsUnit : NSObject
 
-- (void)injectProtocol:(Protocol *)theProtocol method:(SEL)method implementaion:(id)implementation;
-- (void)removeInjectedProtocol:(Protocol *)theProtocol method:(SEL)method;
-- (void)removeInjectedProtocolMethods:(Protocol *)theProtocol;
+- (void)forceInject:(BOOL)force protocol:(Protocol *)theProtocol classMethod:(SEL)method implementaion:(id)implementation;
+- (void)forceInject:(BOOL)force protocol:(Protocol *)theProtocol instanceMethod:(SEL)method implementaion:(id)implementation;
 
 @end

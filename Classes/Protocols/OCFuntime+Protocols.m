@@ -13,23 +13,28 @@
 
 @implementation OCFuntime (Protocols)
 
-- (void)injectProtocol:(Protocol *)theProtocol method:(SEL)method implementaion:(id)implementation
+- (void)injectProtocol:(Protocol *)theProtocol classMethod:(SEL)method implementaion:(id)implementation
 {
     OCFProtocolsUnit *unit = (OCFProtocolsUnit *)[self unitOfClass:OCFProtocolsUnit.class];
-    [unit injectProtocol:theProtocol method:method implementaion:implementation];
+    [unit forceInject:NO protocol:theProtocol classMethod:method implementaion:implementation];
 }
 
-- (void)removeInjectedProtocol:(Protocol *)theProtocol method:(SEL)method
+- (void)injectProtocol:(Protocol *)theProtocol instanceMethod:(SEL)method implementaion:(id)implementation
 {
     OCFProtocolsUnit *unit = (OCFProtocolsUnit *)[self unitOfClass:OCFProtocolsUnit.class];
-    [unit removeInjectedProtocol:theProtocol method:method];
+    [unit forceInject:NO protocol:theProtocol instanceMethod:method implementaion:implementation];
 }
 
-- (void)removeInjectedProtocol:(Protocol *)theProtocol
+- (void)forceInjectProtocol:(Protocol *)theProtocol classMethod:(SEL)method implementaion:(id)implementation
 {
     OCFProtocolsUnit *unit = (OCFProtocolsUnit *)[self unitOfClass:OCFProtocolsUnit.class];
-    [unit removeInjectedProtocolMethods:theProtocol];
+    [unit forceInject:YES protocol:theProtocol classMethod:method implementaion:implementation];
 }
 
+- (void)forceInjectProtocol:(Protocol *)theProtocol instanceMethod:(SEL)method implementaion:(id)implementation
+{
+    OCFProtocolsUnit *unit = (OCFProtocolsUnit *)[self unitOfClass:OCFProtocolsUnit.class];
+    [unit forceInject:YES protocol:theProtocol instanceMethod:method implementaion:implementation];
+}
 
 @end

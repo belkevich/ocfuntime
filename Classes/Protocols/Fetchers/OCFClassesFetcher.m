@@ -13,7 +13,6 @@
 {
     unsigned int _count;
     Class *_classes;
-    NSMutableDictionary *_protocolClasses;
 }
 @end
 
@@ -27,7 +26,6 @@
     if (self)
     {
         _classes = objc_copyClassList(&_count);
-        _protocolClasses = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -44,23 +42,16 @@
 
 - (NSArray *)classesConformsToProtocol:(Protocol *)theProtocol
 {
-    NSString *protocolName = NSStringFromProtocol(theProtocol);
-    NSArray *classes = _protocolClasses[protocolName];
-    if (!classes)
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    for (NSUInteger i = 0; i < _count; i++)
     {
-        NSMutableArray *array = [[NSMutableArray alloc] init];
-        for (NSUInteger i = 0; i < _count; i++)
+        Class theClass = _classes[i];
+        if (class_conformsToProtocol(theClass, theProtocol))
         {
-            Class theClass = _classes[i];
-            if (class_conformsToProtocol(theClass, theProtocol))
-            {
-                [array addObject:NSStringFromClass(theClass)];
-            }
+            [array addObject:NSStringFromClass(theClass)];
         }
-        classes = array.count > 0 ? array.copy : nil;
-        _protocolClasses[protocolName] = classes;
     }
-    return classes;
+    return array.count > 0 ? array.copy : nil;
 }
 
 @end

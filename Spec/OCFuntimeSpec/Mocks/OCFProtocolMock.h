@@ -11,9 +11,12 @@
 
 @protocol OCFSimpleProtocol <OCFAutoInjectProtocol>
 @optional
-- (void)simpleMethodOne;
-- (BOOL)simpleMethodTwoWithArgument:(BOOL)argument;
+- (BOOL)instanceMethod;
++ (BOOL)staticMethod;
 - (BOOL)implementedMethod;
+- (BOOL)implementedMethodToOverride;
++ (BOOL)implementedMethod;
++ (BOOL)implementedMethodToOverride;
 @required
 - (void)requiredMethod;
 @end
