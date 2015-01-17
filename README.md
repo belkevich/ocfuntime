@@ -197,7 +197,7 @@ OCFuntime *funtime = [[OCFuntime alloc] init];
     return argument;
 }];
 [funtime injectProtocol:@protocol(SomeProtocol) classMethod:@selector(classMethod:)
-         implementation:^(id selfInstance, BOOL argument)
+         implementation:^(Class theClass, BOOL argument)
 {
     return !argument;
 }];
