@@ -168,7 +168,7 @@ Add `pod 'OCFuntime/NSObject+OCFProperties'` to [Podfile](http://guides.cocoapod
 ## Auto injection of protocol optional method
 Auto injection of protocol optional method allows to inject method with block to all classes that conform protocol. To override existing implementation or previous injection use `forceInject` method.
 
-** Installation**
+**Installation**
 
 Add `pod 'OCFuntime/Protocols'` to [Podfile](http://guides.cocoapods.org/using/the-podfile.html)
 
