@@ -10,7 +10,9 @@
 
 @interface OCFPropertyBlocksBuilder : NSObject
 
-+ (id)methodSignatureBlockWithDictionary:(NSDictionary *)dictionary;
-+ (id)forwardInvocationBlockWithDictionary:(NSDictionary *)dictionary;
++ (id)swizzledMethodSignatureBlockWithDictionary:(NSDictionary *)dictionary;
++ (id)swizzledForwardInvocationBlockWithDictionary:(NSDictionary *)dictionary;
++ (id)injectedMethodSignatureBlockWithDictionary:(NSDictionary *)dictionary;
++ (id)injectedForwardInvocationBlockWithDictionary:(NSDictionary *)dictionary;
 
 @end

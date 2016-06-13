@@ -8,6 +8,7 @@
 
 #import "OCFuntime+Properties.h"
 #import "OCFPropertyMock.h"
+#import "OCFAdvancedPropertyMock.h"
 
 using namespace Cedar::Matchers;
 using namespace Cedar::Doubles;
@@ -19,16 +20,19 @@ describe(@"OCFuntime inject property", ^
 {
     __block OCFuntime *funtime = nil;
     __block OCFPropertyMock *mock = nil;
+    __block OCFAdvancedPropertyMock *advancedMock = nil;
 
     beforeEach((id)^
     {
         mock = [[OCFPropertyMock alloc] init];
+        advancedMock = [[OCFAdvancedPropertyMock alloc] init];
         funtime = [[OCFuntime alloc] init];
     });
 
     afterEach((id)^
     {
         [mock release];
+        [advancedMock release];
         [funtime release];
     });
 
@@ -38,7 +42,7 @@ describe(@"OCFuntime inject property", ^
         {
             id someObject = mock.objectStrongProperty;
             NSLog(@"%@", someObject);
-        }should raise_exception;
+        } should raise_exception;
     });
 
     it(@"should throw exception on property injection if property synthesized", ^
@@ -163,7 +167,7 @@ describe(@"OCFuntime inject property", ^
     it(@"should not retain value of injected copy property ", ^
     {
         [funtime injectClass:OCFPropertyMock.class property:@"objectCopyProperty"];
-        NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@(1), @(2), nil];
+        NSMutableArray *array = [@[@(1), @(2)] mutableCopy];
         mock.objectCopyProperty = array;
         array.retainCount should equal(1);
         [array release];
@@ -172,7 +176,7 @@ describe(@"OCFuntime inject property", ^
     it(@"should copy value of injected copy property", ^
     {
         [funtime injectClass:OCFPropertyMock.class property:@"objectCopyProperty"];
-        NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@(1), @(2), nil];
+        NSMutableArray *array = [@[@(1), @(2)] mutableCopy];
         mock.objectCopyProperty = array;
         // --- workaround to prevent compiler optimizations ---
         [array removeLastObject];
@@ -300,37 +304,59 @@ describe(@"OCFuntime inject property", ^
         mock.pFloatProperty should equal(&floatValue);
     });
 
+    it(@"should not break superclass 'methodSignature' method", ^
+    {
+        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
+        NSObject *superclassInstance = [[NSObject alloc] init];
+        [superclassInstance methodSignatureForSelector:@selector(objectStrongProperty)] should equal(nil);
+        [superclassInstance release];
+    });
+
+    it(@"should not break superclass 'forwardInvocation' method", ^
+    {
+        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
+        NSObject *superclassInstance = [[NSObject alloc] init];
+        NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"@@:"];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+        invocation.selector = @selector(objectStrongProperty);
+        ^
+        {
+            [superclassInstance forwardInvocation:invocation];
+        } should raise_exception;
+    });
+
     it(@"should not break original 'methodSignature' method", ^
     {
-        [funtime injectClass:OCFPropertyMock.class property:@"pFloatProperty"];
-        [mock methodSignatureForSelector:NSSelectorFromString(@"testSelector")] should_not be_nil;
-        mock.isMethodSignatureCalled should equal(YES);
+        [funtime injectClass:OCFAdvancedPropertyMock.class property:@"someProperty"];
+        [advancedMock methodSignatureForSelector:NSSelectorFromString(@"testSelector")] should_not be_nil;
+        advancedMock.isMethodSignatureCalled should equal(YES);
     });
 
     it(@"should not break original 'forwardInvocation' method", ^
     {
-        [funtime injectClass:OCFPropertyMock.class property:@"pFloatProperty"];
+        [funtime injectClass:OCFAdvancedPropertyMock.class property:@"someProperty"];
         NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:"];
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
         ^
         {
-            [mock forwardInvocation:invocation];
+            [advancedMock forwardInvocation:invocation];
         } should raise_exception;
-        mock.isForwardInvocationCalled should equal(YES);
+        advancedMock.isForwardInvocationCalled should equal(YES);
     });
 
     it(@"should revert to original 'methodSignature' after dealloc", ^
     {
         SEL testSelector = NSSelectorFromString(kTestSelectorName);
-        SEL propertySelector = NSSelectorFromString(@"objectStrongProperty");
-        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
-        [mock methodSignatureForSelector:propertySelector] should_not be_nil;
-        [mock methodSignatureForSelector:testSelector] should_not be_nil;
+        SEL propertySelector = NSSelectorFromString(@"someProperty");
+        [funtime injectClass:OCFAdvancedPropertyMock.class property:@"someProperty"];
+        [advancedMock methodSignatureForSelector:propertySelector] should_not be_nil;
+        [advancedMock methodSignatureForSelector:testSelector] should_not be_nil;
         [funtime release];
         funtime = nil;
-        [mock methodSignatureForSelector:propertySelector] should be_nil;
-        [mock methodSignatureForSelector:testSelector] should_not be_nil;
+        [advancedMock methodSignatureForSelector:propertySelector] should be_nil;
+        [advancedMock methodSignatureForSelector:testSelector] should_not be_nil;
     });
+
 });
 
 SPEC_END

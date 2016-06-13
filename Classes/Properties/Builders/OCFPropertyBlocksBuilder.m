@@ -13,7 +13,7 @@
 
 @implementation OCFPropertyBlocksBuilder
 
-+ (id)methodSignatureBlockWithDictionary:(NSDictionary *)dictionary
++ (id)swizzledMethodSignatureBlockWithDictionary:(NSDictionary *)dictionary
 {
     __weak NSDictionary *methodsSignatures = dictionary;
     return ^(id instance, SEL methodSelector)
@@ -29,7 +29,7 @@
     };
 }
 
-+ (id)forwardInvocationBlockWithDictionary:(NSDictionary *)dictionary
++ (id)swizzledForwardInvocationBlockWithDictionary:(NSDictionary *)dictionary
 {
     __weak NSDictionary *methodsAttributes = dictionary;
     return ^(id instance, NSInvocation *invocation)
@@ -46,6 +46,34 @@
             // run original method
             [instance OCFForwardInvocation:invocation];
         }
+    };
+}
+
++ (id)injectedMethodSignatureBlockWithDictionary:(NSDictionary *)dictionary
+{
+    __weak NSDictionary *methodsSignatures = dictionary;
+    return ^(id instance, SEL methodSelector)
+    {
+        NSString *methodName = NSStringFromSelector(methodSelector);
+        NSMethodSignature *signature = methodsSignatures[methodName];
+        // TODO: add superclass method call
+        return signature;
+    };
+}
+
++ (id)injectedForwardInvocationBlockWithDictionary:(NSDictionary *)dictionary
+{
+    __weak NSDictionary *methodsAttributes = dictionary;
+    return ^(id instance, NSInvocation *invocation)
+    {
+        NSString *methodName = NSStringFromSelector(invocation.selector);
+        OCFPropertyAttributes *attributes = methodsAttributes[methodName];
+        if (attributes)
+        {
+            [OCFInvocationParser parsePropertyInvocation:invocation onInstance:instance
+                                          withAttributes:attributes];
+        }
+        // TODO: add superclass method call
     };
 }
 

@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-NSString * const kTestSelectorName = @"testSelector";
-
 typedef void (^OCFPropertyMockBlock)();
 
 typedef struct
@@ -34,8 +32,5 @@ typedef struct
 
 @property (nonatomic, strong) id implementedProperty;
 @property (nonatomic, strong) id synthesizedProperty;
-
-@property (nonatomic, readonly) BOOL isMethodSignatureCalled;
-@property (nonatomic, readonly) BOOL isForwardInvocationCalled;
 
 @end

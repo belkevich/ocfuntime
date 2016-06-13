@@ -7,10 +7,9 @@
 //
 
 #import "OCFPropertyInjector.h"
-#import "OCFPropertyParser.h"
 #import "OCFPropertyFetcher.h"
-#import "OCFPropertyBlocksBuilder.h"
-#import "OCFMethodInjector.h"
+#import "OCFPropertyParser.h"
+#import "OCFInvocationInjector.h"
 #import "NSException+OCFuntimeProperties.h"
 #import "NSObject+OCFuntimeProperties.h"
 
@@ -19,6 +18,7 @@
     Class _theClass;
     OCFPropertyFetcher *_fetcher;
     OCFPropertyParser *_parser;
+    OCFInvocationInjector *_invocationInjector;
     NSMutableDictionary *_methodsSignatures;
     NSMutableDictionary *_methodsAttributes;
 }
@@ -38,6 +38,9 @@
         _parser = [[OCFPropertyParser alloc] init];
         _methodsSignatures = [[NSMutableDictionary alloc] init];
         _methodsAttributes = [[NSMutableDictionary alloc] init];
+        _invocationInjector = [[OCFInvocationInjector alloc] initWithClass:_theClass
+                                                      signaturesDictionary:_methodsSignatures
+                                                      attributesDictionary:_methodsAttributes];
     }
     return self;
 }
@@ -58,7 +61,7 @@
         {
             if (_methodsSignatures.count == 0 && _methodsAttributes.count == 0)
             {
-                [self swizzleInvocationMethods];
+                [self injectInvocationMethods];
             }
             _methodsSignatures[getterName] = _parser.getterSignature;
             _methodsSignatures[setterName] = _parser.setterSignature;
@@ -97,34 +100,14 @@
 
 - (void)revertInvocationMethods
 {
-    [OCFMethodInjector swizzleClass:_theClass instanceMethod:@selector(methodSignatureForSelector:)
-                         withMethod:@selector(OCFMethodSignatureForSelector:)];
-    [OCFMethodInjector swizzleClass:_theClass instanceMethod:@selector(forwardInvocation:)
-                         withMethod:@selector(OCFForwardInvocation:)];
+    [_invocationInjector revertMethodSignatureMethod];
+    [_invocationInjector revertForwardInvocationMethod];
 }
 
-- (void)swizzleInvocationMethods
+- (void)injectInvocationMethods
 {
-    [self swizzleMethodSignatureMethod];
-    [self swizzleForwardInvocationMethod];
-}
-
-- (void)swizzleMethodSignatureMethod
-{
-    SEL method = @selector(OCFMethodSignatureForSelector:);
-    id block = [OCFPropertyBlocksBuilder methodSignatureBlockWithDictionary:_methodsSignatures];
-    [OCFMethodInjector injectClass:_theClass instanceMethod:method types:"@@::" block:block];
-    [OCFMethodInjector swizzleClass:_theClass instanceMethod:@selector(methodSignatureForSelector:)
-                         withMethod:method];
-}
-
-- (void)swizzleForwardInvocationMethod
-{
-    SEL method = @selector(OCFForwardInvocation:);
-    id block = [OCFPropertyBlocksBuilder forwardInvocationBlockWithDictionary:_methodsAttributes];
-    [OCFMethodInjector injectClass:_theClass instanceMethod:method types:"v@:@" block:block];
-    [OCFMethodInjector swizzleClass:_theClass instanceMethod:@selector(forwardInvocation:)
-                         withMethod:method];
+    [_invocationInjector injectMethodSignatureMethod];
+    [_invocationInjector injectForwardInvocationMethod];
 }
 
 @end
