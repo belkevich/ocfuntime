@@ -12,6 +12,8 @@
 @optional
 - (NSMethodSignature *)OCFMethodSignatureForSelector:(SEL)aSelector;
 - (void)OCFForwardInvocation:(NSInvocation *)invocation;
+- (id)OCFValueForKeyPath:(NSString *)keyPath;
+- (void)OCFSetValue:(id)value forKeyPath:(NSString *)keyPath;
 @end
 
 @interface NSObject (OCFuntimeProperties) <OCFuntimeSwizzling>

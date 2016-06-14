@@ -13,6 +13,7 @@
 
 @implementation OCFInvocationParser
 
+
 #pragma mark - public
 
 + (void)parsePropertyInvocation:(NSInvocation *)invocation onInstance:(id)instance
@@ -141,4 +142,5 @@
     [invocation setReturnValue:buffer];
     free(buffer);
 }
+
 @end

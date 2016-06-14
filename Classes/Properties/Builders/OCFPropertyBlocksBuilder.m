@@ -6,12 +6,15 @@
 //  Copyright (c) 2014 okolodev. All rights reserved.
 //
 
+#import <objc/message.h>
 #import "OCFPropertyBlocksBuilder.h"
 #import "OCFPropertyAttributes.h"
 #import "OCFInvocationParser.h"
 #import "NSObject+OCFuntimeProperties.h"
 
 @implementation OCFPropertyBlocksBuilder
+
+#pragma mark - public
 
 + (id)swizzledMethodSignatureBlockWithDictionary:(NSDictionary *)dictionary
 {
@@ -49,6 +52,47 @@
     };
 }
 
++ (id)swizzledValueForKeyPathBlockWithDictionary:(NSDictionary *)dictionary
+{
+    __weak NSDictionary *methodsSignatures = dictionary;
+    return ^(id instance, NSString *keyPath)
+    {
+        if (methodsSignatures[keyPath])
+        {
+            SEL methodSelector = NSSelectorFromString(keyPath);
+            if (methodSelector)
+            {
+                return objc_msgSend(instance, methodSelector);
+            }
+        }
+        // run original method
+        return [instance OCFValueForKeyPath:keyPath];
+    };
+}
+
++ (id)swizzledSetValueForKeyPathBlockWithDictionary:(NSDictionary *)dictionary
+{
+    __weak NSDictionary *methodsSignatures = dictionary;
+    return ^(id instance, id value, NSString *keyPath)
+    {
+        NSString *firstLetter = [keyPath substringToIndex:1].capitalizedString;
+        NSString *rest = [keyPath substringFromIndex:1];
+        NSString *methodName = [NSString stringWithFormat:@"set%@%@:", firstLetter, rest];
+        if (methodsSignatures[methodName])
+        {
+            SEL methodSelector = NSSelectorFromString(methodName);
+            if (methodSelector)
+            {
+                objc_msgSend(instance, methodSelector, value);
+                return;
+            }
+        }
+        // run original method
+        [instance OCFSetValue:value forKeyPath:keyPath];
+    };
+}
+
+
 + (id)injectedMethodSignatureBlockWithDictionary:(NSDictionary *)dictionary
 {
     __weak NSDictionary *methodsSignatures = dictionary;
@@ -56,7 +100,13 @@
     {
         NSString *methodName = NSStringFromSelector(methodSelector);
         NSMethodSignature *signature = methodsSignatures[methodName];
-        // TODO: add superclass method call
+        // call superclass method
+        if (!signature)
+        {
+            struct objc_super superInstance = [self superInstanceForInstance:instance];
+            signature = objc_msgSendSuper(&superInstance, @selector(methodSignatureForSelector:),
+                                          methodSelector);
+        }
         return signature;
     };
 }
@@ -73,8 +123,65 @@
             [OCFInvocationParser parsePropertyInvocation:invocation onInstance:instance
                                           withAttributes:attributes];
         }
-        // TODO: add superclass method call
+        // call superclass method
+        else
+        {
+            struct objc_super superInstance = [self superInstanceForInstance:instance];
+            objc_msgSendSuper(&superInstance, @selector(forwardInvocation:), invocation);
+        }
     };
+}
+
++ (id)injectedValueForKeyPathBlockWithDictionary:(NSDictionary *)dictionary
+{
+    __weak NSDictionary *methodsSignatures = dictionary;
+    return ^(id instance, NSString *keyPath)
+    {
+        if (methodsSignatures[keyPath])
+        {
+            SEL methodSelector = NSSelectorFromString(keyPath);
+            if (methodSelector)
+            {
+                return objc_msgSend(instance, methodSelector);
+            }
+        }
+        // run super class method
+        struct objc_super superInstance = [self superInstanceForInstance:instance];
+        return objc_msgSendSuper(&superInstance, @selector(valueForKeyPath:), keyPath);
+    };
+}
+
++ (id)injectedSetValueForKeyPathBlockWithDictionary:(NSDictionary *)dictionary
+{
+    __weak NSDictionary *methodsSignatures = dictionary;
+    return ^(id instance, id value, NSString *keyPath)
+    {
+        NSString *firstLetter = [keyPath substringToIndex:1].capitalizedString;
+        NSString *rest = [keyPath substringFromIndex:1];
+        NSString *methodName = [NSString stringWithFormat:@"set%@%@:", firstLetter, rest];
+        if (methodsSignatures[methodName])
+        {
+            SEL methodSelector = NSSelectorFromString(methodName);
+            if (methodSelector)
+            {
+                objc_msgSend(instance, methodSelector, value);
+                return;
+            }
+        }
+        // run super class method
+        struct objc_super superInstance = [self superInstanceForInstance:instance];
+        objc_msgSendSuper(&superInstance, @selector(setValue:forKeyPath:), value, keyPath);
+    };
+}
+
+#pragma mark - private
+
++ (struct objc_super)superInstanceForInstance:(id)instance
+{
+    struct objc_super superInstance;
+    superInstance.super_class = class_getSuperclass([instance class]);
+    superInstance.receiver = instance;
+    return superInstance;
 }
 
 @end

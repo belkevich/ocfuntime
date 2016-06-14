@@ -18,6 +18,8 @@
     NSDictionary *_attributes;
     BOOL _isMethodSignatureMethodSwizzled;
     BOOL _isForwardInvocationMethodSwizzled;
+    BOOL _isValueForKeyPathSwizzled;
+    BOOL _isSetValueForKeyPathSwizzled;
 }
 @end
 
@@ -45,12 +47,11 @@
 {
     SEL method = @selector(methodSignatureForSelector:);
     static const char *types = "@@::";
-    if ([self isMethodSignatureMethodImplemented])
+    if ([self isMethodWithSelectorImplemented:method])
     {
         SEL swizzledMethod = @selector(OCFMethodSignatureForSelector:);
         id block = [OCFPropertyBlocksBuilder swizzledMethodSignatureBlockWithDictionary:_signatures];
-        [OCFMethodInjector injectClass:_theClass instanceMethod:swizzledMethod types:types
-                                 block:block];
+        [OCFMethodInjector injectClass:_theClass instanceMethod:swizzledMethod types:types block:block];
         [OCFMethodInjector swizzleClass:_theClass instanceMethod:method withMethod:swizzledMethod];
         _isMethodSignatureMethodSwizzled = YES;
     }
@@ -65,7 +66,7 @@
 {
     SEL method = @selector(forwardInvocation:);
     static const char *types = "v@:@";
-    if ([self isForwardInvocationMethodImplemented])
+    if ([self isMethodWithSelectorImplemented:method])
     {
         SEL swizzledMethod = @selector(OCFForwardInvocation:);
         id block = [OCFPropertyBlocksBuilder swizzledForwardInvocationBlockWithDictionary:_attributes];
@@ -80,11 +81,50 @@
     }
 }
 
+- (void)injectValueForKeyPathMethod
+{
+    SEL method = @selector(valueForKeyPath:);
+    static const char *types = "@@:@";
+    if ([self isMethodWithSelectorImplemented:method])
+    {
+        SEL swizzledMethod = @selector(OCFValueForKeyPath:);
+        id block = [OCFPropertyBlocksBuilder swizzledValueForKeyPathBlockWithDictionary:_signatures];
+        [OCFMethodInjector injectClass:_theClass instanceMethod:swizzledMethod types:types block:block];
+        [OCFMethodInjector swizzleClass:_theClass instanceMethod:method withMethod:swizzledMethod];
+        _isValueForKeyPathSwizzled = YES;
+    }
+    else
+    {
+        id block = [OCFPropertyBlocksBuilder injectedValueForKeyPathBlockWithDictionary:_signatures];
+        [OCFMethodInjector injectClass:_theClass instanceMethod:method types:types block:block];
+    }
+}
+
+- (void)injectSetValueForKeyPathMethod
+{
+    SEL method = @selector(setValue:forKeyPath:);
+    static const char *types = "v@:@:@";
+    if ([self isMethodWithSelectorImplemented:method])
+    {
+        SEL swizzledMethod = @selector(OCFSetValue:forKeyPath:);
+        id block = [OCFPropertyBlocksBuilder swizzledSetValueForKeyPathBlockWithDictionary:_signatures];
+        [OCFMethodInjector injectClass:_theClass instanceMethod:swizzledMethod types:types block:block];
+        [OCFMethodInjector swizzleClass:_theClass instanceMethod:method withMethod:swizzledMethod];
+        _isSetValueForKeyPathSwizzled = YES;
+    }
+    else
+    {
+        id block = [OCFPropertyBlocksBuilder injectedSetValueForKeyPathBlockWithDictionary:_signatures];
+        [OCFMethodInjector injectClass:_theClass instanceMethod:method types:types block:block];
+    }
+}
+
 - (void)revertMethodSignatureMethod
 {
+    SEL method = @selector(methodSignatureForSelector:);
     if (_isMethodSignatureMethodSwizzled)
     {
-        [OCFMethodInjector swizzleClass:_theClass instanceMethod:@selector(methodSignatureForSelector:)
+        [OCFMethodInjector swizzleClass:_theClass instanceMethod:method
                              withMethod:@selector(OCFMethodSignatureForSelector:)];
         _isMethodSignatureMethodSwizzled = NO;
     }
@@ -92,25 +132,38 @@
 
 - (void)revertForwardInvocationMethod
 {
+    SEL method = @selector(forwardInvocation:);
     if (_isForwardInvocationMethodSwizzled)
     {
-        [OCFMethodInjector swizzleClass:_theClass instanceMethod:@selector(forwardInvocation:)
+        [OCFMethodInjector swizzleClass:_theClass instanceMethod:method
                              withMethod:@selector(OCFForwardInvocation:)];
         _isForwardInvocationMethodSwizzled = NO;
     }
 }
 
+- (void)revertValueForKeyPathMethod
+{
+    SEL method = @selector(valueForKeyPath:);
+    if (_isValueForKeyPathSwizzled)
+    {
+        [OCFMethodInjector swizzleClass:_theClass instanceMethod:method
+                             withMethod:@selector(OCFValueForKeyPath:)];
+        _isValueForKeyPathSwizzled = NO;
+    }
+}
+
+- (void)revertSetValueForKeyPathMethod
+{
+    SEL method = @selector(setValue:forKeyPath:);
+    if (_isSetValueForKeyPathSwizzled)
+    {
+        [OCFMethodInjector swizzleClass:_theClass instanceMethod:method
+                             withMethod:@selector(OCFSetValue:forKeyPath:)];
+        _isSetValueForKeyPathSwizzled = NO;
+    }
+}
+
 #pragma mark - private
-
-- (BOOL)isMethodSignatureMethodImplemented
-{
-    return [self isMethodWithSelectorImplemented:@selector(methodSignatureForSelector:)];
-}
-
-- (BOOL)isForwardInvocationMethodImplemented
-{
-    return [self isMethodWithSelectorImplemented:@selector(forwardInvocation:)];
-}
 
 - (BOOL)isMethodWithSelectorImplemented:(SEL)methodSelector
 {

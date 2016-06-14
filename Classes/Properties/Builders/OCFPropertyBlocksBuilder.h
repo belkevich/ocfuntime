@@ -12,7 +12,11 @@
 
 + (id)swizzledMethodSignatureBlockWithDictionary:(NSDictionary *)dictionary;
 + (id)swizzledForwardInvocationBlockWithDictionary:(NSDictionary *)dictionary;
++ (id)swizzledValueForKeyPathBlockWithDictionary:(NSDictionary *)dictionary;
++ (id)swizzledSetValueForKeyPathBlockWithDictionary:(NSDictionary *)dictionary;
 + (id)injectedMethodSignatureBlockWithDictionary:(NSDictionary *)dictionary;
 + (id)injectedForwardInvocationBlockWithDictionary:(NSDictionary *)dictionary;
++ (id)injectedValueForKeyPathBlockWithDictionary:(NSDictionary *)dictionary;
++ (id)injectedSetValueForKeyPathBlockWithDictionary:(NSDictionary *)dictionary;
 
 @end

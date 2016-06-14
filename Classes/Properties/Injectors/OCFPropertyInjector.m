@@ -102,12 +102,16 @@
 {
     [_invocationInjector revertMethodSignatureMethod];
     [_invocationInjector revertForwardInvocationMethod];
+    [_invocationInjector revertValueForKeyPathMethod];
+    [_invocationInjector revertSetValueForKeyPathMethod];
 }
 
 - (void)injectInvocationMethods
 {
     [_invocationInjector injectMethodSignatureMethod];
     [_invocationInjector injectForwardInvocationMethod];
+    [_invocationInjector injectValueForKeyPathMethod];
+    [_invocationInjector injectSetValueForKeyPathMethod];
 }
 
 @end

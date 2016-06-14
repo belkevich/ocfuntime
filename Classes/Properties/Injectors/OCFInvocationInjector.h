@@ -15,7 +15,11 @@
          attributesDictionary:(NSDictionary *)attributes;
 - (void)injectMethodSignatureMethod;
 - (void)injectForwardInvocationMethod;
+- (void)injectValueForKeyPathMethod;
+- (void)injectSetValueForKeyPathMethod;
 - (void)revertMethodSignatureMethod;
 - (void)revertForwardInvocationMethod;
+- (void)revertValueForKeyPathMethod;
+- (void)revertSetValueForKeyPathMethod;
 
 @end

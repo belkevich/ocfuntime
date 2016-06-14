@@ -304,6 +304,22 @@ describe(@"OCFuntime inject property", ^
         mock.pFloatProperty should equal(&floatValue);
     });
 
+    it(@"should be able set property with KVC", ^
+    {
+        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
+        NSObject *value = [[[NSObject alloc] init] autorelease];
+        [mock setValue:value forKeyPath:@"objectStrongProperty"];
+        mock.objectStrongProperty should equal(value);
+    });
+
+    it(@"should be able read property with KVC", ^
+    {
+        [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
+        NSObject *value = [[[NSObject alloc] init] autorelease];
+        mock.objectStrongProperty = value;
+        [mock valueForKeyPath:@"objectStrongProperty"] should equal(value);
+    });
+
     it(@"should not break superclass 'methodSignature' method", ^
     {
         [funtime injectClass:OCFPropertyMock.class property:@"objectStrongProperty"];
