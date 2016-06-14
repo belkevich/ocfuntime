@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = "OCFuntime"
-  s.version           = "0.3.0"
+  s.version           = "0.3.1-beta1"
   s.summary           = "OCFuntime is a toolkit for objective-c runtime."
   s.homepage          = "https://github.com/belkevich/ocfuntime"
   s.license           = { :type => 'MIT', :file => 'LICENSE.txt' }
