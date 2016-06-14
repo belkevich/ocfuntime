@@ -62,7 +62,7 @@
             SEL methodSelector = NSSelectorFromString(keyPath);
             if (methodSelector)
             {
-                return objc_msgSend(instance, methodSelector);
+                return ((id(*)(id, SEL))objc_msgSend)(instance, methodSelector);
             }
         }
         // run original method
@@ -83,7 +83,7 @@
             SEL methodSelector = NSSelectorFromString(methodName);
             if (methodSelector)
             {
-                objc_msgSend(instance, methodSelector, value);
+                ((void(*)(id, SEL, id))objc_msgSend)(instance, methodSelector, value);
                 return;
             }
         }
@@ -104,8 +104,9 @@
         if (!signature)
         {
             struct objc_super superInstance = [self superInstanceForInstance:instance];
-            signature = objc_msgSendSuper(&superInstance, @selector(methodSignatureForSelector:),
-                                          methodSelector);
+            signature = ((id(*)(struct objc_super *, SEL, SEL))objc_msgSendSuper)(&superInstance,
+            @selector(methodSignatureForSelector:),
+            methodSelector);
         }
         return signature;
     };
@@ -127,7 +128,9 @@
         else
         {
             struct objc_super superInstance = [self superInstanceForInstance:instance];
-            objc_msgSendSuper(&superInstance, @selector(forwardInvocation:), invocation);
+            ((void(*)(struct objc_super *, SEL, id))objc_msgSendSuper)(&superInstance,
+                                                                       @selector(forwardInvocation:),
+                                                                       invocation);
         }
     };
 }
@@ -142,12 +145,14 @@
             SEL methodSelector = NSSelectorFromString(keyPath);
             if (methodSelector)
             {
-                return objc_msgSend(instance, methodSelector);
+                return ((id(*)(id, SEL))objc_msgSend)(instance, methodSelector);
             }
         }
         // run super class method
         struct objc_super superInstance = [self superInstanceForInstance:instance];
-        return objc_msgSendSuper(&superInstance, @selector(valueForKeyPath:), keyPath);
+        return ((id(*)(struct objc_super *, SEL, id))objc_msgSendSuper)(&superInstance,
+                                                                        @selector(valueForKeyPath:),
+                                                                        keyPath);
     };
 }
 
@@ -164,13 +169,15 @@
             SEL methodSelector = NSSelectorFromString(methodName);
             if (methodSelector)
             {
-                objc_msgSend(instance, methodSelector, value);
+                ((void(*)(id, SEL, id))objc_msgSend)(instance, methodSelector, value);
                 return;
             }
         }
         // run super class method
         struct objc_super superInstance = [self superInstanceForInstance:instance];
-        objc_msgSendSuper(&superInstance, @selector(setValue:forKeyPath:), value, keyPath);
+        ((void(*)(struct objc_super *, SEL, id, id))objc_msgSendSuper)(&superInstance,
+                                                                       @selector(setValue:forKeyPath:),
+                                                                       value, keyPath);
     };
 }
 
